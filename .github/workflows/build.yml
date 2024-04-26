@@ -21,3 +21,7 @@ jobs:
       - name: Build application
         run: |
           mvn clean package
+
+      - name: Checkstyle check
+        run: |
+          mvn checkstyle:check
