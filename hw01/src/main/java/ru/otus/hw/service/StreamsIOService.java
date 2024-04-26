@@ -10,7 +10,7 @@ public class StreamsIOService implements IOService {
     @Override
     public void printFormattedLine(String s, Object... args) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("\n").append(s);
+        stringBuilder.append(s);
 
         for (Object object : args) {
             stringBuilder.append("\n").append(object.toString());

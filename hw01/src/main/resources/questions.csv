@@ -1,6 +1,6 @@
 # Добавить сюда своих вопросов. Эту строку надо пропустить при настройке CsvToBean (withSkipLines)
-what is the best programming language?,Java%true|JavaScript%false|Go%false
+What is the best programming language?,Java%true|JavaScript%false|Go%false
 In what year was serfdom abolished?,1861%true|1991%false|not canceled%false
 How many oceans are there on the plan?,3%false|4%true|only lakes%false
 How many chromosomes are there in the human genome?,42%false|44%false|46%true
-Which scientist discovered the law of universal gravitation??,Archimedes%false|Einstein%false|Newton%true
+Which scientist discovered the law of universal gravitation?,Archimedes%false|Einstein%false|Newton%true

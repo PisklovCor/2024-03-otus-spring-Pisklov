@@ -10,6 +10,10 @@ import java.util.List;
 @AllArgsConstructor
 public class TestServiceImpl implements TestService {
 
+    private static final String CHOOSE_THE_QUESTION = "Choose the question:";
+
+    private static final String CARRIAGE_TRANSFER = "\n";
+
     private final IOService ioService;
 
     private final QuestionDao questionDao;
@@ -23,12 +27,13 @@ public class TestServiceImpl implements TestService {
         List<Question> questionList = questionDao.findAll();
 
         for (Question question : questionList) {
-            ioService.printFormattedLine(question.text(), getAnswerText(question.answers()));
+            ioService.printLine(CARRIAGE_TRANSFER + question.text());
+            ioService.printFormattedLine(CHOOSE_THE_QUESTION, getAnswerText(question.answers()));
         }
     }
 
     /**
-     * Метод конвертирует список возможных ответов в String
+     * Метод конвертирует список возможных ответов в String и добавляет нумерацию ответов
      *
      * @param answers Список возможных ответов
      * @return Ответы одной строкой
@@ -36,12 +41,14 @@ public class TestServiceImpl implements TestService {
     private String getAnswerText(List<Answer> answers) {
 
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("-Answers:");
+        long lineNumber = 1;
 
         for (Answer answer : answers) {
-            stringBuilder.append("\n--").append(answer.text());
+            stringBuilder.append(CARRIAGE_TRANSFER).append(lineNumber).append("--").append(answer.text());
+            lineNumber++;
         }
 
+        stringBuilder.append(CARRIAGE_TRANSFER).append("_____");
         return stringBuilder.toString();
     }
 }
