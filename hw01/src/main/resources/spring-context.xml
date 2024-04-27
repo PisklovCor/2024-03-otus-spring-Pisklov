@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns="http://www.springframework.org/schema/beans"
+       xmlns="http://www.springframework.org/schema/beans" xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans.xsd">
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util
+       https://www.springframework.org/schema/util/spring-util.xsd">
 
 
     <bean id="appProperties" class="ru.otus.hw.config.AppProperties">
@@ -13,7 +15,11 @@
         <constructor-arg index="0" ref="appProperties"/>
     </bean>
 
-    <bean id="streamsIOService" class="ru.otus.hw.service.StreamsIOService"/>
+    <bean id="streamsIOService" class="ru.otus.hw.service.StreamsIOService">
+        <constructor-arg index="0">
+            <util:constant static-field="java.lang.System.out"/>
+        </constructor-arg>
+    </bean>
 
     <bean id="testService" class="ru.otus.hw.service.TestServiceImpl">
         <constructor-arg index="0" ref="streamsIOService"/>

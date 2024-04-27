@@ -28,7 +28,7 @@ public class TestServiceImpl implements TestService {
 
         for (Question question : questionList) {
             ioService.printLine(CARRIAGE_TRANSFER + question.text());
-            ioService.printFormattedLine(CHOOSE_THE_QUESTION, getAnswerText(question.answers()));
+            ioService.printFormattedLine(CHOOSE_THE_QUESTION + "%s", getAnswerText(question.answers()));
         }
     }
 
