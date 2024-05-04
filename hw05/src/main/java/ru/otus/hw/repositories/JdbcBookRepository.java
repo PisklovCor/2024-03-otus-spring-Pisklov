@@ -61,7 +61,8 @@ public class JdbcBookRepository implements BookRepository {
 
     @Override
     public void deleteById(long id) {
-        //...
+        Map<String, Object> params = Collections.singletonMap("id", id);
+        jdbc.update("delete from books where id = :id", params);
     }
 
     private List<Book> getAllBooksWithoutGenres() {
