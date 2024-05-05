@@ -4,11 +4,8 @@ spring:
     username: sa
     password:
     driverClassName: org.h2.Driver
-  sql:
-    init:
-      mode: always
-      data-locations: data.sql
-      schema-locations: schema.sql
+  liquibase:
+    enabled: true
   h2:
     console:
       path: /h2-console

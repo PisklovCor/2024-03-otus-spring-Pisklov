@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2024-05-05--0001-authors
+      author: pisklov
+      changes:
+        - createTable:
+            tableName: authors
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_authors
+              - column:
+                  name: full_name
+                  type: varchar(255)
