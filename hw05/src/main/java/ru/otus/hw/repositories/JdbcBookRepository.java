@@ -34,20 +34,14 @@ public class JdbcBookRepository implements BookRepository {
     @Override
     public Optional<Book> findById(long id) {
         Map<String, Object> params = Collections.singletonMap("id", id);
-        Book book =  jdbc.query(
+        return Optional.ofNullable(jdbc.query(
                 "select b.id as b_id, b.title as b_tt," +
                         " a.id as a_id, a.full_name as a_fn, g.id as g_id, g.name as g_name" +
                         " from books b" +
                         " left join authors a on a.id = b.author_id" +
                         " left join books_genres bg on bg.book_id = b.id" +
                         " left join genres g on g.id = bg.genre_id" +
-                        " where b.id = :id", params, new BookResultSetExtractor());
-
-        if (book.getId() != id) {
-            return Optional.empty();
-        } else {
-            return Optional.of(book);
-        }
+                        " where b.id = :id", params, new BookResultSetExtractor())).filter(b -> b.getId() != 0);
     }
 
     @Override
