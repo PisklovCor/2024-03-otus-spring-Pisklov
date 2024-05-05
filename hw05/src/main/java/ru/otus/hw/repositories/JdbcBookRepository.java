@@ -41,8 +41,7 @@ public class JdbcBookRepository implements BookRepository {
                         " left join authors a on a.id = b.author_id" +
                         " left join books_genres bg on bg.book_id = b.id" +
                         " left join genres g on g.id = bg.genre_id" +
-                        " where b.id = :id", params, new BookResultSetExtractor()
-        ));
+                        " where b.id = :id", params, new BookResultSetExtractor()));
     }
 
     @Override
@@ -72,8 +71,7 @@ public class JdbcBookRepository implements BookRepository {
         return jdbc.query(
                 "select b.id as b_id, b.title as b_tt," +
                         " a.id as a_id, a.full_name as a_fn" +
-                        " from books b left join authors a on a.id = b.author_id", new BookRowMapper()
-        );
+                        " from books b left join authors a on a.id = b.author_id", new BookRowMapper());
     }
 
     private List<BookGenreRelation> getAllGenreRelations() {
@@ -99,7 +97,8 @@ public class JdbcBookRepository implements BookRepository {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("title", book.getTitle());
         params.addValue("author_id", book.getAuthor().getId());
-        jdbc.update("insert into books (title, author_id) values (:title, :author_id)", params, keyHolder, new String[]{"id"} );
+        jdbc.update("insert into books (title, author_id) values (:title, :author_id)"
+                , params, keyHolder, new String[]{"id"});
 
         book.setId(keyHolder.getKeyAs(Long.class));
         batchInsertGenresRelationsFor(book);
