@@ -6,8 +6,8 @@ values ('Erich Maria Remarque'), ('Fyodor Dostoyevsky'), ('Ernest Miller Hemingw
 
 --changeset pisklov:2024-05-25-002-genres
 insert into genres(name)
-values ('Genre_1'), ('Genre_2'), ('Genre_3'),
-       ('Genre_4'), ('Genre_5'), ('Genre_6');
+values ('Fiction'), ('Mystery'), ('Thriller'),
+       ('Science fiction'), ('Fantasy'), ('Romance');
 
 --changeset pisklov:2024-05-25-003-books
 insert into books(title, author_id)
