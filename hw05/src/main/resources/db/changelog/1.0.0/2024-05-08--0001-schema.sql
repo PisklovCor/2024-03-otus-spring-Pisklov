@@ -1,6 +1,6 @@
 --liquibase formatted sql
 
---changeset pisklov:2024-05-08-001-schema-authors
+--changeset pisklov:2024-05-08-001-table-authors
 create table authors
 (
     id        bigserial,
@@ -8,7 +8,7 @@ create table authors
     primary key (id)
 );
 
---changeset pisklov:2024-05-08-002-schema-genres
+--changeset pisklov:2024-05-08-002-table-genres
 create table genres
 (
     id   bigserial,
@@ -16,7 +16,7 @@ create table genres
     primary key (id)
 );
 
---changeset pisklov:2024-05-08-003-schema-books
+--changeset pisklov:2024-05-08-003-table-books
 create table books
 (
     id        bigserial,
@@ -25,7 +25,7 @@ create table books
     primary key (id)
 );
 
---changeset pisklov:2024-05-08-004-schema-books_genres
+--changeset pisklov:2024-05-08-004-table-books_genres
 create table books_genres
 (
     book_id  bigint references books (id) on delete cascade,
