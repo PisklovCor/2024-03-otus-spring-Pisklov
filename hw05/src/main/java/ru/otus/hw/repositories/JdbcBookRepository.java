@@ -168,8 +168,10 @@ public class JdbcBookRepository implements BookRepository {
             List<Genre> genreList = new ArrayList<>();
 
             while (resultSet.next()) {
-                author = createAuthor(author, resultSet.getLong("a_id"), resultSet.getString("a_fn"));
-                book = createBook(book, resultSet.getLong("b_id"), resultSet.getString("b_tt"));
+                author.setId(resultSet.getLong("a_id"));
+                author.setFullName(resultSet.getString("a_fn"));
+                book.setId(resultSet.getLong("b_id"));
+                book.setTitle(resultSet.getString("b_tt"));
                 genreList.add(new Genre(resultSet.getLong("g_id"), resultSet.getString("g_name")));
             }
 
@@ -178,20 +180,6 @@ public class JdbcBookRepository implements BookRepository {
 
             return book;
         }
-    }
-
-    private static Author createAuthor(Author author, long id, String fullName) {
-        if (author.getId() == 0) {
-            return new Author(id, fullName);
-        }
-        return author;
-    }
-
-    private static Book createBook(Book book, long id, String title) {
-        if (book.getId() == 0) {
-            return new Book(id, title, null, null);
-        }
-        return book;
     }
 
     private record BookGenreRelation(long bookId, long genreId) {
