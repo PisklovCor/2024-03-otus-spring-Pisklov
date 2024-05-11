@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+    driverClassName: org.h2.Driver
+  liquibase:
+    enabled: true
+  h2:
+    console:
+      path: /h2-console
+      settings:
+        web-allow-others: true

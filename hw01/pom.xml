@@ -7,7 +7,7 @@
     <parent>
         <groupId>ru.otus.hw</groupId>
         <artifactId>hw-parent</artifactId>
-        <version>1.0</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>hw01-xml-config</artifactId>
@@ -17,13 +17,11 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>${spring.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.opencsv</groupId>
             <artifactId>opencsv</artifactId>
-            <version>${opencsv.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>commons-collections</groupId>
@@ -36,7 +34,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
-            <version>${lombok.version}</version>
         </dependency>
 
         <!--тест-->
