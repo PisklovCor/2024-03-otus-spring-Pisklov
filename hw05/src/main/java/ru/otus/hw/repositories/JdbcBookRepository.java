@@ -1,6 +1,7 @@
 package ru.otus.hw.repositories;
 
 import lombok.RequiredArgsConstructor;
+import org.h2.jdbc.JdbcResultSet;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.DataClassRowMapper;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -41,7 +42,7 @@ public class JdbcBookRepository implements BookRepository {
                         " left join authors a on a.id = b.author_id" +
                         " left join books_genres bg on bg.book_id = b.id" +
                         " left join genres g on g.id = bg.genre_id" +
-                        " where b.id = :id", params, new BookResultSetExtractor())).filter(b -> b.getId() != 0);
+                        " where b.id = :id", params, new BookResultSetExtractor()));
     }
 
     @Override
@@ -162,6 +163,10 @@ public class JdbcBookRepository implements BookRepository {
 
         @Override
         public Book extractData(ResultSet resultSet) throws SQLException, DataAccessException {
+
+            if (((JdbcResultSet) resultSet).getResult().getRowCount() < 1) {
+                return null;
+            }
 
             Book book = new Book();
             Author author = new Author();

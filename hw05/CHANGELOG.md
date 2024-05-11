@@ -9,3 +9,8 @@
 - Сервис каталог
 - Integration-тест (JdbcTest)
 - Миграциия liquibase
+
+#### Сборка проекта:
+```
+mvn clean package
+```
