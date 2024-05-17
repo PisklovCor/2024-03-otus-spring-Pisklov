@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+  sql:
+    init:
+      mode: always
+      data-locations: data.sql
+      schema-locations: db/changelog/1.0.0/2024-05-17--0001-schema.sql
+  liquibase:
+    enabled: false
+  h2:
+    console:
+      path: /h2-console
+      settings:
+        web-allow-others: true
