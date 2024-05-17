@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.converters.BookConverter;
-import ru.otus.hw.converters.GenreConverter;
 import ru.otus.hw.dto.BookDto;
 import ru.otus.hw.exceptions.EntityNotFoundException;
 import ru.otus.hw.models.Book;
@@ -44,13 +43,13 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public Book insert(String title, long authorId, Set<Long> genresIds) {
+    public BookDto insert(String title, long authorId, Set<Long> genresIds) {
         return save(0, title, authorId, genresIds);
     }
 
     @Override
     @Transactional
-    public Book update(long id, String title, long authorId, Set<Long> genresIds) {
+    public BookDto update(long id, String title, long authorId, Set<Long> genresIds) {
         return save(id, title, authorId, genresIds);
     }
 
@@ -60,7 +59,7 @@ public class BookServiceImpl implements BookService {
         bookRepository.deleteById(id);
     }
 
-    private Book save(long id, String title, long authorId, Set<Long> genresIds) {
+    private BookDto save(long id, String title, long authorId, Set<Long> genresIds) {
         if (isEmpty(genresIds)) {
             throw new IllegalArgumentException("Genres ids must not be null");
         }
@@ -73,6 +72,6 @@ public class BookServiceImpl implements BookService {
         }
 
         var book = new Book(id, title, author, genres);
-        return bookRepository.save(book);
+        return bookConverter.toDto(bookRepository.save(book));
     }
 }
