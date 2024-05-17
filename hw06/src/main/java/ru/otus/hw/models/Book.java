@@ -3,9 +3,6 @@ package ru.otus.hw.models;
 import jakarta.persistence.*;
 import lombok.*;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import java.util.List;
 
 @Getter
@@ -14,6 +11,8 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "books")
+@NamedEntityGraph(name = "genres-entity-graph",
+        attributeNodes = {@NamedAttributeNode("genres")})
 public class Book {
 
     @Id
@@ -27,7 +26,6 @@ public class Book {
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     private Author author;
 
-    @Fetch(FetchMode.SELECT)
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(name = "books_genres", joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))

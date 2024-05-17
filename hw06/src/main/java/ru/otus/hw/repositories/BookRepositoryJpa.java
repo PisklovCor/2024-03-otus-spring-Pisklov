@@ -1,7 +1,6 @@
 package ru.otus.hw.repositories;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.*;
 import lombok.RequiredArgsConstructor;
 import org.h2.jdbc.JdbcResultSet;
 import org.springframework.dao.DataAccessException;
@@ -34,12 +33,30 @@ public class BookRepositoryJpa implements BookRepository {
 
     @Override
     public List<Book> findAll() {
-        return em.createQuery("select b from Book b", Book.class).getResultList();
+
+        EntityGraph<?> entityGraph = em.getEntityGraph("genres-entity-graph");
+
+        TypedQuery<Book> query = em.createQuery("select b from Book b left join fetch b.author", Book.class);
+
+        query.setHint("jakarta.persistence.fetchgraph", entityGraph);
+
+        return query.getResultList();
     }
 
     @Override
     public Optional<Book> findById(long id) {
-        return  Optional.ofNullable(em.find(Book.class, id));
+
+        EntityGraph<?> entityGraph = em.getEntityGraph("genres-entity-graph");
+
+        TypedQuery<Book> query = em.createQuery("select b " +
+                        "from Book b " +
+                        "left join fetch b.author " +
+                        "where b.id = :id", Book.class);
+
+        query.setParameter("id", id);
+        query.setHint("jakarta.persistence.fetchgraph", entityGraph);
+
+        return query.getResultList().stream().findAny();
     }
 
 
