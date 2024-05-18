@@ -31,17 +31,19 @@ class GenreRepositoryJpaTest {
     @DisplayName("должен загружать список всех жанров")
     @Test
     void findAll() {
-        val optionalActualGenre = repositoryJpa.findAll();
-        assertThat(optionalActualGenre).isNotNull().hasSize(EXPECTED_NUMBER_OF_GENRE)
+        val actualGenre = repositoryJpa.findAll();
+
+        assertThat(actualGenre).isNotNull().hasSize(EXPECTED_NUMBER_OF_GENRE)
                 .allMatch(g -> !g.getName().isEmpty());
     }
 
     @DisplayName("должен загружать информацию о нужных жанрах по списку id")
     @Test
     void findAllByIds() {
-        val optionalActualGenre = repositoryJpa.findAllByIds(Set.of(FIRST_GENRE_ID));
+        val actualGenre = repositoryJpa.findAllByIds(Set.of(FIRST_GENRE_ID));
         val expectedGenre = em.find(Genre.class, FIRST_GENRE_ID);
-        assertThat(optionalActualGenre).isNotNull().hasSize(1)
+
+        assertThat(actualGenre).isNotNull().hasSize(1)
                 .allMatch(g -> !g.getName().isEmpty())
                 .allMatch(g -> Objects.equals(g, expectedGenre));
     }

@@ -28,8 +28,9 @@ class AuthorRepositoryJpaTest {
     @DisplayName("должен загружать список всех авторов")
     @Test
     void findAll() {
-        val optionalActualAuthor = repositoryJpa.findAll();
-        assertThat(optionalActualAuthor).isNotNull().hasSize(EXPECTED_NUMBER_OF_AUTHOR)
+        val actualAuthor = repositoryJpa.findAll();
+
+        assertThat(actualAuthor).isNotNull().hasSize(EXPECTED_NUMBER_OF_AUTHOR)
                 .allMatch(a -> !a.getFullName().isEmpty());
     }
 
@@ -38,6 +39,7 @@ class AuthorRepositoryJpaTest {
     void findById() {
         val optionalActualAuthor = repositoryJpa.findById(FIRST_AUTHOR_ID);
         val expectedAuthor = em.find(Author.class, FIRST_AUTHOR_ID);
+
         assertThat(optionalActualAuthor).isPresent().get()
                 .usingRecursiveComparison().isEqualTo(expectedAuthor);
     }
