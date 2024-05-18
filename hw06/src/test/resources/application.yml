@@ -8,6 +8,11 @@ spring:
       schema-locations: db/changelog/1.0.0/2024-05-17--0001-schema.sql
   liquibase:
     enabled: false
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    show-sql: true
   h2:
     console:
       path: /h2-console

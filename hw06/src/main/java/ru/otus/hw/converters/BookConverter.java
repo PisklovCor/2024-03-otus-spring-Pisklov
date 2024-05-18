@@ -34,13 +34,13 @@ public class BookConverter {
 
         AuthorDto authorDto = authorConverter.toDto(entity.getAuthor());
 
-        List<GenreDto> GenreDtoList = entity.getGenres().stream().map(genreConverter::toDto).toList();
+        List<GenreDto> genreDtoList = entity.getGenres().stream().map(genreConverter::toDto).toList();
 
         BookDto dto = new BookDto();
         dto.setId(entity.getId());
         dto.setTitle(entity.getTitle());
         dto.setAuthor(authorDto);
-        dto.setGenres(GenreDtoList);
+        dto.setGenres(genreDtoList);
         return  dto;
     }
 }
