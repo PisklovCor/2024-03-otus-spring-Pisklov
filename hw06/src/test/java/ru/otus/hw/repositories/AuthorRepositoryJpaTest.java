@@ -28,6 +28,7 @@ class AuthorRepositoryJpaTest {
     @DisplayName("должен загружать список всех авторов")
     @Test
     void findAll() {
+
         val actualAuthor = repositoryJpa.findAll();
 
         assertThat(actualAuthor).isNotNull().hasSize(EXPECTED_NUMBER_OF_AUTHOR)
@@ -37,6 +38,7 @@ class AuthorRepositoryJpaTest {
     @DisplayName("должен загружать информацию о нужном авторе по его id")
     @Test
     void findById() {
+
         val optionalActualAuthor = repositoryJpa.findById(FIRST_AUTHOR_ID);
         val expectedAuthor = em.find(Author.class, FIRST_AUTHOR_ID);
 

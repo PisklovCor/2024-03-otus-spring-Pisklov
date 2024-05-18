@@ -13,11 +13,8 @@ import ru.otus.hw.models.Book;
 import ru.otus.hw.models.Genre;
 
 import java.util.Collections;
-import java.util.List;
 
-import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Репозиторий на основе Jpa для работы с книгами ")
 @DataJpaTest
@@ -36,6 +33,7 @@ class BookRepositoryJpaTest {
     @DisplayName("должен загружать список всех книг с полной информацией о них")
     @Test
     void findAll() {
+
         val actualBook = repositoryJpa.findAll();
 
         assertThat(actualBook).isNotNull().hasSize(EXPECTED_NUMBER_OF_BOOK)
@@ -48,6 +46,7 @@ class BookRepositoryJpaTest {
     @DisplayName("должен загружать информацию о нужном книге по ее id с полной информацией")
     @Test
     void findById() {
+
         val optionalActualBook = repositoryJpa.findById(FIRST_BOOK_ID);
         val expectedBook = em.find(Book.class, FIRST_BOOK_ID);
 
@@ -58,6 +57,7 @@ class BookRepositoryJpaTest {
     @DisplayName("должен создать книгу с полной информацией")
     @Test
     void save_insert() {
+
         Book book = new Book();
         book.setTitle("BookTitle_4");
         book.setAuthor(em.find(Author.class, 1));
@@ -77,6 +77,7 @@ class BookRepositoryJpaTest {
     @DisplayName("должен обнвоить книгу с полной информацией")
     @Test
     void save_update() {
+
         Book book = new Book();
         book.setId(2);
         book.setTitle("BookTitle_5");
@@ -100,6 +101,7 @@ class BookRepositoryJpaTest {
     @DisplayName("должен удалять книгу по ее id")
     @Test
     void deleteById() {
+
         repositoryJpa.deleteById(FIRST_BOOK_ID);
         val expectedBook = em.find(Book.class, FIRST_BOOK_ID);
 

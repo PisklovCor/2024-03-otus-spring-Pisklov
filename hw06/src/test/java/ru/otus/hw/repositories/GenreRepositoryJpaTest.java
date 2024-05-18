@@ -31,6 +31,7 @@ class GenreRepositoryJpaTest {
     @DisplayName("должен загружать список всех жанров")
     @Test
     void findAll() {
+
         val actualGenre = repositoryJpa.findAll();
 
         assertThat(actualGenre).isNotNull().hasSize(EXPECTED_NUMBER_OF_GENRE)
@@ -40,6 +41,7 @@ class GenreRepositoryJpaTest {
     @DisplayName("должен загружать информацию о нужных жанрах по списку id")
     @Test
     void findAllByIds() {
+
         val actualGenre = repositoryJpa.findAllByIds(Set.of(FIRST_GENRE_ID));
         val expectedGenre = em.find(Genre.class, FIRST_GENRE_ID);
 
