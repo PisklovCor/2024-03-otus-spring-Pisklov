@@ -28,7 +28,7 @@ class GenreRepositoryJpaTest {
     @Autowired
     private TestEntityManager em;
 
-    @DisplayName("должен загружать список всех авторов с полной информацией о них")
+    @DisplayName("должен загружать список всех жанров")
     @Test
     void findAll() {
         val optionalActualGenre = repositoryJpa.findAll();
@@ -36,7 +36,7 @@ class GenreRepositoryJpaTest {
                 .allMatch(g -> !g.getName().isEmpty());
     }
 
-    @DisplayName("должен загружать информацию о нужном авторе по его id")
+    @DisplayName("должен загружать информацию о нужных жанрах по списку id")
     @Test
     void findAllByIds() {
         val optionalActualGenre = repositoryJpa.findAllByIds(Set.of(FIRST_GENRE_ID));

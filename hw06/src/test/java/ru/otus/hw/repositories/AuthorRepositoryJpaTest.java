@@ -25,7 +25,7 @@ class AuthorRepositoryJpaTest {
     @Autowired
     private TestEntityManager em;
 
-    @DisplayName("должен загружать список всех авторов с полной информацией о них")
+    @DisplayName("должен загружать список всех авторов")
     @Test
     void findAll() {
         val optionalActualAuthor = repositoryJpa.findAll();
