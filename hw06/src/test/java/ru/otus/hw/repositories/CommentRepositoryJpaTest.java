@@ -7,12 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
-import ru.otus.hw.models.Author;
 import ru.otus.hw.models.Book;
 import ru.otus.hw.models.Comment;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Репозиторий на основе Jpa для работы с комментариями ")
 @DataJpaTest
@@ -56,12 +54,47 @@ class CommentRepositoryJpaTest {
                 .allMatch(c -> !c.getBook().getGenres().get(1).getName().isEmpty());
     }
 
+    @DisplayName("должен создать комментарий с полной информацией")
     @Test
     void save_insert() {
+
+        Comment comment = new Comment();
+        comment.setContent("content_7");
+        comment.setBook(em.find(Book.class, FIRST_BOOK_ID));
+
+        val insertComment = commentRepository.save(comment);
+        val expectedComment = em.find(Comment.class, insertComment.getId());
+
+        assertThat(insertComment).isNotNull()
+                .isEqualTo(expectedComment);
+        assertThat(insertComment.getBook())
+                .isNotNull();
+        assertThat(insertComment.getBook().getGenres()).hasSize(2)
+                .allMatch(g -> !g.getName().isEmpty());
+
     }
 
+    @DisplayName("должен обнвоить комментарий с полной информацией")
     @Test
     void save_update() {
+
+        Comment comment = new Comment();
+        comment.setId(FIRST_COMMENT_ID);
+        comment.setContent("content_7");
+        comment.setBook(em.find(Book.class, FIRST_BOOK_ID));
+
+        val originalCommentContent = em.find(Comment.class, comment.getId()).getContent();
+        val updateComment = commentRepository.save(comment);
+        val expectedComment = em.find(Comment.class, updateComment.getId());
+
+        assertThat(updateComment.getId()).isEqualTo(FIRST_COMMENT_ID);
+        assertThat(updateComment.getContent()).isNotEqualTo(originalCommentContent);
+        assertThat(updateComment).isNotNull()
+                .isEqualTo(expectedComment);
+        assertThat(updateComment.getBook().getAuthor())
+                .isNotNull();
+        assertThat(updateComment.getBook().getGenres()).hasSize(2)
+                .allMatch(g -> !g.getName().isEmpty());
     }
 
     @DisplayName("должен удалять комментарий по ее id")
