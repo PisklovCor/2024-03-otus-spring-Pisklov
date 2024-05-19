@@ -23,7 +23,7 @@ public class BookConverter {
                 .map(genreConverter::genreToString)
                 .map("{%s}"::formatted)
                 .collect(Collectors.joining(", "));
-        return "Id: %d, title: %s, author: {%s}, genres: [%s]".formatted(
+        return "Id: %d, Title: %s, Author: {%s}, Genres: [%s]".formatted(
                 book.getId(),
                 book.getTitle(),
                 authorConverter.authorToString(book.getAuthor()),
@@ -31,11 +31,8 @@ public class BookConverter {
     }
 
     public BookDto toDto(Book entity) {
-
         AuthorDto authorDto = authorConverter.toDto(entity.getAuthor());
-
         List<GenreDto> genreDtoList = entity.getGenres().stream().map(genreConverter::toDto).toList();
-
         BookDto dto = new BookDto();
         dto.setId(entity.getId());
         dto.setTitle(entity.getTitle());

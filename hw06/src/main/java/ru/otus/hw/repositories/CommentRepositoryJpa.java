@@ -19,7 +19,15 @@ public class CommentRepositoryJpa implements CommentRepository {
 
     @Override
     public Optional<Comment> findById(long id) {
-        return Optional.ofNullable(em.find(Comment.class, id));
+
+        TypedQuery<Comment> query = em.createQuery("select c " +
+                "from Comment c " +
+                "left join fetch c.book " +
+                "where c.id = :id", Comment.class);
+
+        query.setParameter("id", id);
+
+        return query.getResultList().stream().findAny();
     }
 
     @Override
