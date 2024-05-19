@@ -14,6 +14,6 @@ values (1, 1),   (1, 2),
        (3, 5),   (3, 6);
 
 insert into comment(content, book_id)
-values ('content_1', 1),   ('content_2', 1),
-       ('content_3', 2),   ('content_4', 2),
-       ('content_5', 3),   ('content_6', 3);
+values ('Content_1', 1),   ('Content_2', 1),
+       ('Content_3', 2),   ('Content_4', 2),
+       ('Content_5', 3),   ('Content_6', 3);

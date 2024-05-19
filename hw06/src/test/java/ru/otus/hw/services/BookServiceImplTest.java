@@ -68,7 +68,7 @@ class BookServiceImplTest {
                 .allMatch(g -> !g.getName().isEmpty());
     }
 
-    @DisplayName("должен обнвоить книгу с полной информацией")
+    @DisplayName("должен обновить книгу с полной информацией")
     @Test
     @Order(4)
     void update() {
