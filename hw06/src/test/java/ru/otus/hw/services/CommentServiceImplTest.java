@@ -11,22 +11,20 @@ import ru.otus.hw.converters.AuthorConverter;
 import ru.otus.hw.converters.BookConverter;
 import ru.otus.hw.converters.CommentConverter;
 import ru.otus.hw.converters.GenreConverter;
-import ru.otus.hw.repositories.AuthorRepositoryJpa;
-import ru.otus.hw.repositories.BookRepositoryJpa;
-import ru.otus.hw.repositories.CommentRepositoryJpa;
-import ru.otus.hw.repositories.GenreRepositoryJpa;
+import ru.otus.hw.repositories.JpaAuthorRepository;
+import ru.otus.hw.repositories.JpaBookRepository;
+import ru.otus.hw.repositories.JpaCommentRepository;
+import ru.otus.hw.repositories.JpaGenreRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hibernate.internal.util.collections.CollectionHelper.setOf;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Сервис для работы с комментариями ")
 @DataJpaTest
 @Import({CommentConverter.class, CommentServiceImpl.class,
-        CommentRepositoryJpa.class, BookConverter.class,
+        JpaCommentRepository.class, BookConverter.class,
         AuthorConverter.class, GenreConverter.class,
-        BookRepositoryJpa.class, AuthorRepositoryJpa.class,
-        GenreRepositoryJpa.class, BookServiceImpl.class})
+        JpaBookRepository.class, JpaAuthorRepository.class,
+        JpaGenreRepository.class, BookServiceImpl.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @Transactional(propagation = Propagation.NEVER)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)

@@ -54,10 +54,6 @@ public class CommentServiceImpl implements CommentService {
     }
 
     private CommentDto save(long id, String content, long bookId) {
-        if (bookId < 1) {
-            throw new IllegalArgumentException("Book id must not be less than one");
-        }
-
         var book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new EntityNotFoundException("Book with id %d not found".formatted(bookId)));
 

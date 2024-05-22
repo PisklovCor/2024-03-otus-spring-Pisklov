@@ -18,8 +18,8 @@ import static org.hibernate.internal.util.collections.CollectionHelper.setOf;
 @DisplayName("Сервис для работы с книгами ")
 @DataJpaTest
 @Import({BookConverter.class, AuthorConverter.class, GenreConverter.class,
-        BookRepositoryJpa.class, AuthorRepositoryJpa.class,
-        GenreRepositoryJpa.class, BookServiceImpl.class})
+        JpaBookRepository.class, JpaAuthorRepository.class,
+        JpaGenreRepository.class, BookServiceImpl.class})
 @Transactional(propagation = Propagation.NEVER)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)

@@ -18,8 +18,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Репозиторий на основе Jpa для работы с книгами ")
 @DataJpaTest
-@Import(BookRepositoryJpa.class)
-class BookRepositoryJpaTest {
+@Import(JpaBookRepository.class)
+class JpaBookRepositoryTest {
 
     private static final int EXPECTED_NUMBER_OF_BOOK = 3;
     private static final long FIRST_BOOK_ID = 2L;
@@ -79,7 +79,7 @@ class BookRepositoryJpaTest {
     void save_update() {
 
         Book book = new Book();
-        book.setId(2);
+        book.setId(2L);
         book.setTitle("BookTitle_5");
         book.setAuthor(em.find(Author.class, 1));
         book.setGenres(Collections.singletonList(em.find(Genre.class, 3)));
@@ -88,7 +88,7 @@ class BookRepositoryJpaTest {
         val updateBook = repositoryJpa.save(book);
         val expectedBook = em.find(Book.class, updateBook.getId());
 
-        assertThat(updateBook.getId()).isEqualTo(2);
+        assertThat(updateBook.getId()).isEqualTo(2L);
         assertThat(updateBook.getTitle()).isNotEqualTo(originalBookTitle);
         assertThat(updateBook).isNotNull()
                 .isEqualTo(expectedBook);

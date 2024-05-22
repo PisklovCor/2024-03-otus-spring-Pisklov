@@ -44,7 +44,7 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public BookDto insert(String title, long authorId, Set<Long> genresIds) {
-        return save(0, title, authorId, genresIds);
+        return save(null, title, authorId, genresIds);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class BookServiceImpl implements BookService {
         bookRepository.deleteById(id);
     }
 
-    private BookDto save(long id, String title, long authorId, Set<Long> genresIds) {
+    private BookDto save(Long id, String title, long authorId, Set<Long> genresIds) {
         if (isEmpty(genresIds)) {
             throw new IllegalArgumentException("Genres ids must not be null");
         }

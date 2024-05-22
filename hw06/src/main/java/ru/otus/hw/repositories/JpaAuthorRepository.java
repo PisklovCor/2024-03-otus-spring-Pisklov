@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class AuthorRepositoryJpa implements AuthorRepository {
+public class JpaAuthorRepository implements AuthorRepository {
 
     @PersistenceContext
     private EntityManager em;

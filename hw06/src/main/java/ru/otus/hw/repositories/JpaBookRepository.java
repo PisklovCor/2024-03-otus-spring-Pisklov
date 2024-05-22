@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class BookRepositoryJpa implements BookRepository {
+public class JpaBookRepository implements BookRepository {
 
     @PersistenceContext
     private EntityManager em;
@@ -48,7 +48,7 @@ public class BookRepositoryJpa implements BookRepository {
 
     @Override
     public Book save(Book book) {
-        if (book.getId() == 0) {
+        if (book.getId() == null) {
             em.persist(book);
             return book;
         } else {

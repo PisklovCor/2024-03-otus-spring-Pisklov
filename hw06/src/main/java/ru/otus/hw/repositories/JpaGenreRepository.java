@@ -13,7 +13,7 @@ import java.util.Set;
 
 @Repository
 @RequiredArgsConstructor
-public class GenreRepositoryJpa implements GenreRepository {
+public class JpaGenreRepository implements GenreRepository {
 
     @PersistenceContext
     private EntityManager em;

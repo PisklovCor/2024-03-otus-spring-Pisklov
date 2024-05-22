@@ -9,13 +9,13 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.converters.AuthorConverter;
-import ru.otus.hw.repositories.AuthorRepositoryJpa;
+import ru.otus.hw.repositories.JpaAuthorRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Сервис для работы с авторами ")
 @DataJpaTest
-@Import({AuthorConverter.class, AuthorRepositoryJpa.class, AuthorServiceImpl.class})
+@Import({AuthorConverter.class, JpaAuthorRepository.class, AuthorServiceImpl.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @Transactional(propagation = Propagation.NEVER)
 class AuthorServiceImplTest {
