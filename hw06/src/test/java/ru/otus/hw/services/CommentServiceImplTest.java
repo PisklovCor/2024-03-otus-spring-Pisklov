@@ -86,7 +86,7 @@ class CommentServiceImplTest {
     @Test
     @Order(4)
     void update() {
-        var insertCommentDto = service.update(NEW_COMMENT_ID,UPDATE_CONTENT_VALUE, BOOK_ID);
+        var insertCommentDto = service.update(NEW_COMMENT_ID,UPDATE_CONTENT_VALUE);
         var optionalExpectedCommentDto = service.findById(insertCommentDto.getId());
 
         assertThat(insertCommentDto).isEqualTo(optionalExpectedCommentDto.get());

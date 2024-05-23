@@ -38,13 +38,17 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional
     public CommentDto insert(String content, long bookId) {
-        return save(0, content, bookId);
+        return save(null, content, bookId);
     }
 
     @Override
     @Transactional
-    public CommentDto update(long id, String content, long bookId) {
-        return save(id, content, bookId);
+    public CommentDto update(long id, String content) {
+        var comment = commentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Comment with id %d not found".formatted(id)));
+
+        comment.setContent(content);
+        return commentConverter.toDto(commentRepository.save(comment));
     }
 
     @Override
@@ -53,7 +57,7 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.deleteById(id);
     }
 
-    private CommentDto save(long id, String content, long bookId) {
+    private CommentDto save(Long id, String content, long bookId) {
         var book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new EntityNotFoundException("Book with id %d not found".formatted(bookId)));
 

@@ -38,10 +38,10 @@ public class CommentCommands {
         return commentConverter.commentToString(savedComment);
     }
 
-    // cupd 4 editedComment 3
+    // cupd 4 editedComment
     @ShellMethod(value = "Update comment", key = "cupd")
-    public String updateComment(long id, String content, long bookId) {
-        var savedComment = commentService.update(id, content, bookId);
+    public String updateComment(long id, String content) {
+        var savedComment = commentService.update(id, content);
         return commentConverter.commentToString(savedComment);
     }
 

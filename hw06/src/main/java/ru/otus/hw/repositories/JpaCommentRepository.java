@@ -19,25 +19,13 @@ public class JpaCommentRepository implements CommentRepository {
 
     @Override
     public Optional<Comment> findById(long id) {
-
-        TypedQuery<Comment> query = em.createQuery("select c " +
-                "from Comment c " +
-                "left join fetch c.book " +
-                "where c.id = :id", Comment.class);
-
-        query.setParameter("id", id);
-
-        return query.getResultList().stream().findAny();
+        return Optional.ofNullable(em.find(Comment.class, id));
     }
 
     @Override
     public List<Comment> findAllByBookId(long bookId) {
 
-        TypedQuery<Comment> query = em.createQuery("select c " +
-                "from Comment c " +
-                "left join fetch c.book " +
-                "where c.book.id = :id", Comment.class);
-
+        TypedQuery<Comment> query = em.createQuery("select c from Comment c where c.book.id = :id", Comment.class);
         query.setParameter("id", bookId);
 
         return query.getResultList();
@@ -45,7 +33,7 @@ public class JpaCommentRepository implements CommentRepository {
 
     @Override
     public Comment save(Comment comment) {
-        if (comment.getId() == 0) {
+        if (comment.getId() == null) {
             em.persist(comment);
             return comment;
         } else {
@@ -55,7 +43,7 @@ public class JpaCommentRepository implements CommentRepository {
 
     @Override
     public void deleteById(long id) {
-        Optional<Comment> comment = findById(id);
+        Optional<Comment> comment = Optional.ofNullable(em.find(Comment.class, id));
         em.remove(comment.get());
     }
 }

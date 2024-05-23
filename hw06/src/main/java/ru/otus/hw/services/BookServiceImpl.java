@@ -55,13 +55,9 @@ public class BookServiceImpl implements BookService {
     @Transactional
     public BookDto update(long id, String title, long authorId, Set<Long> genresIds) {
 
-        var optionalBook = bookRepository.findById(id);
+        var book = bookRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Book with id %d not found".formatted(id)));
 
-        if (optionalBook.isEmpty()) {
-            throw new EntityNotFoundException("Book with id %d not found".formatted(id));
-        }
-
-        var book = optionalBook.get();
         book.setAuthor(checkingAndSearchingAuthor(authorId));
         book.setGenres(checkingAndSearchingGenres(genresIds));
 
