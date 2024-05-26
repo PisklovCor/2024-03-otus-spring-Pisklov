@@ -58,6 +58,7 @@ public class BookServiceImpl implements BookService {
         var book = bookRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Book with id %d not found".formatted(id)));
 
+        book.setTitle(title);
         book.setAuthor(checkingAndSearchingAuthor(authorId));
         book.setGenres(checkingAndSearchingGenres(genresIds));
 

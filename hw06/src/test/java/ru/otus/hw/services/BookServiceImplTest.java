@@ -12,6 +12,8 @@ import ru.otus.hw.converters.BookConverter;
 import ru.otus.hw.converters.GenreConverter;
 import ru.otus.hw.repositories.*;
 
+import java.util.Set;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hibernate.internal.util.collections.CollectionHelper.setOf;
 
@@ -28,6 +30,7 @@ class BookServiceImplTest {
     private static final int EXPECTED_NUMBER_OF_BOOK = 3;
     private static final long FIRST_BOOK_ID = 2L;
     private static final long NEW_BOOK_ID = 4L;
+    private static final Set<String> AUTHOR_FULL_NAME = setOf("Author_1", "Author_2", "Author_3");
 
     @Autowired
     private BookService service;
@@ -40,7 +43,8 @@ class BookServiceImplTest {
         assertThat(listBookDto).isNotNull().hasSize(EXPECTED_NUMBER_OF_BOOK)
                 .allMatch(b -> !b.getTitle().isEmpty())
                 .allMatch(b -> b.getAuthor() != null)
-                .allMatch(b -> !b.getGenres().isEmpty() && b.getGenres().size() > 1);
+                .allMatch(b -> AUTHOR_FULL_NAME.contains(b.getAuthor().getFullName()))
+                .allMatch(b -> b.getGenres().size() == 2);
     }
 
     @DisplayName("должен загружать информацию о нужном книге по ее id с полной информацией")
@@ -51,7 +55,9 @@ class BookServiceImplTest {
         assertThat(optionalActualBookDto).isPresent();
         assertThat(optionalActualBookDto.get().getId()).isEqualTo(FIRST_BOOK_ID);
         assertThat(optionalActualBookDto.get().getAuthor()).isNotNull();
-        assertThat(optionalActualBookDto.get().getGenres()).isNotNull();
+        assertThat(optionalActualBookDto.get().getAuthor().getFullName()).isEqualTo("Author_2");
+        assertThat(optionalActualBookDto.get().getGenres()).isNotNull()
+                .allMatch(g -> !g.getName().isEmpty());
         assertThat(optionalActualBookDto.get().getGenres().size()).isEqualTo(2);
     }
 
