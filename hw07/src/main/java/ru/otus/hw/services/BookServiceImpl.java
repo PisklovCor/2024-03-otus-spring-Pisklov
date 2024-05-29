@@ -45,7 +45,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public BookDto insert(String title, long authorId, Set<Long> genresIds) {
+    public BookDto create(String title, long authorId, Set<Long> genresIds) {
         return bookConverter.toDto(bookRepository.save(
                 new Book(null, title, checkingAndSearchingAuthor(authorId),
                         checkingAndSearchingGenres(genresIds))));
@@ -72,7 +72,9 @@ public class BookServiceImpl implements BookService {
     }
 
     private Author checkingAndSearchingAuthor(long authorId) {
-        return authorRepository.getReferenceById(authorId);
+
+        return authorRepository.findById(authorId)
+                .orElseThrow(() -> new EntityNotFoundException("Author with id %d not found".formatted(authorId)));
     }
 
     private List<Genre> checkingAndSearchingGenres(Set<Long> genresIds) {

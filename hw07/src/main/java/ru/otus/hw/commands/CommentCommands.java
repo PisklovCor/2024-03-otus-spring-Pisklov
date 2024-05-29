@@ -34,7 +34,7 @@ public class CommentCommands {
     // cins newComment 2
     @ShellMethod(value = "Insert comment", key = "cins")
     public String insertComment(String content, long bookId) {
-        var savedComment = commentService.insert(content, bookId);
+        var savedComment = commentService.create(content, bookId);
         return commentConverter.commentToString(savedComment);
     }
 

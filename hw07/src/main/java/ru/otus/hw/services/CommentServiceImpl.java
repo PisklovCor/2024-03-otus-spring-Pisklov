@@ -24,20 +24,20 @@ public class CommentServiceImpl implements CommentService {
     private final BookRepository bookRepository;
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Optional<CommentDto> findById(long id) {
         return commentRepository.findById(id).stream().map(commentConverter::toDto).findAny();
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<CommentDto> findAllByBookId(long bookId) {
         return commentRepository.findAllByBookId(bookId).stream().map(commentConverter::toDto).toList();
     }
 
     @Override
     @Transactional
-    public CommentDto insert(String content, long bookId) {
+    public CommentDto create(String content, long bookId) {
         return save(null, content, bookId);
     }
 

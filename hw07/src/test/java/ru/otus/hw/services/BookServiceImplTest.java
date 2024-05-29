@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.converters.AuthorConverter;
 import ru.otus.hw.converters.BookConverter;
 import ru.otus.hw.converters.GenreConverter;
-import ru.otus.hw.repositories.*;
 
 import java.util.Set;
 
@@ -67,35 +66,20 @@ class BookServiceImplTest {
     @Test
     @Order(3)
     void insert() {
-        var insertBookDto = service.insert(INSERT_TITLE_VALUE, FIRST_AUTHOR_ID, setOf(3L));
+        var insertBookDto = service.create(INSERT_TITLE_VALUE, FIRST_AUTHOR_ID, setOf(3L));
         var optionalExpectedBookDto = service.findById(insertBookDto.getId());
 
-        assertThat(insertBookDto).isEqualTo(optionalExpectedBookDto.get());
-        assertThat(insertBookDto).isNotNull();
-        assertThat(insertBookDto.getTitle()).isEqualTo(INSERT_TITLE_VALUE);
-        assertThat(insertBookDto.getAuthor())
-                .isNotNull();
-        assertThat(insertBookDto.getAuthor().getId())
-                .isEqualTo(FIRST_AUTHOR_ID);
-        assertThat(insertBookDto.getGenres()).hasSize(1)
-                .allMatch(g -> !g.getName().isEmpty());
+        assertThat(insertBookDto).usingRecursiveComparison().isEqualTo(optionalExpectedBookDto.orElse(null));
     }
 
     @DisplayName("должен обновить книгу с полной информацией")
     @Test
     @Order(4)
     void update() {
-        var insertBookDto = service.update(2, UPDATE_TITLE_VALUE, UPDATE_AUTHOR_ID, setOf(3L));
-        var optionalExpectedBookDto = service.findById(insertBookDto.getId());
+        var updateBookDto = service.update(2, UPDATE_TITLE_VALUE, UPDATE_AUTHOR_ID, setOf(3L));
+        var optionalExpectedBookDto = service.findById(updateBookDto.getId());
 
-        assertThat(insertBookDto).isEqualTo(optionalExpectedBookDto.get());
-        assertThat(insertBookDto).isNotNull();
-        assertThat(insertBookDto.getAuthor())
-                .isNotNull();
-        assertThat(insertBookDto.getAuthor().getId())
-                .isEqualTo(UPDATE_AUTHOR_ID);
-        assertThat(insertBookDto.getGenres()).hasSize(1)
-                .allMatch(g -> !g.getName().isEmpty());
+        assertThat(updateBookDto).usingRecursiveComparison().isEqualTo(optionalExpectedBookDto.orElse(null));
     }
 
     @DisplayName("должен удалять книгу по ее id (созданну в тесте)")

@@ -62,18 +62,10 @@ class CommentServiceImplTest {
     @Test
     @Order(3)
     void insert() {
-        var insertCommentDto = service.insert(INSERT_CONTENT_VALUE, BOOK_ID);
+        var insertCommentDto = service.create(INSERT_CONTENT_VALUE, BOOK_ID);
         var optionalExpectedCommentDto = service.findById(insertCommentDto.getId());
 
-        assertThat(insertCommentDto).isEqualTo(optionalExpectedCommentDto.get());
-        assertThat(insertCommentDto).isNotNull();
-        assertThat(insertCommentDto.getContent()).isEqualTo(INSERT_CONTENT_VALUE);
-        assertThat(insertCommentDto.getBook())
-                .isNotNull();
-        assertThat(insertCommentDto.getBook().getId())
-                .isEqualTo(BOOK_ID);
-        assertThat(insertCommentDto.getBook().getGenres()).hasSize(2)
-                .allMatch(g -> !g.getName().isEmpty());
+        assertThat(insertCommentDto).usingRecursiveComparison().isEqualTo(optionalExpectedCommentDto.orElse(null));
 
     }
 
@@ -81,17 +73,10 @@ class CommentServiceImplTest {
     @Test
     @Order(4)
     void update() {
-        var insertCommentDto = service.update(NEW_COMMENT_ID,UPDATE_CONTENT_VALUE);
-        var optionalExpectedCommentDto = service.findById(insertCommentDto.getId());
+        var updateCommentDto = service.update(NEW_COMMENT_ID,UPDATE_CONTENT_VALUE);
+        var optionalExpectedCommentDto = service.findById(updateCommentDto.getId());
 
-        assertThat(insertCommentDto).isEqualTo(optionalExpectedCommentDto.get());
-        assertThat(insertCommentDto).isNotNull();
-        assertThat(insertCommentDto.getId()).isEqualTo(NEW_COMMENT_ID);
-        assertThat(insertCommentDto.getContent()).isEqualTo(UPDATE_CONTENT_VALUE);
-        assertThat(insertCommentDto.getBook())
-                .isNotNull();
-        assertThat(insertCommentDto.getBook().getGenres()).hasSize(2)
-                .allMatch(g -> !g.getName().isEmpty());
+        assertThat(updateCommentDto).usingRecursiveComparison().isEqualTo(optionalExpectedCommentDto.orElse(null));
     }
 
     @DisplayName("должен удалять комментарий по ее id (созданный в тесте)")
