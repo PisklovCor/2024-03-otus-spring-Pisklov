@@ -12,6 +12,4 @@ public class CommentDto {
     private long id;
 
     private String content;
-
-    private BookDto book;
 }

@@ -12,7 +12,10 @@ import ru.otus.hw.converters.BookConverter;
 import ru.otus.hw.converters.CommentConverter;
 import ru.otus.hw.converters.GenreConverter;
 
+import java.util.Set;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hibernate.internal.util.collections.CollectionHelper.setOf;
 
 @DisplayName("Сервис для работы с комментариями ")
 @DataJpaTest
@@ -29,6 +32,7 @@ class CommentServiceImplTest {
     private static final long BOOK_ID = 2L;
     private static final String INSERT_CONTENT_VALUE = "Content_7";
     private static final String UPDATE_CONTENT_VALUE = "Content_8";
+    private static final Set<String> COMMENT_CONTENT_VALUE = setOf("Content_3", "Content_4");
 
     @Autowired
     private CommentService service;
@@ -40,10 +44,6 @@ class CommentServiceImplTest {
         var optionalActualCommentDto = service.findById(FIRST_COMMENT_ID);
         assertThat(optionalActualCommentDto).isPresent();
         assertThat(optionalActualCommentDto.get().getId()).isEqualTo(FIRST_COMMENT_ID);
-        assertThat(optionalActualCommentDto.get().getBook()).isNotNull();
-        assertThat(optionalActualCommentDto.get().getBook().getAuthor()).isNotNull();
-        assertThat(optionalActualCommentDto.get().getBook().getGenres()).isNotNull();
-        assertThat(optionalActualCommentDto.get().getBook().getGenres().size()).isEqualTo(2);
     }
 
     @DisplayName("должен загружать информацию о нужных комментариях по id книге с полной информацией")
@@ -53,9 +53,7 @@ class CommentServiceImplTest {
         var listBookDto = service.findAllByBookId(BOOK_ID);
         assertThat(listBookDto).isNotNull().hasSize(EXPECTED_NUMBER_OF_COMMENT)
                 .allMatch(b -> !b.getContent().isEmpty())
-                .allMatch(b -> b.getBook() != null)
-                .allMatch(b -> !b.getBook().getGenres().isEmpty()
-                        && b.getBook().getGenres().size() > 1);
+                .allMatch(b -> COMMENT_CONTENT_VALUE.contains(b.getContent()));
     }
 
     @DisplayName("должен создать комментарий с полной информацией")
@@ -73,7 +71,7 @@ class CommentServiceImplTest {
     @Test
     @Order(4)
     void update() {
-        var updateCommentDto = service.update(NEW_COMMENT_ID,UPDATE_CONTENT_VALUE);
+        var updateCommentDto = service.update(NEW_COMMENT_ID, UPDATE_CONTENT_VALUE);
         var optionalExpectedCommentDto = service.findById(updateCommentDto.getId());
 
         assertThat(updateCommentDto).usingRecursiveComparison().isEqualTo(optionalExpectedCommentDto.orElse(null));
