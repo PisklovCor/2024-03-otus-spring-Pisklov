@@ -14,6 +14,7 @@
         <module>hw01</module>
         <module>hw05</module>
         <module>hw06</module>
+        <module>hw07</module>
     </modules>
 
     <properties>
