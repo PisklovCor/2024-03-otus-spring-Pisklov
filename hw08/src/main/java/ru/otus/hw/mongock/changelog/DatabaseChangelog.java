@@ -67,7 +67,7 @@ public class DatabaseChangelog {
         imWestenNichtsNeues = repository.save(
                 new Book("Im Westen nichts Neues", erichMariaRemarque, fiction, mystery));
         theIdiot = repository.save(new Book("The idiot", fyodorDostoyevsky, thriller, scienceFiction));
-        ForWhomTheBellTolls = repository.save(
+        forWhomTheBellTolls = repository.save(
                 new Book("For Whom the Bell Tolls", ernestMillerHemingway, fantasy, romance));
     }
 
