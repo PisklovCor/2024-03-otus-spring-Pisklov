@@ -3,7 +3,6 @@ package ru.otus.hw.services;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.annotation.DirtiesContext;
 import ru.otus.hw.AbstractRepositoryTest;
 import ru.otus.hw.converters.AuthorConverter;
 import ru.otus.hw.converters.BookConverter;
@@ -20,7 +19,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DisplayName("Сервис для работы с книгами ")
 @Import({BookConverter.class, AuthorConverter.class, GenreConverter.class, BookServiceImpl.class})
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 class BookServiceImplTest extends AbstractRepositoryTest {
 
     private static final int EXPECTED_NUMBER_OF_BOOK = 3;
@@ -63,7 +61,6 @@ class BookServiceImplTest extends AbstractRepositoryTest {
     @Order(2)
     void findById() {
         var expectedBookDto = converter.toDto(repository.findAll().get(FIRST_BOOK_ID));
-
         var optionalBookDto = service.findById(expectedBookDto.getId());
 
         assertThat(optionalBookDto.orElse(null)).usingRecursiveComparison().isEqualTo(expectedBookDto);
@@ -76,14 +73,13 @@ class BookServiceImplTest extends AbstractRepositoryTest {
         var firstBook = repository.findAll().get(FIRST_BOOK_ID);
         var authorId = firstBook.getAuthor().getId();
         var listGenreId = firstBook.getGenres().stream().map(Genre::getId).collect(Collectors.toSet());
-
         var insertBookDto = service.create(INSERT_TITLE_VALUE, authorId, listGenreId);
-
         var expectedBookDto = converter.toDto(
                 Objects.requireNonNull(repository.findById(insertBookDto.getId()).orElse(null)));
         var expectedListBook = repository.findAll();
 
         assertThat(insertBookDto).usingRecursiveComparison().isEqualTo(expectedBookDto);
+        assertThat(expectedBookDto.getTitle()).isEqualTo(INSERT_TITLE_VALUE);
         assertThat(expectedListBook).size().isEqualTo(EXPECTED_INSERT_NUMBER_OF_BOOK);
     }
 
@@ -94,26 +90,21 @@ class BookServiceImplTest extends AbstractRepositoryTest {
         var listBook = repository.findAll();
         var firstBook = listBook.get(FIRST_BOOK_ID);
         var secondBook = listBook.get(SECOND_BOOK_ID);
-
         var authorId = firstBook.getAuthor().getId();
         var listGenreId = firstBook.getGenres().stream().map(Genre::getId).collect(Collectors.toSet());
-
         var updateBookDto = service.update(secondBook.getId(), UPDATE_TITLE_VALUE, authorId, listGenreId);
-
         var expectedBookDto = converter.toDto(
                 Objects.requireNonNull(repository.findById(updateBookDto.getId()).orElse(null)));
 
         assertThat(updateBookDto).usingRecursiveComparison().isEqualTo(expectedBookDto);
     }
 
-    @DisplayName("должен удалять книгу по ее id (созданну в тесте)")
+    @DisplayName("должен удалять книгу по ее id")
     @Test
     @Order(5)
     void deleteById() {
         var firstBook = repository.findAll().get(FIRST_BOOK_ID);
-
         service.deleteById(firstBook.getId());
-
         var optionalExpectedBookDto = service.findById(firstBook.getId());
 
         assertThat(optionalExpectedBookDto).isEmpty();
