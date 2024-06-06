@@ -24,7 +24,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Optional<CommentDto> findById(String id) {
-        return commentRepository.findById(String.valueOf(id)).stream().map(commentConverter::toDto).findAny();
+        return commentRepository.findById(id).stream().map(commentConverter::toDto).findAny();
     }
 
     @Override
@@ -34,12 +34,12 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentDto create(String content, String bookId) {
-        return save(null, content, bookId);
+        return save(content, bookId);
     }
 
     @Override
     public CommentDto update(String id, String content) {
-        var comment = commentRepository.findById(String.valueOf(id))
+        var comment = commentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Comment with id %s not found".formatted(id)));
 
         comment.setContent(content);
@@ -48,14 +48,14 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void deleteById(String id) {
-        commentRepository.deleteById(String.valueOf(id));
+        commentRepository.deleteById(id);
     }
 
-    private CommentDto save(String id, String content, String bookId) {
+    private CommentDto save(String content, String bookId) {
         var book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new EntityNotFoundException("Book with id %s not found".formatted(bookId)));
 
-        var comment = new Comment(id, content, book);
+        var comment = new Comment(null, content, book);
         return commentConverter.toDto(commentRepository.save(comment));
     }
 }
