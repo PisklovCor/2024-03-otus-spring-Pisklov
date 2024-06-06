@@ -13,6 +13,7 @@ class CommentRepositoryTest extends AbstractRepositoryTest {
 
     private static final int FIRST_BOOK_ID = 0;
     private static final int EXPECTED_NUMBER_OF_COMMENT = 2;
+    private static final int EXPECTED_NUMBER_OF_COMMENT_AFTER_DELETION = 4;
     private static final List<String> BOOKS_TITLE = List.of("Im Westen nichts Neues");
     private static final List<String> AUTHORS_FULL_NAME = List.of("Erich Maria Remarque");
 
@@ -34,5 +35,15 @@ class CommentRepositoryTest extends AbstractRepositoryTest {
                 .allMatch(c -> BOOKS_TITLE.contains(c.getBook().getTitle()))
                 .allMatch(c -> c.getBook().getAuthor() != null)
                 .allMatch(c -> AUTHORS_FULL_NAME.contains(c.getBook().getAuthor().getName()));
+    }
+
+    @DisplayName("должен удалять комментарии по id книг")
+    @Test
+    void deleteAllByBookId() {
+        var book = bookRepository.findAll().get(FIRST_BOOK_ID);
+        repository.deleteAllByBookId(book.getId());
+        var expectedListComment = repository.findAll();
+
+        assertThat(expectedListComment).isNotNull().hasSize(EXPECTED_NUMBER_OF_COMMENT_AFTER_DELETION);
     }
 }
