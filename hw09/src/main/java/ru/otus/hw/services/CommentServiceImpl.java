@@ -3,7 +3,7 @@ package ru.otus.hw.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.otus.hw.converters.CommentConverter;
+import ru.otus.hw.mappers.CommentMapper;
 import ru.otus.hw.dto.CommentDto;
 import ru.otus.hw.exceptions.EntityNotFoundException;
 import ru.otus.hw.models.Comment;
@@ -17,7 +17,7 @@ import java.util.Optional;
 @Service
 public class CommentServiceImpl implements CommentService {
 
-    private final CommentConverter commentConverter;
+    private final CommentMapper commentMapper;
 
     private final CommentRepository commentRepository;
 
@@ -26,13 +26,13 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional(readOnly = true)
     public Optional<CommentDto> findById(long id) {
-        return commentRepository.findById(id).stream().map(commentConverter::toDto).findAny();
+        return commentRepository.findById(id).stream().map(commentMapper::toDto).findAny();
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<CommentDto> findAllByBookId(long bookId) {
-        return commentRepository.findAllByBookId(bookId).stream().map(commentConverter::toDto).toList();
+        return commentRepository.findAllByBookId(bookId).stream().map(commentMapper::toDto).toList();
     }
 
     @Override
@@ -48,7 +48,7 @@ public class CommentServiceImpl implements CommentService {
                 .orElseThrow(() -> new EntityNotFoundException("Comment with id %d not found".formatted(id)));
 
         comment.setContent(content);
-        return commentConverter.toDto(commentRepository.save(comment));
+        return commentMapper.toDto(commentRepository.save(comment));
     }
 
     @Override
@@ -62,6 +62,6 @@ public class CommentServiceImpl implements CommentService {
                 .orElseThrow(() -> new EntityNotFoundException("Book with id %d not found".formatted(bookId)));
 
         var comment = new Comment(id, content, book);
-        return commentConverter.toDto(commentRepository.save(comment));
+        return commentMapper.toDto(commentRepository.save(comment));
     }
 }

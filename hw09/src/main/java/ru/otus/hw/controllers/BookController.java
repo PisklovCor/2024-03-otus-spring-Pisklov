@@ -1,5 +1,6 @@
 package ru.otus.hw.controllers;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.otus.hw.dto.AuthorDto;
+import ru.otus.hw.dto.BookCreateDto;
+import ru.otus.hw.dto.BookUpdateDto;
 import ru.otus.hw.dto.BookDto;
 import ru.otus.hw.dto.GenreDto;
 import ru.otus.hw.exceptions.NotFoundException;
@@ -41,7 +44,7 @@ public class BookController {
         GenreDto genreDtoOne = new GenreDto();
         GenreDto genreDtoTwo = new GenreDto();
 
-        BookDto book = new BookDto();
+        BookCreateDto book = new BookCreateDto();
         book.setGenres(List.of(genreDtoOne, genreDtoTwo));
         model.addAttribute("book", book);
         model.addAttribute("authors", author);
@@ -50,7 +53,7 @@ public class BookController {
     }
 
     @PostMapping("/book/create")
-    public String createBook(BookDto book) {
+    public String createBook(@Valid BookCreateDto book) {
         bookService.create(book);
         return "redirect:/";
     }
@@ -69,7 +72,7 @@ public class BookController {
     }
 
     @PostMapping("/book/save")
-    public String saveBook(BookDto book) {
+    public String saveBook(@Valid BookUpdateDto book) {
         bookService.update(book);
         return "redirect:/";
     }

@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import ru.otus.hw.converters.GenreConverter;
+import ru.otus.hw.mappers.GenreMapper;
 
 import java.util.Set;
 
@@ -17,7 +17,7 @@ import static org.hibernate.internal.util.collections.CollectionHelper.setOf;
 
 @DisplayName("Сервис для работы с жанрами ")
 @DataJpaTest
-@Import({GenreConverter.class, GenreServiceImpl.class})
+@Import({GenreMapper.class, GenreServiceImpl.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @Transactional(propagation = Propagation.NEVER)
 class GenreServiceImplTest {

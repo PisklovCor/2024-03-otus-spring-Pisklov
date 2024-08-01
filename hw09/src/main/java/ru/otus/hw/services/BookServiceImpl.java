@@ -3,7 +3,9 @@ package ru.otus.hw.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.otus.hw.converters.BookConverter;
+import ru.otus.hw.dto.BookUpdateDto;
+import ru.otus.hw.mappers.BookMapper;
+import ru.otus.hw.dto.BookCreateDto;
 import ru.otus.hw.dto.BookDto;
 import ru.otus.hw.dto.GenreDto;
 import ru.otus.hw.exceptions.EntityNotFoundException;
@@ -25,7 +27,7 @@ import static org.springframework.util.CollectionUtils.isEmpty;
 @Service
 public class BookServiceImpl implements BookService {
 
-    private final BookConverter bookConverter;
+    private final BookMapper bookMapper;
 
     private final AuthorRepository authorRepository;
 
@@ -36,19 +38,19 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional(readOnly = true)
     public List<BookDto> findAll() {
-        return bookRepository.findAll().stream().map(bookConverter::toDto).toList();
+        return bookRepository.findAll().stream().map(bookMapper::toDto).toList();
     }
 
     @Override
     @Transactional(readOnly = true)
     public Optional<BookDto> findById(long id) {
-        return bookRepository.findById(id).stream().map(bookConverter::toDto).findAny();
+        return bookRepository.findById(id).stream().map(bookMapper::toDto).findAny();
     }
 
     @Override
     @Transactional
-    public BookDto create(BookDto dto) {
-        return bookConverter.toDto(bookRepository.save(
+    public BookDto create(BookCreateDto dto) {
+        return bookMapper.toDto(bookRepository.save(
                 new Book(null, dto.getTitle(), checkingAndSearchingAuthor(dto.getAuthor().getId()),
                         checkingAndSearchingGenres(dto.getGenres().stream()
                                 .map(GenreDto::getId)
@@ -57,7 +59,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public BookDto update(BookDto dto) {
+    public BookDto update(BookUpdateDto dto) {
 
         final long bookId = dto.getId();
 
@@ -70,7 +72,7 @@ public class BookServiceImpl implements BookService {
                 .map(GenreDto::getId)
                 .collect(Collectors.toSet())));
 
-        return bookConverter.toDto(bookRepository.save(book));
+        return bookMapper.toDto(bookRepository.save(book));
     }
 
     @Override

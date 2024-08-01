@@ -7,12 +7,10 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import ru.otus.hw.converters.AuthorConverter;
-import ru.otus.hw.converters.BookConverter;
-import ru.otus.hw.converters.GenreConverter;
-import ru.otus.hw.dto.AuthorDto;
-import ru.otus.hw.dto.BookDto;
-import ru.otus.hw.dto.GenreDto;
+import ru.otus.hw.dto.*;
+import ru.otus.hw.mappers.AuthorMapper;
+import ru.otus.hw.mappers.BookMapper;
+import ru.otus.hw.mappers.GenreMapper;
 
 import java.util.List;
 import java.util.Set;
@@ -22,7 +20,7 @@ import static org.hibernate.internal.util.collections.CollectionHelper.setOf;
 
 @DisplayName("Сервис для работы с книгами ")
 @DataJpaTest
-@Import({BookConverter.class, AuthorConverter.class, GenreConverter.class, BookServiceImpl.class})
+@Import({BookMapper.class, AuthorMapper.class, GenreMapper.class, BookServiceImpl.class})
 @Transactional(propagation = Propagation.NEVER)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -72,7 +70,7 @@ class BookServiceImplTest {
     @Test
     @Order(3)
     void insert() {
-        var insertBookDto = service.create(bildBookDto(0, INSERT_TITLE_VALUE, FIRST_AUTHOR_ID));
+        var insertBookDto = service.create(bildBookCreateDto(INSERT_TITLE_VALUE, FIRST_AUTHOR_ID));
         var optionalExpectedBookDto = service.findById(insertBookDto.getId());
 
         assertThat(insertBookDto).usingRecursiveComparison().isEqualTo(optionalExpectedBookDto.orElse(null));
@@ -82,7 +80,7 @@ class BookServiceImplTest {
     @Test
     @Order(4)
     void update() {
-        var updateBookDto = service.update(bildBookDto(UPDATE_BOOK_ID, UPDATE_TITLE_VALUE, UPDATE_AUTHOR_ID));
+        var updateBookDto = service.update(bildBookUpdateDto(UPDATE_BOOK_ID, UPDATE_TITLE_VALUE, UPDATE_AUTHOR_ID));
         var optionalExpectedBookDto = service.findById(updateBookDto.getId());
 
         assertThat(updateBookDto).usingRecursiveComparison().isEqualTo(optionalExpectedBookDto.orElse(null));
@@ -97,19 +95,34 @@ class BookServiceImplTest {
         assertThat(optionalActualBookDto).isEmpty();
     }
 
-    private BookDto bildBookDto(long bookId, String title, long authorId) {
+    private BookUpdateDto bildBookUpdateDto(long bookId, String title, long authorId) {
         AuthorDto authorDto = new AuthorDto();
         authorDto.setId(authorId);
 
         GenreDto genreDto = new GenreDto();
         genreDto.setId(GENRE_ID);
 
-        BookDto bookDto = new BookDto();
-        bookDto.setId(bookId);
-        bookDto.setTitle(title);
-        bookDto.setAuthor(authorDto);
-        bookDto.setGenres(List.of(genreDto));
+        BookUpdateDto bookUpdateDto = new BookUpdateDto();
+        bookUpdateDto.setId(bookId);
+        bookUpdateDto.setTitle(title);
+        bookUpdateDto.setAuthor(authorDto);
+        bookUpdateDto.setGenres(List.of(genreDto));
 
-        return bookDto;
+        return bookUpdateDto;
+    }
+
+    private BookCreateDto bildBookCreateDto(String title, long authorId) {
+        AuthorDto authorDto = new AuthorDto();
+        authorDto.setId(authorId);
+
+        GenreDto genreDto = new GenreDto();
+        genreDto.setId(GENRE_ID);
+
+        BookCreateDto bookCreateDto = new BookCreateDto();
+        bookCreateDto.setTitle(title);
+        bookCreateDto.setAuthor(authorDto);
+        bookCreateDto.setGenres(List.of(genreDto));
+
+        return bookCreateDto;
     }
 }

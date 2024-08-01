@@ -5,9 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-import ru.otus.hw.dto.AuthorDto;
-import ru.otus.hw.dto.BookDto;
-import ru.otus.hw.dto.GenreDto;
+import ru.otus.hw.dto.*;
 import ru.otus.hw.services.AuthorService;
 import ru.otus.hw.services.BookService;
 import ru.otus.hw.services.GenreService;
@@ -64,7 +62,7 @@ class BookControllerTest {
         given(bookService.findAll())
                 .willReturn(mockBookList);
 
-        this.mvc.perform(get("/"))
+        mvc.perform(get("/"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("list"))
                 .andExpect(model().attribute("books", mockBookList));
@@ -82,7 +80,7 @@ class BookControllerTest {
         given(genreService.findAll())
                 .willReturn(mockGenresList);
 
-        this.mvc.perform(get("/book/create"))
+        mvc.perform(get("/book/create"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("create"))
                 .andExpect(model().attribute("authors", mockAuthorsList))
@@ -94,7 +92,11 @@ class BookControllerTest {
     @Test
     void createBook() throws Exception {
 
-        this.mvc.perform(post("/book/create"))
+        var book = bildBookDto();
+
+        mvc.perform(post("/book/create")
+                .param("id", String.valueOf(book.getId()))
+                .param("title", book.getTitle()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/"));
     }
@@ -111,7 +113,7 @@ class BookControllerTest {
         given(genreService.findAll())
                 .willReturn(mockGenresList);
 
-        this.mvc.perform(get("/book/edit")
+        mvc.perform(get("/book/edit")
                         .param("id", "1"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("edit"))
@@ -125,7 +127,11 @@ class BookControllerTest {
     @Test
     void saveBook() throws Exception {
 
-        this.mvc.perform(post("/book/save"))
+        var book = bildBookDto();
+
+        mvc.perform(post("/book/save")
+                .param("id", String.valueOf(book.getId()))
+                .param("title", book.getTitle()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/"));
     }
@@ -135,9 +141,25 @@ class BookControllerTest {
     @Test
     void deleteBook() throws Exception {
 
-        this.mvc.perform(post("/book/delete")
+        mvc.perform(post("/book/delete")
                         .param("id", "1"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/"));
+    }
+
+    private BookDto bildBookDto() {
+        AuthorDto authorDto = new AuthorDto();
+        authorDto.setId(1);
+
+        GenreDto genreDto = new GenreDto();
+        genreDto.setId(1);
+
+        BookDto bookDto = new BookDto();
+        bookDto.setId(1L);
+        bookDto.setTitle("BookTitle_1");
+        bookDto.setAuthor(authorDto);
+        bookDto.setGenres(List.of(genreDto));
+
+        return bookDto;
     }
 }

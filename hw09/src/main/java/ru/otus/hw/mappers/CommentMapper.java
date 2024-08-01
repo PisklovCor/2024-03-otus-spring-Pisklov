@@ -1,4 +1,4 @@
-package ru.otus.hw.converters;
+package ru.otus.hw.mappers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -7,7 +7,7 @@ import ru.otus.hw.models.Comment;
 
 @RequiredArgsConstructor
 @Component
-public class CommentConverter {
+public class CommentMapper {
 
     public CommentDto toDto(Comment entity) {
         CommentDto dto = new CommentDto();

@@ -1,4 +1,4 @@
-package ru.otus.hw.converters;
+package ru.otus.hw.mappers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -11,15 +11,15 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Component
-public class BookConverter {
+public class BookMapper {
 
-    private final AuthorConverter authorConverter;
+    private final AuthorMapper authorMapper;
 
-    private final GenreConverter genreConverter;
+    private final GenreMapper genreMapper;
 
     public BookDto toDto(Book entity) {
-        AuthorDto authorDto = authorConverter.toDto(entity.getAuthor());
-        List<GenreDto> genreDtoList = entity.getGenres().stream().map(genreConverter::toDto).toList();
+        AuthorDto authorDto = authorMapper.toDto(entity.getAuthor());
+        List<GenreDto> genreDtoList = entity.getGenres().stream().map(genreMapper::toDto).toList();
         BookDto dto = new BookDto();
         dto.setId(entity.getId());
         dto.setTitle(entity.getTitle());

@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import ru.otus.hw.converters.AuthorConverter;
+import ru.otus.hw.mappers.AuthorMapper;
 
 import java.util.Set;
 
@@ -17,7 +17,7 @@ import static org.hibernate.internal.util.collections.CollectionHelper.setOf;
 
 @DisplayName("Сервис для работы с авторами ")
 @DataJpaTest
-@Import({AuthorConverter.class,  AuthorServiceImpl.class})
+@Import({AuthorMapper.class,  AuthorServiceImpl.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @Transactional(propagation = Propagation.NEVER)
 class AuthorServiceImplTest {

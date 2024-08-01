@@ -7,10 +7,10 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import ru.otus.hw.converters.AuthorConverter;
-import ru.otus.hw.converters.BookConverter;
-import ru.otus.hw.converters.CommentConverter;
-import ru.otus.hw.converters.GenreConverter;
+import ru.otus.hw.mappers.AuthorMapper;
+import ru.otus.hw.mappers.BookMapper;
+import ru.otus.hw.mappers.CommentMapper;
+import ru.otus.hw.mappers.GenreMapper;
 
 import java.util.Set;
 
@@ -19,8 +19,8 @@ import static org.hibernate.internal.util.collections.CollectionHelper.setOf;
 
 @DisplayName("Сервис для работы с комментариями ")
 @DataJpaTest
-@Import({CommentConverter.class, CommentServiceImpl.class, BookConverter.class,
-        AuthorConverter.class, GenreConverter.class, BookServiceImpl.class})
+@Import({CommentMapper.class, CommentServiceImpl.class, BookMapper.class,
+        AuthorMapper.class, GenreMapper.class, BookServiceImpl.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @Transactional(propagation = Propagation.NEVER)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
