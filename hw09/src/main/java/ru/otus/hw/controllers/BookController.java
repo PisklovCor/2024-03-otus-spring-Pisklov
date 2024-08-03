@@ -61,7 +61,8 @@ public class BookController {
     @GetMapping("/book/edit")
     public String editBook(@RequestParam("id") long id, Model model) {
 
-        BookDto book = bookService.findById(id).orElseThrow(NotFoundException::new);
+        BookDto book = bookService.findById(id).orElseThrow(
+                () -> new NotFoundException("Book with id %d not found".formatted(id)));
         List<AuthorDto> author = authorService.findAll();
         List<GenreDto> genre = genreService.findAll();
 
