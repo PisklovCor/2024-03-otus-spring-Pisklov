@@ -16,7 +16,7 @@ public class ExceptionHandlingController {
 
     @ExceptionHandler(RuntimeException.class)
     public String exceptionHandler(Exception ex) {
-        log.error(ex.getMessage());
+        log.error("Error: [{}]", ex.getMessage());
         return "error/500";
     }
 }
