@@ -1,6 +1,8 @@
 package ru.otus.hw.controllers;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -10,30 +12,37 @@ import ru.otus.hw.exceptions.NotFoundException;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 @Slf4j
 @RestControllerAdvice
 public class ExceptionHandlingController {
 
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(BAD_REQUEST)
-    public String methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException ex) {
+    public ResponseEntity<String> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException ex) {
         log.error("Error: [{}]", ex.getMessage());
-        return "Error forming request";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(APPLICATION_JSON);
+        return new ResponseEntity<>("Error forming request", headers, BAD_REQUEST);
     }
 
     @ExceptionHandler(NotFoundException.class)
-    @ResponseStatus(NOT_FOUND)
-    public String notFoundExceptionHandler(NotFoundException ex) {
+    public ResponseEntity<String> notFoundExceptionHandler(NotFoundException ex) {
         log.error("Error: [{}]", ex.getMessage());
-        return "An error occurred while searching for the object";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(APPLICATION_JSON);
+        return new ResponseEntity<>("An error occurred while searching for the object", headers, NOT_FOUND);
     }
 
     @ExceptionHandler(RuntimeException.class)
     @ResponseStatus(INTERNAL_SERVER_ERROR)
-    public String exceptionHandler(Exception ex) {
+    public ResponseEntity<String> exceptionHandler(Exception ex) {
         log.error("Error: [{}]", ex.getMessage());
-        return "An unexpected error occurred";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(APPLICATION_JSON);
+        return new ResponseEntity<>("An unexpected error occurred", headers, INTERNAL_SERVER_ERROR);
     }
 }

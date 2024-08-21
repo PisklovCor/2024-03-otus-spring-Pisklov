@@ -89,6 +89,11 @@
             <scope>test</scope>
             <version>${reflections.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>

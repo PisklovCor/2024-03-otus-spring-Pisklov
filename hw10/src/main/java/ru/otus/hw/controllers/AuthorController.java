@@ -18,7 +18,7 @@ public class AuthorController {
 
     @GetMapping("/api/v1/author")
     @ResponseStatus(HttpStatus.OK)
-    public List<AuthorDto> listBook() {
+    public List<AuthorDto> getListAuthor() {
         return authorService.findAll();
     }
 }

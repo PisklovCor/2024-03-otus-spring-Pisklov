@@ -19,7 +19,7 @@ public class GenreController {
 
     @GetMapping("/api/v1/genre")
     @ResponseStatus(HttpStatus.OK)
-    public List<GenreDto> listBook() {
+    public List<GenreDto> getListGenre() {
         return genreService.findAll();
     }
 }
