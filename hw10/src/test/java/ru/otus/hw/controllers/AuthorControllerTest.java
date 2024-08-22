@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.hw.dto.AuthorDto;
 import ru.otus.hw.exceptions.NotFoundException;
@@ -13,6 +14,7 @@ import ru.otus.hw.services.AuthorService;
 
 import java.util.List;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -22,6 +24,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DisplayName("Контроллер авторов ")
 @WebMvcTest(AuthorController.class)
 class AuthorControllerTest {
+
+    private static final MediaType CONTENT_TYPE = new MediaType(APPLICATION_JSON, UTF_8);
 
     @Autowired
     private MockMvc mvc;
@@ -54,6 +58,6 @@ class AuthorControllerTest {
 
         mvc.perform(get("/api/v1/author"))
                 .andExpect(status().isNotFound())
-                .andExpect(content().contentType(APPLICATION_JSON));
+                .andExpect(content().contentType(CONTENT_TYPE));
     }
 }

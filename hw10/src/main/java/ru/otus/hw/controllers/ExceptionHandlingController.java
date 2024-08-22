@@ -1,14 +1,20 @@
 package ru.otus.hw.controllers;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import ru.otus.hw.dto.ErrorResponse;
 import ru.otus.hw.exceptions.NotFoundException;
 
+import java.util.List;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
@@ -18,31 +24,39 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 @RestControllerAdvice
 public class ExceptionHandlingController {
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<String> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException ex) {
-        log.error("Error: [{}]", ex.getMessage());
+    private static final MediaType CONTENT_TYPE = new MediaType(APPLICATION_JSON, UTF_8);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(APPLICATION_JSON);
-        return new ResponseEntity<>("Error forming request", headers, BAD_REQUEST);
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponse> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException ex) {
+        return handlerException(ex, BAD_REQUEST);
     }
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<String> notFoundExceptionHandler(NotFoundException ex) {
-        log.error("Error: [{}]", ex.getMessage());
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(APPLICATION_JSON);
-        return new ResponseEntity<>("An error occurred while searching for the object", headers, NOT_FOUND);
+    public ResponseEntity<ErrorResponse> notFoundExceptionHandler(NotFoundException ex) {
+        return handlerException(ex, NOT_FOUND);
     }
 
     @ExceptionHandler(RuntimeException.class)
     @ResponseStatus(INTERNAL_SERVER_ERROR)
-    public ResponseEntity<String> exceptionHandler(Exception ex) {
-        log.error("Error: [{}]", ex.getMessage());
+    public ResponseEntity<ErrorResponse> exceptionHandler(Exception ex) {
+        return handlerException(ex, INTERNAL_SERVER_ERROR);
+    }
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(APPLICATION_JSON);
-        return new ResponseEntity<>("An unexpected error occurred", headers, INTERNAL_SERVER_ERROR);
+    private ResponseEntity<ErrorResponse> handlerException(Throwable ex, HttpStatus status) {
+        log.error("Error: " + ExceptionHandlingController.class.getName(), ex);
+        return ResponseEntity.status(status)
+                .contentType(CONTENT_TYPE)
+                .body(createErrorResponseBody(ex));
+    }
+
+    private ErrorResponse createErrorResponseBody(Throwable ex) {
+        final List<String> cause = ExceptionUtils.getThrowableList(ex).stream()
+                .map(Throwable::getMessage)
+                .toList();
+        var response = new ErrorResponse();
+        response.setExceptionType(ex.getClass().getName());
+        response.setCause(cause);
+
+        return response;
     }
 }
