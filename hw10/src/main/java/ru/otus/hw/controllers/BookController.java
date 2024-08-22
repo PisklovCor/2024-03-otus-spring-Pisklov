@@ -27,32 +27,32 @@ public class BookController {
 
     @GetMapping("/api/v1/book")
     @ResponseStatus(HttpStatus.OK)
-    public List<BookDto> listBook() {
+    public List<BookDto> getListBook() {
         return bookService.findAll();
     }
 
     @GetMapping("/api/v1/book/{bookId}")
     @ResponseStatus(HttpStatus.OK)
-    public BookDto bookById(@PathVariable("bookId") long bookId) {
+    public BookDto gteBookById(@PathVariable("bookId") long bookId) {
         return bookService.findById(bookId).orElseThrow(
                 () -> new NotFoundException("Book with id %d not found".formatted(bookId)));
     }
 
     @PostMapping("/api/v1/book")
     @ResponseStatus(HttpStatus.CREATED)
-    public BookDto create(@Valid @RequestBody BookCreateDto bookCreateDto) {
+    public BookDto createBook(@Valid @RequestBody BookCreateDto bookCreateDto) {
         return bookService.create(bookCreateDto);
     }
 
     @PutMapping("/api/v1/book")
     @ResponseStatus(HttpStatus.OK)
-    public BookDto update(@Valid @RequestBody BookUpdateDto bookUpdateDto) {
+    public BookDto updateBook(@Valid @RequestBody BookUpdateDto bookUpdateDto) {
         return bookService.update(bookUpdateDto);
     }
 
     @DeleteMapping("/api/v1/book/{bookId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("bookId") long bookId) {
+    public void deleteBook(@PathVariable("bookId") long bookId) {
         bookService.deleteById(bookId);
     }
 }

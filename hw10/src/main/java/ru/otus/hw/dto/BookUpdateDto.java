@@ -14,7 +14,7 @@ import java.util.List;
 public class BookUpdateDto {
 
     @NotNull
-    private Long id;
+    private long id;
 
     @NotBlank
     private String title;

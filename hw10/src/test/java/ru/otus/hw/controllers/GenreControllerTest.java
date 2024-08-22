@@ -1,8 +1,7 @@
 package ru.otus.hw.controllers;
 
 import com.google.gson.Gson;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -22,6 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @DisplayName("Контроллер жанров ")
 @WebMvcTest(GenreController.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class GenreControllerTest {
 
     private static final MediaType CONTENT_TYPE = new MediaType(APPLICATION_JSON, UTF_8);
@@ -33,8 +33,10 @@ class GenreControllerTest {
     private GenreService genreService;
 
     @DisplayName("должен вернуть список всех жанров")
+    @Order(1)
     @Test
     void getListGenre() throws Exception {
+
         List<GenreDto> genreDtoList = List.of(new GenreDto());
         given(genreService.findAll()).willReturn(genreDtoList);
 
@@ -49,6 +51,7 @@ class GenreControllerTest {
     }
 
     @DisplayName("должен вернуть ошибку INTERNAL_SERVER_ERROR")
+    @Order(2)
     @Test
     void getListGenreException() throws Exception {
 

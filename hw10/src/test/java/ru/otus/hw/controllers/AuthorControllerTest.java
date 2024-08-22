@@ -1,8 +1,7 @@
 package ru.otus.hw.controllers;
 
 import com.google.gson.Gson;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -23,6 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @DisplayName("Контроллер авторов ")
 @WebMvcTest(AuthorController.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class AuthorControllerTest {
 
     private static final MediaType CONTENT_TYPE = new MediaType(APPLICATION_JSON, UTF_8);
@@ -34,6 +34,7 @@ class AuthorControllerTest {
     private AuthorService authorService;
 
     @DisplayName("должен вернуть список всех авторов")
+    @Order(1)
     @Test
     void getListAuthor() throws Exception {
 
@@ -51,6 +52,7 @@ class AuthorControllerTest {
     }
 
     @DisplayName("должен вернуть ошибку NOT_FOUND")
+    @Order(2)
     @Test
     void getListAuthorException() throws Exception {
 
