@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import ru.otus.hw.dto.BookDto;
 import ru.otus.hw.dto.BookCreateDto;
 import ru.otus.hw.dto.BookUpdateDto;
-import ru.otus.hw.exceptions.NotFoundException;
 import ru.otus.hw.services.BookService;
 
 import java.util.List;
@@ -34,8 +33,7 @@ public class BookController {
     @GetMapping("/api/v1/book/{bookId}")
     @ResponseStatus(HttpStatus.OK)
     public BookDto gteBookById(@PathVariable("bookId") long bookId) {
-        return bookService.findById(bookId).orElseThrow(
-                () -> new NotFoundException("Book with id %d not found".formatted(bookId)));
+        return bookService.findById(bookId);
     }
 
     @PostMapping("/api/v1/book")

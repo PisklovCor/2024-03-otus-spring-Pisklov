@@ -17,7 +17,6 @@ import ru.otus.hw.repositories.BookRepository;
 import ru.otus.hw.repositories.GenreRepository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -43,8 +42,11 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<BookDto> findById(long id) {
-        return bookRepository.findById(id).stream().map(bookMapper::toDto).findAny();
+    public BookDto findById(long id) {
+        return bookRepository.findById(id).stream()
+                .map(bookMapper::toDto)
+                .findAny()
+                .orElseThrow(() -> new NotFoundException("Book with id %d not found".formatted(id)));
     }
 
     @Override

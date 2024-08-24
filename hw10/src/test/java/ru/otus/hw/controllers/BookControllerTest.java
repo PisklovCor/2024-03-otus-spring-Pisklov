@@ -14,7 +14,6 @@ import ru.otus.hw.exceptions.NotFoundException;
 import ru.otus.hw.services.BookService;
 
 import java.util.List;
-import java.util.Optional;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.mockito.BDDMockito.given;
@@ -81,7 +80,7 @@ class BookControllerTest {
         BookDto bookDto = new BookDto();
         bookDto.setId(BOOK_ID_TEST);
         bookDto.setTitle(BOOK_TITLE_TEST);
-        given(bookService.findById(BOOK_ID_TEST)).willReturn(Optional.of(bookDto));
+        given(bookService.findById(BOOK_ID_TEST)).willReturn(bookDto);
 
         Gson gson = new Gson();
         String resultJson = gson.toJson(bookDto);

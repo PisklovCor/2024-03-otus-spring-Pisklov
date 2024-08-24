@@ -8,6 +8,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.dto.*;
+import ru.otus.hw.exceptions.NotFoundException;
 import ru.otus.hw.mappers.AuthorMapper;
 import ru.otus.hw.mappers.BookMapper;
 import ru.otus.hw.mappers.GenreMapper;
@@ -17,6 +18,7 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hibernate.internal.util.collections.CollectionHelper.setOf;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DisplayName("Сервис для работы с книгами ")
 @DataJpaTest
@@ -56,14 +58,13 @@ class BookServiceImplTest {
     @Test
     @Order(2)
     void findById() {
-        var optionalActualBookDto = service.findById(FIRST_BOOK_ID);
-        assertThat(optionalActualBookDto).isPresent();
-        assertThat(optionalActualBookDto.get().getId()).isEqualTo(FIRST_BOOK_ID);
-        assertThat(optionalActualBookDto.get().getAuthor()).isNotNull();
-        assertThat(optionalActualBookDto.get().getAuthor().getId()).isEqualTo(FIRST_AUTHOR_ID);
-        assertThat(optionalActualBookDto.get().getGenres()).isNotNull()
+        var actualBookDto = service.findById(FIRST_BOOK_ID);
+        assertThat(actualBookDto.getId()).isEqualTo(FIRST_BOOK_ID);
+        assertThat(actualBookDto.getAuthor()).isNotNull();
+        assertThat(actualBookDto.getAuthor().getId()).isEqualTo(FIRST_AUTHOR_ID);
+        assertThat(actualBookDto.getGenres()).isNotNull()
                 .allMatch(g -> !g.getName().isEmpty());
-        assertThat(optionalActualBookDto.get().getGenres().size()).isEqualTo(2);
+        assertThat(actualBookDto.getGenres().size()).isEqualTo(2);
     }
 
     @DisplayName("должен создать книгу с полной информацией")
@@ -73,7 +74,7 @@ class BookServiceImplTest {
         var insertBookDto = service.create(bildBookCreateDto(INSERT_TITLE_VALUE, FIRST_AUTHOR_ID));
         var optionalExpectedBookDto = service.findById(insertBookDto.getId());
 
-        assertThat(insertBookDto).usingRecursiveComparison().isEqualTo(optionalExpectedBookDto.orElse(null));
+        assertThat(insertBookDto).usingRecursiveComparison().isEqualTo(optionalExpectedBookDto);
     }
 
     @DisplayName("должен обновить книгу с полной информацией")
@@ -83,7 +84,7 @@ class BookServiceImplTest {
         var updateBookDto = service.update(bildBookUpdateDto(UPDATE_BOOK_ID, UPDATE_TITLE_VALUE, UPDATE_AUTHOR_ID));
         var optionalExpectedBookDto = service.findById(updateBookDto.getId());
 
-        assertThat(updateBookDto).usingRecursiveComparison().isEqualTo(optionalExpectedBookDto.orElse(null));
+        assertThat(updateBookDto).usingRecursiveComparison().isEqualTo(optionalExpectedBookDto);
     }
 
     @DisplayName("должен удалять книгу по ее id (созданну в тесте)")
@@ -91,8 +92,7 @@ class BookServiceImplTest {
     @Order(5)
     void deleteById() {
         service.deleteById(NEW_BOOK_ID);
-        var optionalActualBookDto = service.findById(NEW_BOOK_ID);
-        assertThat(optionalActualBookDto).isEmpty();
+        assertThrows(NotFoundException.class, () -> service.findById(NEW_BOOK_ID));
     }
 
     private BookUpdateDto bildBookUpdateDto(long bookId, String title, long authorId) {
