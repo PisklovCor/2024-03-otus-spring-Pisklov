@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class BookControllerTest {
 
-    private static final MediaType CONTENT_TYPE = new MediaType(APPLICATION_JSON, UTF_8);
+    private static final MediaType CONTENT_TYPE = new MediaType(APPLICATION_JSON);
     private static final long BOOK_ID_TEST = 1;
     private static final String BOOK_TITLE_TEST = "test";
 

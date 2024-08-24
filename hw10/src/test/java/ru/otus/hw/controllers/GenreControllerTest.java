@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class GenreControllerTest {
 
-    private static final MediaType CONTENT_TYPE = new MediaType(APPLICATION_JSON, UTF_8);
+    private static final MediaType CONTENT_TYPE = new MediaType(APPLICATION_JSON);
 
     @Autowired
     private MockMvc mvc;
