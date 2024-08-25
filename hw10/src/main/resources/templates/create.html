@@ -95,24 +95,15 @@
     function createBook() {
         const bookTitle = document.getElementById("book-title-input")
         const author = document.getElementById("book-author-select")
-
-        const authorObject = {
-            id: author.value
-        }
-
         const genres = [];
         const genre1 = document.getElementById("book-genre-select-0")
 
-        const genresObject = {
-            id: genre1.value
-        }
-
-        genres.push(genresObject);
+        genres.push(genre1.value);
 
         const bookObject = {
             title: bookTitle.value,
-            author: authorObject,
-            genres: genres
+            authorId: author.value,
+            genresId: genres
         }
 
         fetch("/api/v1/book", {

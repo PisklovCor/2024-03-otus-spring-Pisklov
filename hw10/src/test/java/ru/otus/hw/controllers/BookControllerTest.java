@@ -33,6 +33,8 @@ class BookControllerTest {
 
     private static final MediaType CONTENT_TYPE = new MediaType(APPLICATION_JSON);
     private static final long BOOK_ID_TEST = 1;
+    private static final long BOOK_AUTHOR_ID_TEST = 1;
+    private static final List<Long> BOOK_GENRES_ID_LIST_TEST = List.of(1L);
     private static final String BOOK_TITLE_TEST = "test";
 
     @Autowired
@@ -108,8 +110,7 @@ class BookControllerTest {
     @Test
     void createBook() throws Exception {
 
-        BookCreateDto bookCreateDto = new BookCreateDto();
-        bookCreateDto.setTitle(BOOK_TITLE_TEST);
+        BookCreateDto bookCreateDto = createBookCreateDto();
 
         BookDto responseBookDto = new BookDto();
         responseBookDto.setId(BOOK_ID_TEST);
@@ -134,8 +135,7 @@ class BookControllerTest {
     @Test
     void createBookException() throws Exception {
 
-        BookCreateDto bookCreateDto = new BookCreateDto();
-        bookCreateDto.setTitle(BOOK_TITLE_TEST);
+        BookCreateDto bookCreateDto = createBookCreateDto();
 
         given(bookService.create(bookCreateDto)).willThrow(RuntimeException.class);
 
@@ -154,9 +154,7 @@ class BookControllerTest {
     @Test
     void updateBook() throws Exception {
 
-        BookUpdateDto bookUpdateDto = new BookUpdateDto();
-        bookUpdateDto.setId(BOOK_ID_TEST);
-        bookUpdateDto.setTitle(BOOK_TITLE_TEST);
+        BookUpdateDto bookUpdateDto = createBookUpdateDto();
 
         BookDto responseBookDto = new BookDto();
         responseBookDto.setId(BOOK_ID_TEST);
@@ -181,9 +179,7 @@ class BookControllerTest {
     @Test
     void updateBookException() throws Exception {
 
-        BookUpdateDto bookUpdateDto = new BookUpdateDto();
-        bookUpdateDto.setId(BOOK_ID_TEST);
-        bookUpdateDto.setTitle(BOOK_TITLE_TEST);
+        BookUpdateDto bookUpdateDto = createBookUpdateDto();
 
         given(bookService.update(bookUpdateDto)).willThrow(RuntimeException.class);
 
@@ -217,5 +213,26 @@ class BookControllerTest {
         mvc.perform(delete("/api/v1/book/" + BOOK_ID_TEST))
                 .andExpect(status().isInternalServerError())
                 .andExpect(content().contentType(CONTENT_TYPE));
+    }
+
+    private BookCreateDto createBookCreateDto() {
+
+        BookCreateDto bookCreateDto = new BookCreateDto();
+        bookCreateDto.setTitle(BOOK_TITLE_TEST);
+        bookCreateDto.setAuthorId(BOOK_AUTHOR_ID_TEST);
+        bookCreateDto.setGenresId(BOOK_GENRES_ID_LIST_TEST);
+
+        return bookCreateDto;
+    }
+
+    private BookUpdateDto createBookUpdateDto() {
+
+        BookUpdateDto bookUpdateDto = new BookUpdateDto();
+        bookUpdateDto.setId(BOOK_ID_TEST);
+        bookUpdateDto.setTitle(BOOK_TITLE_TEST);
+        bookUpdateDto.setAuthorId(BOOK_AUTHOR_ID_TEST);
+        bookUpdateDto.setGenresId(BOOK_GENRES_ID_LIST_TEST);
+
+        return bookUpdateDto;
     }
 }

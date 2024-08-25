@@ -11,7 +11,6 @@ import ru.otus.hw.repositories.BookRepository;
 import ru.otus.hw.repositories.CommentRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -25,8 +24,11 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<CommentDto> findById(long id) {
-        return commentRepository.findById(id).stream().map(commentMapper::toDto).findAny();
+    public CommentDto findById(long id) {
+        return commentRepository.findById(id).stream()
+                .map(commentMapper::toDto)
+                .findAny()
+                .orElseThrow(() -> new NotFoundException("Book with id %d not found".formatted(id)));
     }
 
     @Override

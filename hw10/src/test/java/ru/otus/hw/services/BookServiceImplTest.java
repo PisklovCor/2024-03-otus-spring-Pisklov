@@ -96,32 +96,21 @@ class BookServiceImplTest {
     }
 
     private BookUpdateDto bildBookUpdateDto(long bookId, String title, long authorId) {
-        AuthorDto authorDto = new AuthorDto();
-        authorDto.setId(authorId);
-
-        GenreDto genreDto = new GenreDto();
-        genreDto.setId(GENRE_ID);
-
         BookUpdateDto bookUpdateDto = new BookUpdateDto();
         bookUpdateDto.setId(bookId);
         bookUpdateDto.setTitle(title);
-        bookUpdateDto.setAuthor(authorDto);
-        bookUpdateDto.setGenres(List.of(genreDto));
+        bookUpdateDto.setAuthorId(authorId);
+        bookUpdateDto.setGenresId(List.of(GENRE_ID));
+
 
         return bookUpdateDto;
     }
 
     private BookCreateDto bildBookCreateDto(String title, long authorId) {
-        AuthorDto authorDto = new AuthorDto();
-        authorDto.setId(authorId);
-
-        GenreDto genreDto = new GenreDto();
-        genreDto.setId(GENRE_ID);
-
         BookCreateDto bookCreateDto = new BookCreateDto();
         bookCreateDto.setTitle(title);
-        bookCreateDto.setAuthor(authorDto);
-        bookCreateDto.setGenres(List.of(genreDto));
+        bookCreateDto.setAuthorId(authorId);
+        bookCreateDto.setGenresId(List.of(GENRE_ID));
 
         return bookCreateDto;
     }

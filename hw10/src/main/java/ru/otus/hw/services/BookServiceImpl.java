@@ -16,6 +16,7 @@ import ru.otus.hw.repositories.AuthorRepository;
 import ru.otus.hw.repositories.BookRepository;
 import ru.otus.hw.repositories.GenreRepository;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -53,10 +54,8 @@ public class BookServiceImpl implements BookService {
     @Transactional
     public BookDto create(BookCreateDto dto) {
         return bookMapper.toDto(bookRepository.save(
-                new Book(null, dto.getTitle(), checkingAndSearchingAuthor(dto.getAuthor().getId()),
-                        checkingAndSearchingGenres(dto.getGenres().stream()
-                                .map(GenreDto::getId)
-                                .collect(Collectors.toSet())))));
+                new Book(null, dto.getTitle(), checkingAndSearchingAuthor(dto.getAuthorId()),
+                        checkingAndSearchingGenres(new HashSet<>(dto.getGenresId())))));
     }
 
     @Override
@@ -69,10 +68,8 @@ public class BookServiceImpl implements BookService {
                 .orElseThrow(() -> new NotFoundException("Book with id %d not found".formatted(bookId)));
 
         book.setTitle(dto.getTitle());
-        book.setAuthor(checkingAndSearchingAuthor(dto.getAuthor().getId()));
-        book.setGenres(checkingAndSearchingGenres(dto.getGenres().stream()
-                .map(GenreDto::getId)
-                .collect(Collectors.toSet())));
+        book.setAuthor(checkingAndSearchingAuthor(dto.getAuthorId()));
+        book.setGenres(checkingAndSearchingGenres(new HashSet<>(dto.getGenresId())));
 
         return bookMapper.toDto(bookRepository.save(book));
     }

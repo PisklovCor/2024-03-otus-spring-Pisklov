@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import ru.otus.hw.exceptions.NotFoundException;
 import ru.otus.hw.mappers.AuthorMapper;
 import ru.otus.hw.mappers.BookMapper;
 import ru.otus.hw.mappers.CommentMapper;
@@ -16,6 +17,7 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hibernate.internal.util.collections.CollectionHelper.setOf;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DisplayName("Сервис для работы с комментариями ")
 @DataJpaTest
@@ -42,8 +44,7 @@ class CommentServiceImplTest {
     @Order(1)
     void findById() {
         var optionalActualCommentDto = service.findById(FIRST_COMMENT_ID);
-        assertThat(optionalActualCommentDto).isPresent();
-        assertThat(optionalActualCommentDto.get().getId()).isEqualTo(FIRST_COMMENT_ID);
+        assertThat(optionalActualCommentDto.getId()).isEqualTo(FIRST_COMMENT_ID);
     }
 
     @DisplayName("должен загружать информацию о нужных комментариях по id книге с полной информацией")
@@ -63,7 +64,7 @@ class CommentServiceImplTest {
         var insertCommentDto = service.create(INSERT_CONTENT_VALUE, BOOK_ID);
         var optionalExpectedCommentDto = service.findById(insertCommentDto.getId());
 
-        assertThat(insertCommentDto).usingRecursiveComparison().isEqualTo(optionalExpectedCommentDto.orElse(null));
+        assertThat(insertCommentDto).usingRecursiveComparison().isEqualTo(optionalExpectedCommentDto);
 
     }
 
@@ -74,7 +75,7 @@ class CommentServiceImplTest {
         var updateCommentDto = service.update(NEW_COMMENT_ID, UPDATE_CONTENT_VALUE);
         var optionalExpectedCommentDto = service.findById(updateCommentDto.getId());
 
-        assertThat(updateCommentDto).usingRecursiveComparison().isEqualTo(optionalExpectedCommentDto.orElse(null));
+        assertThat(updateCommentDto).usingRecursiveComparison().isEqualTo(optionalExpectedCommentDto);
     }
 
     @DisplayName("должен удалять комментарий по ее id (созданный в тесте)")
@@ -82,7 +83,6 @@ class CommentServiceImplTest {
     @Order(5)
     void deleteById() {
         service.deleteById(NEW_COMMENT_ID);
-        var optionalActualBookDto = service.findById(NEW_COMMENT_ID);
-        assertThat(optionalActualBookDto).isEmpty();
+        assertThrows(NotFoundException.class, () -> service.findById(NEW_COMMENT_ID));
     }
 }
