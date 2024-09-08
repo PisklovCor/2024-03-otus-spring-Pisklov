@@ -31,7 +31,7 @@ class BookControllerSecurityTest {
 
     private static final String USER_TEST_LOGIN = "user_test";
     private static final String USER_TEST_PASSWORD = "$2a$12$2tcN8kkCE7dcxyXNB9nTV.hKgNPBXIcHfplo0nynixi2BqVsseX1q";
-    private static final String ROLE_USER = "USER";
+    private static final String USER_TEST_ROLE = "USER";
 
     @Autowired
     private MockMvc mvc;
@@ -69,7 +69,7 @@ class BookControllerSecurityTest {
         userDetails = User.builder()
                 .username(USER_TEST_LOGIN)
                 .password(USER_TEST_PASSWORD)
-                .roles(ROLE_USER)
+                .roles(USER_TEST_ROLE)
                 .build();
     }
 

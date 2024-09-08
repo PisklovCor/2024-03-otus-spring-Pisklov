@@ -46,7 +46,7 @@ create table comments
 create table users
 (
     id        bigserial,
-    login     varchar(20),
+    login     varchar(20) UNIQUE,
     password  varchar(255),
     primary key (id)
 );
@@ -55,7 +55,7 @@ create table users
 create table roles
 (
     id              bigserial,
-    name            varchar(255),
+    name            varchar(255) UNIQUE,
     description     varchar(255),
     primary key (id)
 );

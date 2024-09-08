@@ -4,6 +4,9 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,25 +23,65 @@ import static org.assertj.core.api.Assertions.assertThat;
 class UserDetailsServiceImplTest {
 
     private static final String USER_TEST_LOGIN = "user_test";
-    private static final String ROLE_USER = "ROLE_USER";
+    private static final String NEW_USER_TEST_LOGIN = "user_test_new";
+    private static final String USER_TEST_PASSWORD = "user_test";
+    private static final String USER_TEST_ROLE = "USER";
+
+    private static UserDetails userDetails;
 
     @Autowired
     private UserDetailsServiceImpl service;
 
+    @BeforeAll
+    static void init() {
+
+        userDetails = User.builder()
+                .username(NEW_USER_TEST_LOGIN)
+                .password(USER_TEST_PASSWORD)
+                .roles(USER_TEST_ROLE)
+                .build();
+    }
+
+    @DisplayName("должен создать нового пользователя")
     @Test
+    @Order(1)
     void createUser() {
+
+        service.createUser(userDetails);
+        var result = service.userExists(NEW_USER_TEST_LOGIN);
+        assertThat(result).isEqualTo(true);
     }
 
+    @DisplayName("должен обновить существующего пользователя")
     @Test
+    @Order(2)
     void updateUser() {
+
+        service.updateUser(userDetails);
+        var result = service.userExists(NEW_USER_TEST_LOGIN);
+        assertThat(result).isEqualTo(true);
     }
 
+    @DisplayName("должен удалить пользователя по логину")
     @Test
+    @Order(3)
     void deleteUser() {
+        service.deleteUser(NEW_USER_TEST_LOGIN);
+        var result = service.userExists(NEW_USER_TEST_LOGIN);
+        assertThat(result).isEqualTo(false);
     }
 
+    @WithMockUser(
+            username = "user_test",
+            authorities = {"ROLE_USER"}
+    )
+    @DisplayName("должен поменять пароль текущего пользователя")
     @Test
+    @Order(4)
     void changePassword() {
+        service.changePassword("user_test", "test_user");
+        var userDetails = service.loadUserByUsername(USER_TEST_LOGIN);
+        assertThat(userDetails).isNotNull();
     }
 
     @DisplayName("должен проверить наличия пользователя")
@@ -53,7 +96,7 @@ class UserDetailsServiceImplTest {
     @Test
     @Order(6)
     void userNotExists() {
-        var result = service.userExists(USER_TEST_LOGIN + "_1");
+        var result = service.userExists(NEW_USER_TEST_LOGIN);
         assertThat(result).isEqualTo(false);
     }
 
@@ -64,6 +107,7 @@ class UserDetailsServiceImplTest {
         var userDetails = service.loadUserByUsername(USER_TEST_LOGIN);
         assertThat(userDetails).isNotNull();
         assertThat(userDetails.getUsername()).isEqualTo(USER_TEST_LOGIN);
-        assertThat(userDetails.getAuthorities().stream().findFirst().get().toString()).isEqualTo(ROLE_USER);
+        assertThat(userDetails.getAuthorities().stream().findFirst().get().toString())
+                .isEqualTo("ROLE_" + USER_TEST_ROLE);
     }
 }

@@ -3,13 +3,18 @@ package ru.otus.hw.services;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextHolderStrategy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 import ru.otus.hw.dto.RoleDto;
+import ru.otus.hw.dto.UserCreateDto;
 import ru.otus.hw.dto.UserDto;
+import ru.otus.hw.dto.UserUpdateDto;
 import ru.otus.hw.exceptions.NotFoundException;
 
 @Slf4j
@@ -22,24 +27,68 @@ public class UserDetailsServiceImpl implements UserDetailsManager {
     @Override
     public void createUser(UserDetails user) {
 
+        var roleDtoList = user.getAuthorities().stream()
+                .map(r -> new RoleDto(null, r.toString().replace("ROLE_", ""), null))
+                .toList();
+
+        var userCreateDto = new UserCreateDto(
+                user.getUsername(),
+                encryptPassword(user.getPassword()),
+                roleDtoList
+        );
+
+        userService.create(userCreateDto);
     }
 
     @Override
     public void updateUser(UserDetails user) {
 
+        var userDto = userService.findByLogin(user.getUsername());
+
+        var roleDtoList = user.getAuthorities().stream()
+                .map(r -> new RoleDto(null, r.toString().replace("ROLE_", ""), null))
+                .toList();
+
+        var userUpdateDto = new UserUpdateDto(
+                userDto.getId(),
+                user.getUsername(),
+                encryptPassword(user.getPassword()),
+                roleDtoList
+        );
+
+        userService.update(userUpdateDto);
     }
 
     @Override
     public void deleteUser(String username) {
 
+        var userDto = userService.findByLogin(username);
+        userService.deleteById(userDto.getId());
     }
 
     @Override
     public void changePassword(String oldPassword, String newPassword) {
 
-        ////BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(8);
-        //    //String hashedAdmin = passwordEncoder.encode("admin");
-        //    //String hashedPassword = passwordEncoder.encode("password");
+        if (oldPassword.equals(newPassword)) {
+            throw new RuntimeException("Passwords must be different");
+        }
+
+        SecurityContextHolderStrategy strategy =
+                SecurityContextHolder.getContextHolderStrategy();
+
+        var userDetails = (UserDetails) strategy.getContext()
+                .getAuthentication().getPrincipal();
+
+        var userDto = userService.findByLogin(userDetails.getUsername());
+
+        var userUpdateDto = new UserUpdateDto(
+                userDto.getId(),
+                userDto.getLogin(),
+                encryptPassword(newPassword),
+                userDto.getRoles()
+        );
+
+        userService.update(userUpdateDto);
 
     }
 
@@ -59,7 +108,6 @@ public class UserDetailsServiceImpl implements UserDetailsManager {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         var userDto = userService.findByLogin(username);
-
         return createUserDetails(userDto);
     }
 
@@ -74,5 +122,17 @@ public class UserDetailsServiceImpl implements UserDetailsManager {
                 .password(userDto.getPassword())
                 .roles(StringUtils.join(roles, ", "))
                 .build();
+    }
+
+    /**
+     * Выполнение шифрования пароля
+     *
+     * @param password пароль с формы
+     * @return зашифрованный пароль
+     */
+    private String encryptPassword(String password) {
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
+        return passwordEncoder.encode(password);
     }
 }
