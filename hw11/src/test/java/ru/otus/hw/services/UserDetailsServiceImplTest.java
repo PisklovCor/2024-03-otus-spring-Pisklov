@@ -6,6 +6,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Propagation;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.mappers.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DisplayName("Сервис для управления пользовательскими атрибутами ")
 @DataJpaTest
@@ -23,9 +25,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 class UserDetailsServiceImplTest {
 
     private static final String USER_TEST_LOGIN = "user_test";
-    private static final String NEW_USER_TEST_LOGIN = "user_test_new";
     private static final String USER_TEST_PASSWORD = "user_test";
     private static final String USER_TEST_ROLE = "USER";
+    private static final String NEW_USER_TEST_LOGIN = "user_test_new";
+    private static final String NEW_USER_TEST_PASSWORD = "test_user";
 
     private static UserDetails userDetails;
 
@@ -79,9 +82,14 @@ class UserDetailsServiceImplTest {
     @Test
     @Order(4)
     void changePassword() {
-        service.changePassword("user_test", "test_user");
+        service.changePassword(USER_TEST_PASSWORD, NEW_USER_TEST_PASSWORD);
         var userDetails = service.loadUserByUsername(USER_TEST_LOGIN);
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        final boolean isPasswordMatches = passwordEncoder.matches(NEW_USER_TEST_PASSWORD, userDetails.getPassword());
+
         assertThat(userDetails).isNotNull();
+        assertTrue(isPasswordMatches);
     }
 
     @DisplayName("должен проверить наличия пользователя")
