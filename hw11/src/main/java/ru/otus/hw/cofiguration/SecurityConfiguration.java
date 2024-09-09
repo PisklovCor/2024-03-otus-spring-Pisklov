@@ -23,7 +23,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/**").authenticated()
-                        .anyRequest().permitAll())
+                        .anyRequest().denyAll())
                 .formLogin(Customizer.withDefaults())
                 .rememberMe(rm -> rm.key("AnyKey")
                 .tokenValiditySeconds(600));
