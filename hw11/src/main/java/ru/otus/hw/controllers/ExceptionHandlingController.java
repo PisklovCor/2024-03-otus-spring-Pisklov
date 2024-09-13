@@ -14,9 +14,9 @@ public class ExceptionHandlingController {
         return "error/404";
     }
 
-    @ExceptionHandler(RuntimeException.class)
+    @ExceptionHandler(Exception.class)
     public String exceptionHandler(Exception ex) {
-        log.error("Error: [{}]", ex.getMessage());
+        log.error("Error: [{}]", ex.getMessage(), ex);
         return "error/500";
     }
 }
