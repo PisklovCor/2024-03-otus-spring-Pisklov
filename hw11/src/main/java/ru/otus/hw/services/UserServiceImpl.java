@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 
 import static org.springframework.util.CollectionUtils.isEmpty;
 
+@Deprecated
 @RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {

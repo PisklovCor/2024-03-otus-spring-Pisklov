@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DisplayName("Сервис для управления пользовательскими атрибутами ")
 @DataJpaTest
-@Import({UserDetailsServiceImpl.class, UserServiceImpl.class,  UserMapper.class, RoleMapper.class})
+@Import({UserDetailsServiceImpl.class, UserMapper.class, RoleMapper.class})
 @Transactional(propagation = Propagation.NEVER)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
