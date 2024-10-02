@@ -42,8 +42,9 @@ public class IntegrationConfiguration {
                 .handle(registrationService, "registration")
                 .<Instrument, InstrumentType>route(Instrument::getInstrumentType,
                         mapping -> mapping
-                                .subFlowMapping(BOND, instrumentBondFlow(tradingService))
-                                .subFlowMapping(SHARE, instrumentShareFlow(tradingService)))
+                                .subFlowMapping(BOND, sf -> sf.gateway(instrumentBondFlow(tradingService)))
+                                .subFlowMapping(SHARE, sf -> sf.gateway(instrumentShareFlow(tradingService))))
+                .aggregate()
                 .get();
     }
 

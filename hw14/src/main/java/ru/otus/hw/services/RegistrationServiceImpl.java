@@ -16,7 +16,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Override
     public Instrument registration(RawMessage message) {
-        log.info("--Registration {}", message);
+        log.info("-Registration {}", message);
 
         var price = message.getPrice();
         var quantity = message.getQuantity();
@@ -30,7 +30,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         instrument.setNominalValue(nominalValue);
         instrument.setSource(message.getSource());
 
-        log.info("----Registration sInstrumentId={}", instrument.getInstrumentId());
+        log.info("--Registration sInstrumentId={}", instrument.getInstrumentId());
 
         return instrument;
     }
