@@ -9,9 +9,15 @@
 mvn clean package
 ```
 
-#### Доступ до UI-интерфейса:
+#### UI-интерфейсы:
+#### Главная страница
 ````
 http://localhost:8080/
+````
+
+#### HAL Explorer - Swagger для Spring Data REST
+````
+http://localhost:8080/daterest/explorer/index.html#uri=/daterest/
 ````
 
 ### --- Prometheus ---

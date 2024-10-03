@@ -1,3 +1,6 @@
+###
+CLASSIC
+###
 GET http://localhost:8080/api/v1/book
 
 ###
@@ -44,3 +47,14 @@ Content-Type: application/json
 
 ###
 DELETE http://localhost:8080/api/v1/book/1
+
+###
+SPRING-DATA-REST
+###
+GET http://localhost:8080/daterest/book/1
+
+###
+GET http://localhost:8080/daterest/book/1/author
+
+###
+GET http://localhost:8080/daterest/comment/search/bookId?bookId=1
