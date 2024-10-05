@@ -1,4 +1,4 @@
 logging:
   level:
     root: info
-    org.springframework.integration: debug
+    org.springframework.integration: info
