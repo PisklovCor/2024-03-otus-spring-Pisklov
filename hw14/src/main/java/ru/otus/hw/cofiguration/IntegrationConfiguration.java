@@ -8,9 +8,12 @@ import org.springframework.integration.dsl.MessageChannels;
 import org.springframework.integration.dsl.PollerSpec;
 import org.springframework.integration.dsl.Pollers;
 import org.springframework.integration.dsl.IntegrationFlow;
+import org.springframework.integration.dsl.Transformers;
 import org.springframework.integration.scheduling.PollerMetadata;
+
 import ru.otus.hw.domain.Instrument;
 import ru.otus.hw.domain.InstrumentType;
+import ru.otus.hw.domain.RawMessage;
 import ru.otus.hw.services.RegistrationService;
 import ru.otus.hw.services.TradingService;
 
@@ -39,6 +42,7 @@ public class IntegrationConfiguration {
     public IntegrationFlow instrumentFlow(RegistrationService registrationService,TradingService tradingService) {
         return IntegrationFlow.from(registrationChannel())
                 .split()
+                .transform(Transformers.fromJson(RawMessage.class))
                 .handle(registrationService, "registration")
                 .<Instrument, InstrumentType>route(Instrument::getInstrumentType,
                         mapping -> mapping

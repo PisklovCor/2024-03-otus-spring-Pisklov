@@ -3,7 +3,6 @@ package ru.otus.hw.services;
 import org.springframework.integration.annotation.Gateway;
 import org.springframework.integration.annotation.MessagingGateway;
 import ru.otus.hw.domain.Instrument;
-import ru.otus.hw.domain.RawMessage;
 
 import java.util.Collection;
 
@@ -11,5 +10,5 @@ import java.util.Collection;
 public interface InstrumentGateway {
 
     @Gateway(requestChannel = "registrationChannel", replyChannel = "tradeChannel")
-    Collection<Instrument> process(Collection<RawMessage> rawMessages);
+    Collection<Instrument> process(Collection<String> jsonRawMessage);
 }
