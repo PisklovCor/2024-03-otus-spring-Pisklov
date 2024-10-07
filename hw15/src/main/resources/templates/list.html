@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="keywords" th:content="${keywords}"/>
+    <title>List of all books</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        .books {
+            border: 1px solid steelblue;
+            width: 800px;
+            border-collapse: collapse;
+        }
+
+        .books tr td, th {
+            padding: 5px;
+            border: 1px solid steelblue;
+        }
+
+        .books td:last-child, td:first-child {
+            width: 50px;
+        }
+
+        h3 {
+            background-image: url("../static/listmark.png");
+            background-repeat: no-repeat;
+            padding: 2px;
+            padding-left: 30px;
+        }
+
+    </style>
+
+    <style type="text/css" th:inline="text">
+        [[h3]] {
+            background-image: url([[@{/listmark.png}]]);
+            background-repeat: no-repeat;
+            padding: 2px;
+            padding-left: 30px;
+        }
+
+    </style>
+</head>
+
+<script>
+    function getListBook() {
+        fetch('/api/v1/book', {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        }).then(response => response.json())
+            .then((json) => {
+
+                let bookList = "";
+
+                json.forEach((book) => {
+
+                    let genreList = "";
+
+                    const genres = book.genres;
+
+                    genres.forEach((genre) => {
+                        genreList += `${genre.name} `
+                    });
+
+                    bookList += `<tr>
+                            <td>${book.id}</td>
+                            <td>${book.title} </td>
+                            <td>${book.author.fullName}</td>
+                            <td>${genreList}</td>
+                            <td>
+                                <form id="list-form">
+                                    <div class="row">
+                                        <a href="/book/edit?id=${book.id}">
+                                            <button type="button">Edit</button>
+                                        </a>
+                                        <button type="submit" onclick="deleteBook(${book.id})">Delete</button>
+                                    </div>
+                                </form>
+                            </td>
+                           </tr>`;
+                });
+
+                document.getElementById("book-body").innerHTML = bookList;
+            });
+    }
+
+    window.onload = () => {
+        getListBook();
+    };
+
+    function deleteBook(bookId) {
+        fetch("/api/v1/book/" + bookId, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+    }
+
+</script>
+
+<body>
+<h3>Books:</h3>
+
+<table class="books">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Genres</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody id="book-body">
+    </tbody>
+</table>
+<div class="row">
+    <a href="create.html" th:href="@{/book/create}">
+        <button type="button">Create new book</button>
+    </a>
+</div>
+</body>
+</html>
