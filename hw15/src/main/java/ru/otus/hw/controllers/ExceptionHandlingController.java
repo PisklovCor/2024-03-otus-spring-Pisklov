@@ -22,21 +22,21 @@ public class ExceptionHandlingController {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(BAD_REQUEST)
     public ErrorResponse methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException ex) {
-        log.error("Error: " + ExceptionHandlingController.class.getName(), ex);
+        log.error("Error: " + ex.getMessage(), ex);
         return createErrorResponseBody(ex);
     }
 
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(NOT_FOUND)
     public ErrorResponse notFoundExceptionHandler(NotFoundException ex) {
-        log.error("Error: " + ExceptionHandlingController.class.getName(), ex);
+        log.error("Error: " + ex.getMessage(), ex);
         return createErrorResponseBody(ex);
     }
 
     @ExceptionHandler(RuntimeException.class)
     @ResponseStatus(INTERNAL_SERVER_ERROR)
     public ErrorResponse exceptionHandler(Exception ex) {
-        log.error("Error: " + ExceptionHandlingController.class.getName(), ex);
+        log.error("Error: " + ex.getMessage(), ex);
         return createErrorResponseBody(ex);
     }
 

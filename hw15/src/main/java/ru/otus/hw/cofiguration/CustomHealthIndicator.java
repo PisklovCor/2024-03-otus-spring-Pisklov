@@ -1,34 +1,36 @@
 package ru.otus.hw.cofiguration;
 
+import lombok.AllArgsConstructor;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.boot.actuate.health.Status;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalTime;
+import ru.otus.hw.mappers.BookMapper;
+import ru.otus.hw.repositories.BookRepository;
 
 @Component
+@AllArgsConstructor
 public class CustomHealthIndicator implements HealthIndicator {
 
-    private static final LocalTime START_OF_THE_WORKING_DAY = LocalTime.of(9, 0);
+    private final BookMapper bookMapper;
 
-    private static final LocalTime END_OF_THE_WORKING_DAY = LocalTime.of(18, 0);
+    private final BookRepository bookRepository;
 
     @Override
     public Health health() {
 
-        final LocalTime time = LocalTime.now();
+        var bookList = bookRepository.findAll().stream().map(bookMapper::toDto).toList();;
 
-        if (time.isAfter(START_OF_THE_WORKING_DAY) && time.isBefore(END_OF_THE_WORKING_DAY)) {
-
-            return Health.up()
-                    .withDetail("message", "The service is working")
-                    .build();
-        } else {
+        if (bookList.isEmpty()) {
 
             return Health.down()
                     .status(Status.DOWN)
-                    .withDetail("message", "The service is only available from 9:00 to 18:00")
+                    .withDetail("message", "There are no books in the library")
+                    .build();
+        } else {
+
+            return Health.up()
+                    .withDetail("message", "The library is full")
                     .build();
         }
     }
