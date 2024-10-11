@@ -50,7 +50,7 @@ public class PrimaryDataConfig {
     }
 
     @Bean
-    @ConfigurationProperties("spring.datasource.primary.liquibase")
+    @ConfigurationProperties(prefix = "spring.datasource.primary.liquibase")
     public LiquibaseProperties primaryLiquibaseProperties() {
         return new LiquibaseProperties();
     }

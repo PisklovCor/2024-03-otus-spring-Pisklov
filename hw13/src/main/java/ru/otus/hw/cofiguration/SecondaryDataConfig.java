@@ -5,6 +5,7 @@ import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+import org.bson.UuidRepresentation;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.mongo.MongoProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -45,6 +46,7 @@ public class SecondaryDataConfig {
                         dataSourceSecondaryProperties.getPassword());
 
         return MongoClients.create(MongoClientSettings.builder()
+                .uuidRepresentation(UuidRepresentation.STANDARD)
                 .applyToClusterSettings(builder -> builder
                         .hosts(singletonList(new ServerAddress(
                                 dataSourceSecondaryProperties.getHost(),

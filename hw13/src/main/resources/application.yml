@@ -1,4 +1,9 @@
 spring:
+  batch:
+    job:
+      enabled: true
+    jdbc:
+      initialize-schema: always
   datasource:
     primary:
       url: jdbc:postgresql://localhost:5432/postgres
@@ -18,7 +23,6 @@ spring:
       database: mongo_db
       port: 27017
       host: localhost
-
   shell:
     interactive:
       enabled: true
