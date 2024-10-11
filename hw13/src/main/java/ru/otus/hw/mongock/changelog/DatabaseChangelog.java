@@ -39,26 +39,26 @@ public class DatabaseChangelog {
 
     @ChangeSet(order = "001", id = "initAuthor", author = "pisklov")
     public void initAuthor(AuthorMongoRepository repository) {
-        erichMariaRemarque = repository.save(new Author("Erich Maria Remarque"));
-        fyodorDostoyevsky = repository.save(new Author("Fyodor Dostoyevsky"));
-        ernestMillerHemingway = repository.save(new Author("Ernest Miller Hemingway"));
+        erichMariaRemarque = repository.save(new Author("Erich Maria Remarque_mongo_base_migration"));
+        fyodorDostoyevsky = repository.save(new Author("Fyodor Dostoyevsky_mongo_base_migration"));
+        ernestMillerHemingway = repository.save(new Author("Ernest Miller Hemingway_mongo_base_migration"));
     }
 
     @ChangeSet(order = "002", id = "initGenres", author = "pisklov")
     public void initGenres(GenreMongoRepository repository) {
 
-        fiction = repository.save(new Genre("Fiction"));
-        mystery = repository.save(new Genre("Mystery"));
-        thriller = repository.save(new Genre("Thriller"));
-        scienceFiction = repository.save(new Genre("Science fiction"));
-        fantasy = repository.save(new Genre("Fantasy"));
-        romance = repository.save(new Genre("Romance"));
+        fiction = repository.save(new Genre("Fiction_mongo_base_migration"));
+        mystery = repository.save(new Genre("Mystery_mongo_base_migration"));
+        thriller = repository.save(new Genre("Thriller_mongo_base_migration"));
+        scienceFiction = repository.save(new Genre("Science fiction_mongo_base_migration"));
+        fantasy = repository.save(new Genre("Fantasy_mongo_base_migration"));
+        romance = repository.save(new Genre("Romance_mongo_base_migration"));
     }
 
     @ChangeSet(order = "003", id = "initBook", author = "pisklov")
     public void initBook(BookMongoRepository repository) {
-        repository.save(new Book("Im Westen nichts Neues", erichMariaRemarque, fiction, mystery));
-        repository.save(new Book("The idiot", fyodorDostoyevsky, thriller, scienceFiction));
-        repository.save(new Book("For Whom the Bell Tolls", ernestMillerHemingway, fantasy, romance));
+        repository.save(new Book("Im Westen nichts Neues_mongo_base_migration", erichMariaRemarque, fiction, mystery));
+        repository.save(new Book("The idiot_mongo_base_migration", fyodorDostoyevsky, thriller, scienceFiction));
+        repository.save(new Book("For Whom the Bell Tolls_mongo_base_migration", ernestMillerHemingway, fantasy, romance));
     }
 }
