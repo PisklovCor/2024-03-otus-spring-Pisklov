@@ -57,8 +57,11 @@ public class DatabaseChangelog {
 
     @ChangeSet(order = "003", id = "initBook", author = "pisklov")
     public void initBook(BookMongoRepository repository) {
-        repository.save(new Book("Im Westen nichts Neues_mongo_base_migration", erichMariaRemarque, fiction, mystery));
-        repository.save(new Book("The idiot_mongo_base_migration", fyodorDostoyevsky, thriller, scienceFiction));
-        repository.save(new Book("For Whom the Bell Tolls_mongo_base_migration", ernestMillerHemingway, fantasy, romance));
+        repository.save(new Book("Im Westen nichts Neues_mongo_base_migration",
+                erichMariaRemarque, fiction, mystery));
+        repository.save(new Book("The idiot_mongo_base_migration",
+                fyodorDostoyevsky, thriller, scienceFiction));
+        repository.save(new Book("For Whom the Bell Tolls_mongo_base_migration",
+                ernestMillerHemingway, fantasy, romance));
     }
 }
