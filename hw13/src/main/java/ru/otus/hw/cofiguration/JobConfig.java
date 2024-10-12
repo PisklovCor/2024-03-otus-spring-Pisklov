@@ -34,7 +34,7 @@ public class JobConfig {
 
     private static final int PAGE_SIZE = 2;
 
-    private static final String MIGRATION_DATA_JOB_NAME = "migrationDataJob";
+    public static final String MIGRATION_DATA_JOB_NAME = "migrationDataJob";
 
     private static final String SQL_QUERY_AUTHORS = "select * from authors";
 

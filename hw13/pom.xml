@@ -27,6 +27,7 @@
         <checkstyle.config.url>
             https://raw.githubusercontent.com/OtusTeam/Spring/master/checkstyle.xml
         </checkstyle.config.url>
+        <reflections.version>0.10.2</reflections.version>
     </properties>
 
 
@@ -117,6 +118,13 @@
         </dependency>
 
         <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <scope>test</scope>
+            <version>${reflections.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>de.flapdoodle.embed</groupId>
             <artifactId>de.flapdoodle.embed.mongo</artifactId>
             <version>${flapdoodle.version}</version>
@@ -126,6 +134,14 @@
         <dependency>
             <groupId>org.springframework.batch</groupId>
             <artifactId>spring-batch-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
