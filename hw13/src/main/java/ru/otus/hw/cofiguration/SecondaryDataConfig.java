@@ -21,8 +21,8 @@ import ru.otus.hw.repositories.secondary.AuthorMongoRepository;
 import static java.util.Collections.singletonList;
 
 /**
- * Конфигурация создана на основе стать:
- * <a href="https://www.baeldung.com/mongodb-multiple-databases-spring-data">...</a>
+ * Конфигурация создана на основе статей:
+ * @see <a href="https://www.baeldung.com/mongodb-multiple-databases-spring-data">MongoDB Multiple-datasources</a>
  */
 @Configuration
 @EnableMongoRepositories(basePackageClasses = AuthorMongoRepository.class, mongoTemplateRef = "secondaryMongoTemplate")

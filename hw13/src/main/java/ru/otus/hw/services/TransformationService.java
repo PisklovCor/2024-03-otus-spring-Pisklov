@@ -8,6 +8,8 @@ import com.google.common.cache.CacheBuilder;
 import ru.otus.hw.models.primary.Book;
 import ru.otus.hw.models.primary.Genre;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -55,19 +57,51 @@ public class TransformationService {
 
         final UUID bookUUID = UUID.randomUUID();
 
-        var author = authorsCache.get(book.getAuthor().getFullName(),
+        var authorByCache = authorsCache.get(book.getAuthor().getFullName(),
                 new Callable<ru.otus.hw.models.secondary.Author>() {
             @Override
             public ru.otus.hw.models.secondary.Author call()  {
-                throw new NoSuchElementCacheException("Element not found in cache");
+                throw new NoSuchElementCacheException("Element author not found in authorsCache");
             }
         });
+
+        var genres = gettingListValueFromGenreCache(book.getGenres());
 
         var transformedBook = new ru.otus.hw.models.secondary.Book();
         transformedBook.setId(bookUUID.toString());
         transformedBook.setTitle(book.getTitle());
-        transformedBook.setAuthor(author);
+        transformedBook.setAuthor(authorByCache);
+        transformedBook.setGenres(genres);
 
         return transformedBook;
+    }
+
+    /**
+     * Получение из кеша (genresCache) списка жанров по импортируемой книги
+     *
+     * @param genres список жанров импортируемой книги
+     * @exception ExecutionException выкидывает ошибку при работе с кешом
+     * @exception NoSuchElementCacheException выкидывает ошибку при отсутствие искомого объекта в кеше
+     * @return List<ru.otus.hw.models.secondary.Genre> созданныые жанры из кеша
+     */
+    private List<ru.otus.hw.models.secondary.Genre> gettingListValueFromGenreCache(List<Genre> genres)
+            throws ExecutionException {
+
+        var outputGenresList = new ArrayList<ru.otus.hw.models.secondary.Genre>();
+
+        for (Genre genre : genres) {
+
+            var genreByCache = genresCache.get(genre.getName(),
+                    new Callable<ru.otus.hw.models.secondary.Genre>() {
+                        @Override
+                        public ru.otus.hw.models.secondary.Genre call()  {
+                            throw new NoSuchElementCacheException("Element genre not found in genresCache");
+                        }
+                    });
+
+            outputGenresList.add(genreByCache);
+        }
+
+        return outputGenresList;
     }
 }

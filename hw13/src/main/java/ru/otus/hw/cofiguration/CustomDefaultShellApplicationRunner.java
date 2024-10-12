@@ -7,9 +7,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-/** Создание дополнительного бина для увеличения очереди запуска ShellApplicationRunner
+/**
+ * Создание дополнительного бина для увеличения очереди запуска ShellApplicationRunner
  * т.к. дефолтная реализация запускает внеочереди @Order(DefaultShellApplicationRunner.PRECEDENCE)
- * решение частично основано на статье: <a href="https://otus.ru/nest/post/1557">...</a>
+ *
+ * @see <a href="https://otus.ru/nest/post/1557">Работа со Spring Shell и Mongock из Spring Boot</a>
  */
 @Order(10)
 @Component

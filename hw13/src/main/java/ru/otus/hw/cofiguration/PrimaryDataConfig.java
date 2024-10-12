@@ -23,14 +23,9 @@ import ru.otus.hw.models.primary.Author;
 import javax.sql.DataSource;
 
 /**
- * Конфигурация создана на основе стать:
- * DataSource
- * <a href="https://www.baeldung.com/spring-boot-configure-multiple-datasources">...</a>
- * SpringLiquibase
- * <a href="https://stackoverflow.com/questions/43523971/how-to-set-up-liquibase-in-spring-for-multiple-data-sources">
- *     </a>
- *
- *
+ * Конфигурация создана на основе статей:
+ * @see <a href="https://www.baeldung.com/spring-boot-configure-multiple-datasources">JPA Multiple-datasources</a>
+ * @see <a href="https://stackoverflow.com/questions/43523971">SpringLiquibase Multiple-datasources</a>
  */
 @Configuration
 @EnableTransactionManagement
