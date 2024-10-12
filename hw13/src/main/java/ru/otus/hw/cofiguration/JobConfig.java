@@ -22,6 +22,7 @@ import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.transaction.PlatformTransactionManager;
 import ru.otus.hw.models.primary.Author;
+import ru.otus.hw.models.primary.Book;
 import ru.otus.hw.models.primary.Genre;
 import ru.otus.hw.services.TransformationService;
 
@@ -31,11 +32,15 @@ public class JobConfig {
 
     private static final int CHUNK_SIZE = 2;
 
+    private static final int PAGE_SIZE = 2;
+
     private static final String MIGRATION_DATA_JOB_NAME = "migrationDataJob";
 
     private static final String SQL_QUERY_AUTHORS = "select * from authors";
 
     private static final String SQL_QUERY_GENRES = "select * from genres";
+
+    private static final String SQL_QUERY_BOOK = "select * from books";
 
     @Autowired
     private JobRepository jobRepository;
@@ -57,7 +62,7 @@ public class JobConfig {
         queryProvider.afterPropertiesSet();
 
         readerAuthor.setEntityManagerFactory(primaryEntityManagerFactory);
-        readerAuthor.setPageSize(3);
+        readerAuthor.setPageSize(PAGE_SIZE);
         readerAuthor.setQueryProvider(queryProvider);
         readerAuthor.afterPropertiesSet();
         readerAuthor.setSaveState(true);
@@ -76,12 +81,31 @@ public class JobConfig {
         queryProvider.afterPropertiesSet();
 
         readerGenre.setEntityManagerFactory(primaryEntityManagerFactory);
-        readerGenre.setPageSize(3);
+        readerGenre.setPageSize(PAGE_SIZE);
         readerGenre.setQueryProvider(queryProvider);
         readerGenre.afterPropertiesSet();
         readerGenre.setSaveState(true);
 
         return readerGenre;
+    }
+
+    @Bean
+    public JpaPagingItemReader<Book> jpaPagingBookItemReader() throws Exception {
+
+        JpaPagingItemReader<Book> readerBook = new JpaPagingItemReader<>();
+
+        JpaNativeQueryProvider<Book> queryProvider = new JpaNativeQueryProvider<>();
+        queryProvider.setSqlQuery(SQL_QUERY_BOOK);
+        queryProvider.setEntityClass(Book.class);
+        queryProvider.afterPropertiesSet();
+
+        readerBook.setEntityManagerFactory(primaryEntityManagerFactory);
+        readerBook.setPageSize(PAGE_SIZE);
+        readerBook.setQueryProvider(queryProvider);
+        readerBook.afterPropertiesSet();
+        readerBook.setSaveState(true);
+
+        return readerBook;
     }
 
     @Bean
@@ -94,6 +118,12 @@ public class JobConfig {
     public ItemProcessor<Genre, ru.otus.hw.models.secondary.Genre> processorGenre(
             TransformationService transformationService) {
         return transformationService::transformationGenre;
+    }
+
+    @Bean
+    public ItemProcessor<Book, ru.otus.hw.models.secondary.Book> processorBook(
+            TransformationService transformationService) {
+        return transformationService::transformationBook;
     }
 
     @Bean
@@ -111,11 +141,18 @@ public class JobConfig {
     }
 
     @Bean
-    public Job migrationDataJob(Step transformAuthorStep, Step transformGenreStep) {
+    public MongoItemWriter<ru.otus.hw.models.secondary.Book> writerBook(MongoTemplate secondaryMongoTemplate) {
+        MongoItemWriter<ru.otus.hw.models.secondary.Book> writer = new MongoItemWriter<>();
+        writer.setTemplate(secondaryMongoTemplate);
+        return writer;
+    }
+
+    @Bean
+    public Job migrationDataJob(Step transformAuthorStep, Step transformGenreStep, Step transformBookStep) {
         return new JobBuilder(MIGRATION_DATA_JOB_NAME, jobRepository)
                 .incrementer(new RunIdIncrementer())
                 .start(splitFlow(transformAuthorStep, transformGenreStep))
-                //.next(create book)
+                .next(transformBookStep)
                 .end()
                 .build();
     }
@@ -163,6 +200,18 @@ public class JobConfig {
                 .reader(jpaPagingGenreItemReader)
                 .processor(processorGenre)
                 .writer(writerGenre)
+                .build();
+    }
+
+    @Bean
+    public Step transformBookStep(JpaPagingItemReader<Book> jpaPagingBookItemReader,
+                                   MongoItemWriter<ru.otus.hw.models.secondary.Book> writerBook,
+                                   ItemProcessor<Book, ru.otus.hw.models.secondary.Book> processorBook) {
+        return new StepBuilder("transformBookStep", jobRepository)
+                .<Book, ru.otus.hw.models.secondary.Book>chunk(CHUNK_SIZE, platformTransactionManager)
+                .reader(jpaPagingBookItemReader)
+                .processor(processorBook)
+                .writer(writerBook)
                 .build();
     }
 }
