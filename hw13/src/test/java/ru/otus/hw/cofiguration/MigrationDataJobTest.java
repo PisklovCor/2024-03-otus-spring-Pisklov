@@ -22,6 +22,10 @@ import static ru.otus.hw.cofiguration.JobConfig.MIGRATION_DATA_JOB_NAME;
 @SpringBatchTest
 class MigrationDataJobTest {
 
+    private static final int EXPECTED_COUNT_BOOKS = 3;
+    private static final int EXPECTED_COUNT_GENRES = 2;
+    private static final String STATUS_COMPLETED_JOB = "COMPLETED";
+
     @Autowired
     private JobLauncherTestUtils jobLauncherTestUtils;
 
@@ -48,8 +52,12 @@ class MigrationDataJobTest {
         JobParameters parameters = new JobParametersBuilder().toJobParameters();
         JobExecution jobExecution = jobLauncherTestUtils.launchJob(parameters);
 
-        assertThat(jobExecution.getExitStatus().getExitCode()).isEqualTo("COMPLETED");
+        assertThat(jobExecution.getExitStatus().getExitCode()).isEqualTo(STATUS_COMPLETED_JOB);
 
-        var book = bookMongoRepository.findAll();
+        var expectedBooks = bookMongoRepository.findAll();
+
+        assertThat(expectedBooks).isNotNull().hasSize(EXPECTED_COUNT_BOOKS)
+                .allMatch(b -> !b.getTitle().isEmpty())
+                .allMatch(b -> b.getGenres().size() == EXPECTED_COUNT_GENRES);
     }
 }
