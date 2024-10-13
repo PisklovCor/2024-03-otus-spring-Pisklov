@@ -1,15 +1,13 @@
 spring:
   batch:
     job:
-      enabled: true
+      enabled: false
     jdbc:
       initialize-schema: always
   datasource:
     primary:
-      url: jdbc:postgresql://localhost:5432/postgres
-      username: admin
-      password: admin
-      driver-class-name: org.postgresql.Driver
+      url: jdbc:h2:mem:testdb
+      driver-class-name: org.h2.Driver
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
       liquibase:

@@ -12,6 +12,7 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
+import ru.otus.hw.repositories.secondary.BookMongoRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.otus.hw.cofiguration.JobConfig.MIGRATION_DATA_JOB_NAME;
@@ -26,6 +27,9 @@ class MigrationDataJobTest {
 
     @Autowired
     private JobRepositoryTestUtils jobRepositoryTestUtils;
+
+    @Autowired
+    private BookMongoRepository bookMongoRepository;
 
     @BeforeEach
     void clearMetaData() {
@@ -45,5 +49,7 @@ class MigrationDataJobTest {
         JobExecution jobExecution = jobLauncherTestUtils.launchJob(parameters);
 
         assertThat(jobExecution.getExitStatus().getExitCode()).isEqualTo("COMPLETED");
+
+        var book = bookMongoRepository.findAll();
     }
 }
