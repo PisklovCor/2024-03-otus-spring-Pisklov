@@ -30,11 +30,11 @@ import ru.otus.hw.services.TransformationService;
 @Configuration
 public class JobConfig {
 
+    public static final String MIGRATION_DATA_JOB_NAME = "migrationDataJob";
+
     private static final int CHUNK_SIZE = 2;
 
     private static final int PAGE_SIZE = 2;
-
-    public static final String MIGRATION_DATA_JOB_NAME = "migrationDataJob";
 
     private static final String SQL_QUERY_AUTHORS = "select * from authors";
 

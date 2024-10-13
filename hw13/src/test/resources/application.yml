@@ -13,7 +13,7 @@ spring:
       liquibase:
         default-schema: public
         enabled: true
-        change-log: classpath:/db/changelog/db.changelog-master.yaml
+        change-log: db/changelog/1.0.0/2024-10-09--0001-schema.sql
     secondary:
       authentication-database: admin
       username: root
@@ -31,6 +31,7 @@ spring:
         enabled: false
 
 mongock:
+  enabled: false
   runner-type: "InitializingBean"
   change-logs-scan-package:
     - ru.otus.hw.mongock.changelog
