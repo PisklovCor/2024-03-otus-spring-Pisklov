@@ -1,0 +1,46 @@
+spring:
+  batch:
+    job:
+      enabled: true
+    jdbc:
+      initialize-schema: always
+  datasource:
+    primary:
+      url: jdbc:postgresql://localhost:5432/postgres
+      username: admin
+      password: admin
+      driver-class-name: org.postgresql.Driver
+      hibernate:
+          dialect: org.hibernate.dialect.PostgreSQLDialect
+      liquibase:
+        default-schema: public
+        enabled: true
+        change-log: classpath:/db/changelog/db.changelog-master.yaml
+    secondary:
+      authentication-database: admin
+      username: root
+      password: root
+      database: mongo_db
+      port: 27017
+      host: localhost
+  shell:
+    interactive:
+      enabled: true
+    noninteractive:
+      enabled: false
+    command:
+      version:
+        enabled: false
+
+mongock:
+  runner-type: "InitializingBean"
+  change-logs-scan-package:
+    - ru.otus.hw.mongock.changelog
+  mongo-db:
+    write-concern:
+      journal: false
+    read-concern: local
+
+logging:
+  level:
+    root: info

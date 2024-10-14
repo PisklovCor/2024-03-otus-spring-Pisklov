@@ -1,0 +1,51 @@
+spring:
+  batch:
+    job:
+      enabled: false
+    jdbc:
+      initialize-schema: always
+  datasource:
+    primary:
+      url: jdbc:h2:mem:testdb
+      driver-class-name: org.h2.Driver
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+      liquibase:
+        default-schema: public
+        enabled: true
+        change-log: db/changelog/1.0.0/2024-10-09--0001-schema.sql
+    secondary:
+      authentication-database: admin
+      username: root
+      password: root
+      database: mongo_db
+      port: 27017
+      host: localhost
+  shell:
+    interactive:
+      enabled: false
+    noninteractive:
+      enabled: false
+    command:
+      version:
+        enabled: false
+
+mongock:
+  enabled: false
+  runner-type: "InitializingBean"
+  change-logs-scan-package:
+    - ru.otus.hw.mongock.changelog
+  mongo-db:
+    write-concern:
+      journal: false
+    read-concern: local
+
+de:
+  flapdoodle:
+    mongodb:
+      embedded:
+        version: 4.0.2
+
+logging:
+  level:
+    root: info
