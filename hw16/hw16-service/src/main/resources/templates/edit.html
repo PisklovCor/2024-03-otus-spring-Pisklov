@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Edit person</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        .genres {
+            border: 1px solid steelblue;
+            width: 280px;
+            border-collapse: collapse;
+        }
+
+        .genres tr td, th {
+            padding: 5px;
+            border: 1px solid steelblue;
+        }
+
+        .genres td:last-child, td:first-child {
+            width: 50px;
+        }
+
+        input:read-only {
+            background: lightgray;
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Book edition -->
+<form id="edit-form" action="edit.html" th:method="post" th:action="@{/book/save(id=${book.id})}" th:object="${book}">
+    <h3>Book Info:</h3>
+
+    <div class="row">
+        <label for="book-id-input">ID:</label>
+        <input id="book-id-input" type="text" readonly="readonly" value="1" th:value="*{id}"/>
+    </div>
+
+    <div class="row">
+        <label for="book-title-input">Title:</label>
+        <input id="book-title-input" name="title" type="text" value="Clean Code Collection" th:value="*{title}"/>
+    </div>
+
+    <!-- Author edition select -->
+    <div class="row">
+        <label for="book-author-select">Author:</label>
+        <select id="book-author-select" name="author.id" th:field="*{author.id}">
+            <option th:each="author : ${authors}" th:value="${author.id}" th:text="${author.fullName}">Name</option>
+        </select>
+    </div>
+
+    <!-- Genre edition table select -->
+    <div class="row">
+        <label>Genres:</label>
+        <table class="genres">
+            <thead>
+            <tr>
+                <th>Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="genre, itemStat : ${book.genres}">
+                <td>
+                    <label for="book-genre-test-input"></label>
+                    <select id="book-genre-test-input" th:field="${book.genres[__${itemStat.index}__].id}">
+                        <option th:each="genre : ${genres}" th:value="${genre.id}" th:text="${genre.name}"></option>
+                    </select>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row">
+        <button type="submit">Save</button>
+        <a href="list.html" th:href="@{/book}"><button type="button">Cancel</button></a>
+    </div>
+</form>
+
+</body>
+</html>

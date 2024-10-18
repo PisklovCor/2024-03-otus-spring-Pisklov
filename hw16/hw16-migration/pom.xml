@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>ru.otus</groupId>
+    <artifactId>hw16-migration</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+<!--        <docker.db.url.jdbc>${JDBC_URL}</docker.db.url.jdbc>-->
+<!--        <docker.db.username.jdbc>${JDBC_USERNAME}</docker.db.username.jdbc>-->
+<!--        <docker.db.password.jdbc>${JDBC_PASSWORD}</docker.db.password.jdbc>-->
+    </properties>
+
+<!--    <profiles>-->
+<!--        <profile>-->
+<!--            <id>docker</id>-->
+<!--            <properties>-->
+<!--                <liquibase.changeLogFile>src/main/resources/db/changelog/db.changelog-master.yaml</liquibase.changeLogFile>-->
+<!--                <liquibase.url>${docker.db.url.jdbc}</liquibase.url>-->
+<!--                <liquibase.username>${docker.db.username.jdbc}</liquibase.username>-->
+<!--                <liquibase.password>${docker.db.password.jdbc}</liquibase.password>-->
+<!--            </properties>-->
+<!--        </profile>-->
+<!--    </profiles>-->
+
+
+    <dependencies>
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>4.24.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.6.2</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>src/main/docker</directory>
+            </resource>
+        </resources>
+            <plugins>
+                <plugin>
+                    <groupId>org.liquibase</groupId>
+                    <artifactId>liquibase-maven-plugin</artifactId>
+                    <version>4.4.3</version>
+                    <configuration>
+                        <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+                        <changeLogFile>src/main/resources/db/changelog/db.changelog-master.yaml</changeLogFile>
+                        <driver>org.postgresql.Driver</driver>
+                        <verbose>true</verbose>
+                        <includeArtifact>false</includeArtifact>
+                        <includeTestOutputDirectory>false</includeTestOutputDirectory>
+                        <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+                        <propertyFile>src/main/resources/application.properties</propertyFile>
+<!--                        <url>${docker.db.url.jdbc}</url>-->
+<!--                        <username>${docker.db.username.jdbc}</username>-->
+<!--                        <password>${docker.db.password.jdbc}</password>-->
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.postgresql</groupId>
+                            <artifactId>postgresql</artifactId>
+                            <version>42.6.2</version>
+                        </dependency>
+                    </dependencies>
+                    <executions>
+                        <execution>
+                            <phase>process-resources</phase>
+                            <goals>
+                                <goal>clearCheckSums</goal>
+                                <goal>update</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+    </build>
+</project>
