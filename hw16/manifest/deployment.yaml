@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hw-deployment
+  labels:
+    app: hw-app-k8s
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      env: hw
+  template:
+    metadata:
+      labels:
+        env: hw
+    spec:
+      containers:
+      - name: hw-app
+        image: pisklovcor/hw-16-service-docker:dockerfile
+        ports:
+          - containerPort: 8000
+        env:
+          - name: spring.datasource.url
+            valueFrom:
+              configMapKeyRef:
+                name: hw-service-config
+                key: datasourceUrl
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  labels:
+    app: hw-postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      env: postgres-app
+  template:
+    metadata:
+      labels:
+        env: postgres-app
+    spec:
+      containers:
+        - name  : postgres-13
+          image : postgres:13.3
+          ports :
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key : postgresDb
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key : postgresUser
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key : postgresPassword
