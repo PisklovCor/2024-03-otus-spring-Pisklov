@@ -12,22 +12,28 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-<!--        <docker.db.url.jdbc>${JDBC_URL}</docker.db.url.jdbc>-->
-<!--        <docker.db.username.jdbc>${JDBC_USERNAME}</docker.db.username.jdbc>-->
-<!--        <docker.db.password.jdbc>${JDBC_PASSWORD}</docker.db.password.jdbc>-->
     </properties>
 
-<!--    <profiles>-->
-<!--        <profile>-->
-<!--            <id>docker</id>-->
-<!--            <properties>-->
-<!--                <liquibase.changeLogFile>src/main/resources/db/changelog/db.changelog-master.yaml</liquibase.changeLogFile>-->
-<!--                <liquibase.url>${docker.db.url.jdbc}</liquibase.url>-->
-<!--                <liquibase.username>${docker.db.username.jdbc}</liquibase.username>-->
-<!--                <liquibase.password>${docker.db.password.jdbc}</liquibase.password>-->
-<!--            </properties>-->
-<!--        </profile>-->
-<!--    </profiles>-->
+    <profiles>
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <skipLiquibaseRun>true</skipLiquibaseRun>
+            </properties>
+        </profile>
+        <profile>
+            <id>docker</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <skipLiquibaseRun>false</skipLiquibaseRun>
+            </properties>
+        </profile>
+    </profiles>
 
 
     <dependencies>
@@ -58,7 +64,7 @@
                     <artifactId>liquibase-maven-plugin</artifactId>
                     <version>4.4.3</version>
                     <configuration>
-                        <skip>true</skip>
+                        <skip>${skipLiquibaseRun}</skip>
                         <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
                         <changeLogFile>src/main/resources/db/changelog/db.changelog-master.yaml</changeLogFile>
                         <driver>org.postgresql.Driver</driver>
@@ -66,10 +72,6 @@
                         <includeArtifact>false</includeArtifact>
                         <includeTestOutputDirectory>false</includeTestOutputDirectory>
                         <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
-                        <propertyFile>src/main/resources/application.properties</propertyFile>
-<!--                        <url>${docker.db.url.jdbc}</url>-->
-<!--                        <username>${docker.db.username.jdbc}</username>-->
-<!--                        <password>${docker.db.password.jdbc}</password>-->
                     </configuration>
                     <dependencies>
                         <dependency>
