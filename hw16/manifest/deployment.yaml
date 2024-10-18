@@ -5,7 +5,7 @@ metadata:
   labels:
     app: hw-app-k8s
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       env: hw

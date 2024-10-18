@@ -10,17 +10,17 @@ spec:
           image: pisklovcor/hw-16-migration-docker:dockerfile
           command: ["mvn", "liquibase:update", "-Pdocker", "-e"]
           env:
-            - name: liquibase.url
+            - name: LIQUIBASE_DATABASE
               valueFrom:
                 configMapKeyRef:
                   name: hw-service-config
                   key: datasourceUrl
-            - name: liquibase.username
+            - name: LIQUIBASE_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: postgres-secret
                   key: postgresUser
-            - name: liquibase.password
+            - name: LIQUIBASE_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: postgres-secret

@@ -12,6 +12,12 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!--suppress UnresolvedMavenProperty -->
+        <docker.db.url>${LIQUIBASE_DATABASE}</docker.db.url>
+        <!--suppress UnresolvedMavenProperty -->
+        <docker.db.username>${LIQUIBASE_USERNAME}</docker.db.username>
+        <!--suppress UnresolvedMavenProperty -->
+        <docker.db.password>${LIQUIBASE_PASSWORD}</docker.db.password>
     </properties>
 
     <profiles>
@@ -72,6 +78,9 @@
                         <includeArtifact>false</includeArtifact>
                         <includeTestOutputDirectory>false</includeTestOutputDirectory>
                         <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+                        <url>${docker.db.url}</url>
+                        <username>${docker.db.username}</username>
+                        <password>${docker.db.password}</password>
                     </configuration>
                     <dependencies>
                         <dependency>
