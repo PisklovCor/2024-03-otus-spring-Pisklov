@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>List of all books</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        .books {
+            border: 1px solid steelblue;
+            width: 800px;
+            border-collapse: collapse;
+        }
+
+        .books tr td, th {
+            padding: 5px;
+            border: 1px solid steelblue;
+        }
+
+        .books td:last-child, td:first-child {
+            width: 50px;
+        }
+
+        h3 {
+            background-image: url("../static/listmark.png");
+            background-repeat: no-repeat;
+            padding: 2px;
+            padding-left: 30px;
+        }
+
+    </style>
+
+    <style type="text/css" th:inline="text">
+        [[h3]] {
+            background-image: url([[@{/listmark.png}]]);
+            background-repeat: no-repeat;
+            padding: 2px;
+            padding-left: 30px;
+        }
+
+    </style>
+</head>
+<body>
+
+<h3>Books:</h3>
+
+<table class="books">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Genres</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book : ${books}">
+        <td th:text="${book.id}">1</td>
+        <td th:text="${book.title}">Clean Code Collection</td>
+        <td th:text="${book.author.fullName}">Robert C. Martin</td>
+        <td th:field="${book.genres}">
+            <option th:each="genre : ${book.genres}" th:value="${genre.name}" th:text="${genre.name}"></option></td>
+        <td>
+            <form id="list-form" action="list.html" th:method="post" th:action="@{/book/delete(id=${book.id})}"
+                  th:object="${book}">
+                <div class="row">
+                    <a href="edit.html" th:href="@{/book/edit(id=${book.id})}">
+                        <button type="button">Edit</button>
+                    </a>
+                    <button type="submit">Delete</button>
+                </div>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<div class="row">
+    <a href="create.html" th:href="@{/book/create}">
+        <button type="button">Create new book</button>
+    </a>
+</div>
+</body>
+</html>

@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-hw-service
+
+spec:
+  selector:
+    env: hw
+  ports:
+    - protocol  : {{ .Values.ports.protocol }}
+      port      : {{ .Values.ports.port }}
+      targetPort: {{ .Values.container.service.containerPort }}
+  type: ClusterIP
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-postgres-svc
+
+spec:
+  selector:
+    env: postgres-app
+  ports:
+    - port      : {{ .Values.container.postgres.containerPort }}
+      targetPort: {{ .Values.container.postgres.containerPort }}
