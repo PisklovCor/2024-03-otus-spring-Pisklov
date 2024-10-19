@@ -17,7 +17,7 @@ mvn clean package
 
 ### Запуск миграции на локальной базе данных
 ````
-mvn liquibase:update -Dliquibase.url=jdbc:postgresql://localhost:5432/postgres -Dliquibase.username=admin -Dliquibase.password=admin -Pdocker
+mvn liquibase:update -Dliquibase.url=jdbc:postgresql://localhost:5454/postgres -Dliquibase.username=admin -Dliquibase.password=admin -Pdocker
 ````
 
 ### Сборка образа
