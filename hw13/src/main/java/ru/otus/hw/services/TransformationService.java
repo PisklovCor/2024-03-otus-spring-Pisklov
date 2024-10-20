@@ -41,7 +41,7 @@ public class TransformationService {
 
         var transformedGenre = new ru.otus.hw.models.secondary.Genre();
         transformedGenre.setId(UUID.randomUUID().toString());
-        transformedGenre.setName( genre.getName());
+        transformedGenre.setName(genre.getName());
         genresCache.put(genre.getId(), transformedGenre);
 
         return transformedGenre;
