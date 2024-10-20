@@ -1,0 +1,26 @@
+version: '3.3'
+services:
+  mongo:
+    ports:
+      - '27017:27017'
+    container_name: mongo_container
+    restart: always
+    logging:
+      options:
+        max-size: 1g
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+    image: mongo
+
+  postgres:
+    image: postgres:13.3
+    container_name: postgres_container
+    environment:
+      POSTGRES_DB: "postgres"
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "admin"
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
