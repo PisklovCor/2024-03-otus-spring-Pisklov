@@ -18,37 +18,31 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class TransformationService {
 
-    private final Cache<String, ru.otus.hw.models.secondary.Author> authorsCache = CacheBuilder.newBuilder()
+    private final Cache<Long, ru.otus.hw.models.secondary.Author> authorsCache = CacheBuilder.newBuilder()
             .expireAfterWrite(5, TimeUnit.MINUTES)
             .build();
 
-    private final Cache<String, ru.otus.hw.models.secondary.Genre> genresCache = CacheBuilder.newBuilder()
+    private final Cache<Long, ru.otus.hw.models.secondary.Genre> genresCache = CacheBuilder.newBuilder()
             .expireAfterWrite(5, TimeUnit.MINUTES)
             .build();
 
     public ru.otus.hw.models.secondary.Author transformationAuthor(Author author) {
 
-        final String authorFullName = author.getFullName();
-        final UUID authorUUID = UUID.randomUUID();
-
         var transformedAuthor = new ru.otus.hw.models.secondary.Author();
-        transformedAuthor.setId(authorUUID.toString());
-        transformedAuthor.setName(authorFullName);
+        transformedAuthor.setId(UUID.randomUUID().toString());
+        transformedAuthor.setName(author.getFullName());
 
-        authorsCache.put(authorFullName, transformedAuthor);
+        authorsCache.put(author.getId(), transformedAuthor);
 
         return transformedAuthor;
     }
 
     public ru.otus.hw.models.secondary.Genre transformationGenre(Genre genre) {
 
-        final String genreName = genre.getName();
-        final UUID genreUUID = UUID.randomUUID();
-
         var transformedGenre = new ru.otus.hw.models.secondary.Genre();
-        transformedGenre.setId(genreUUID.toString());
-        transformedGenre.setName(genreName);
-        genresCache.put(genreName, transformedGenre);
+        transformedGenre.setId(UUID.randomUUID().toString());
+        transformedGenre.setName( genre.getName());
+        genresCache.put(genre.getId(), transformedGenre);
 
         return transformedGenre;
     }
@@ -57,7 +51,7 @@ public class TransformationService {
 
         final UUID bookUUID = UUID.randomUUID();
 
-        var authorByCache = authorsCache.get(book.getAuthor().getFullName(),
+        var authorByCache = authorsCache.get(book.getAuthor().getId(),
                 new Callable<ru.otus.hw.models.secondary.Author>() {
             @Override
             public ru.otus.hw.models.secondary.Author call()  {
@@ -91,7 +85,7 @@ public class TransformationService {
 
         for (Genre genre : genres) {
 
-            var genreByCache = genresCache.get(genre.getName(),
+            var genreByCache = genresCache.get(genre.getId(),
                     new Callable<ru.otus.hw.models.secondary.Genre>() {
                         @Override
                         public ru.otus.hw.models.secondary.Genre call()  {
