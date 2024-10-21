@@ -1,0 +1,7 @@
+${AnsiColor.1}${AnsiBackground.233}  _____ _     _    _             _____
+${AnsiBackground.235} |  __ (_)   | |  | |           / ____|
+${AnsiBackground.237} | |__) | ___| | _| | _____   _| |     ___  _ __
+${AnsiBackground.239} |  ___/ / __| |/ / |/ _ \ \ / / |    / _ \| '__|
+${AnsiBackground.241} | |   | \__ \   <| | (_) \ V /| |___| (_) | |
+${AnsiBackground.243} |_|   |_|___/_|\_\_|\___/ \_/  \_____\___/|_|
+${AnsiBackground.DEFAULT}${AnsiColor.DEFAULT}
