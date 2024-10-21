@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}-hw-job
+spec:
+  template:
+    spec:
+      containers:
+        - name: {{ .Release.Name }}-hw-migration
+          image: {{ .Values.container.migration.image }}
+          command: ["mvn", "liquibase:update", "-Pdocker", "-e"]
+          env:
+            - name: LIQUIBASE_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Release.Name }}-hw-config
+                  key: datasourceUrl
+            - name: LIQUIBASE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-postgres-secret
+                  key: postgresUser
+            - name: LIQUIBASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-postgres-secret
+                  key: postgresPassword
+      restartPolicy: Never
+  backoffLimit: {{ .Values.container.migration.backoffLimit }}
