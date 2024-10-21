@@ -65,5 +65,4 @@ public class StreamsIOService implements IOService {
         printLine(prompt);
         return readIntForRange(min, max, errorMessage);
     }
-
 }

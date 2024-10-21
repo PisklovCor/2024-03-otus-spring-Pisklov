@@ -11,20 +11,23 @@ public class ResultServiceImpl implements ResultService {
 
     private final TestConfig testConfig;
 
-    private final IOService ioService;
+    private final LocalizedIOService ioService;
 
     @Override
     public void showResult(TestResult testResult) {
         ioService.printLine("");
-        ioService.printLine("Test results: ");
-        ioService.printFormattedLine("Student: %s", testResult.getStudent().getFullName());
-        ioService.printFormattedLine("Answered questions count: %d", testResult.getAnsweredQuestions().size());
-        ioService.printFormattedLine("Right answers count: %d", testResult.getRightAnswersCount());
+        ioService.printLineLocalized("ResultService.test.results");
+        ioService.printFormattedLineLocalized("ResultService.student",
+                testResult.getStudent().getFullName());
+        ioService.printFormattedLineLocalized("ResultService.answered.questions.count",
+                testResult.getAnsweredQuestions().size());
+        ioService.printFormattedLineLocalized("ResultService.right.answers.count",
+                testResult.getRightAnswersCount());
 
         if (testResult.getRightAnswersCount() >= testConfig.getRightAnswersCountToPass()) {
-            ioService.printLine("Congratulations! You passed test!");
+            ioService.printLine("ResultService.passed.test");
             return;
         }
-        ioService.printLine("Sorry. You fail test.");
+        ioService.printLineLocalized("ResultService.fail.test");
     }
 }
