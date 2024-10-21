@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>ru.otus</groupId>
+    <artifactId>hw16-migration</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!--suppress UnresolvedMavenProperty -->
+        <docker.db.url>${LIQUIBASE_DATABASE}</docker.db.url>
+        <!--suppress UnresolvedMavenProperty -->
+        <docker.db.username>${LIQUIBASE_USERNAME}</docker.db.username>
+        <!--suppress UnresolvedMavenProperty -->
+        <docker.db.password>${LIQUIBASE_PASSWORD}</docker.db.password>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <skipLiquibaseRun>true</skipLiquibaseRun>
+            </properties>
+        </profile>
+        <profile>
+            <id>docker</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <skipLiquibaseRun>false</skipLiquibaseRun>
+            </properties>
+        </profile>
+    </profiles>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>4.24.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.6.2</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>src/main/docker</directory>
+            </resource>
+        </resources>
+            <plugins>
+                <plugin>
+                    <groupId>org.liquibase</groupId>
+                    <artifactId>liquibase-maven-plugin</artifactId>
+                    <version>4.4.3</version>
+                    <configuration>
+                        <skip>${skipLiquibaseRun}</skip>
+                        <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+                        <changeLogFile>src/main/resources/db/changelog/db.changelog-master.yaml</changeLogFile>
+                        <driver>org.postgresql.Driver</driver>
+                        <verbose>true</verbose>
+                        <includeArtifact>false</includeArtifact>
+                        <includeTestOutputDirectory>false</includeTestOutputDirectory>
+                        <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+                        <url>${docker.db.url}</url>
+                        <username>${docker.db.username}</username>
+                        <password>${docker.db.password}</password>
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.postgresql</groupId>
+                            <artifactId>postgresql</artifactId>
+                            <version>42.6.2</version>
+                        </dependency>
+                    </dependencies>
+                    <executions>
+                        <execution>
+                            <phase>process-resources</phase>
+                            <goals>
+                                <goal>clearCheckSums</goal>
+                                <goal>update</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+    </build>
+</project>

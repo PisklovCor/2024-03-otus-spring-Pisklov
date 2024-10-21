@@ -1,0 +1,73 @@
+version: "3.9"
+services:
+
+  web-service:
+    build:
+      context: ./hw16-service/
+      dockerfile: ./docker/Dockerfile
+    container_name: hw-16-service
+    depends_on:
+      migration-service:
+        condition: service_started
+      postgres:
+        condition: service_started
+    ports:
+      - "8000:8000"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin
+    networks:
+      monitoring:
+        aliases:
+          - web
+
+  migration-service:
+    build:
+      context: ./hw16-migration/
+      dockerfile: ./docker/Dockerfile
+    container_name: hw-16-migration
+    depends_on:
+      postgres:
+        condition: service_started
+    environment:
+      LIQUIBASE_DATABASE: jdbc:postgresql://postgres:5432/postgres
+      LIQUIBASE_USERNAME: admin
+      LIQUIBASE_PASSWORD: admin
+    networks:
+      monitoring:
+        aliases:
+          - migration
+
+  postgres:
+    image: postgres:13.3
+    container_name: postgres
+    environment:
+      POSTGRES_DB: "postgres"
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "admin"
+    ports:
+      - "5432:5454"
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    networks:
+      monitoring:
+        aliases:
+          - postgres
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus:/prometheus
+    networks:
+      monitoring:
+        aliases:
+          - prometheus
+
+networks:
+  monitoring:
+    name: hw-networks

@@ -1,0 +1,22 @@
+# Default Values for my Helm Chart
+ports:
+  port: 80
+  protocol: TCP
+
+base:
+  port: 80
+  host: arch.homework
+  pathType: ImplementationSpecific
+
+container:
+  service:
+    image: pisklovcor/hw-16-service-docker:dockerfile
+    replicaCount: 1
+    containerPort: 8000
+  migration:
+    image: pisklovcor/hw-16-migration-docker:dockerfile
+    backoffLimit: 4
+  postgres:
+    image: postgres:13.3
+    replicaCount: 1
+    containerPort: 5432

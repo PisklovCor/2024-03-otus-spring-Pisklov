@@ -1,0 +1,17 @@
+server:
+  port: 8000
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5454/postgres
+    username: admin
+    password: admin
+    driverClassName: org.postgresql.Driver
+  sql:
+    init:
+      mode: always
+  jpa:
+    open-in-view: false
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    show-sql: true
