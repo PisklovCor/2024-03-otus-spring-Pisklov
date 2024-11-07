@@ -1,35 +1,23 @@
 package ru.otus.hw.dao;
 
+import lombok.val;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
-import ru.otus.hw.config.AppProperties;
-import ru.otus.hw.domain.Question;
+import org.springframework.beans.factory.annotation.Autowired;
+import ru.otus.hw.SpringBootApplicationTest;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-@ExtendWith(MockitoExtension.class)
 @DisplayName("Сервис для работы с файловой системой ")
-class CsvQuestionDaoTest {
+class CsvQuestionDaoTest extends SpringBootApplicationTest {
+
+    @Autowired
+    private QuestionDao questionDao;
 
     @DisplayName("должен проверить количество вопросов")
     @Test
     void findAll() {
-        final Map<String, String> mockFile = new HashMap<>();
-        mockFile.put("ru-RU", "questions_test.csv");
+        val exampleQuestionList = questionDao.findAll();
 
-        final AppProperties properties = new AppProperties();
-        properties.setRightAnswersCountToPass(1);
-        properties.setLocale("ru-RU");
-        properties.setFileNameByLocaleTag(mockFile);
-
-        final CsvQuestionDao csvQuestionDao = new CsvQuestionDao(properties);
-        final List<Question> questionList = csvQuestionDao.findAll();
-
-        Assertions.assertEquals(5, questionList.size());
+        Assertions.assertEquals(5, exampleQuestionList.size());
     }
 }
