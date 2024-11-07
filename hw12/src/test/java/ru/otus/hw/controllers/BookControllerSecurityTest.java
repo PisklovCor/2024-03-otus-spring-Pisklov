@@ -13,7 +13,6 @@ import ru.otus.hw.dto.AuthorDto;
 import ru.otus.hw.dto.BookDto;
 import ru.otus.hw.dto.GenreDto;
 import ru.otus.hw.services.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +28,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class BookControllerSecurityTest {
 
     private static final String USER_TEST_LOGIN = "user_test";
+
     private static final String USER_TEST_PASSWORD = "$2a$12$2tcN8kkCE7dcxyXNB9nTV.hKgNPBXIcHfplo0nynixi2BqVsseX1q";
+
     private static final String USER_TEST_ROLE = "USER";
 
     @Autowired

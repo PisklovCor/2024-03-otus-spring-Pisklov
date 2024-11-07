@@ -1,4 +1,4 @@
-package ru.otus.hw.Integration;
+package ru.otus.hw.integration;
 
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;

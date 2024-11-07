@@ -43,8 +43,11 @@ class BookControllerTest {
     private GenreService genreService;
 
     private static final BookDto mockBook = new BookDto();
+
     private static final List<BookDto> mockBookList = new ArrayList<>();
+
     private static final List<AuthorDto> mockAuthorsList = new ArrayList<>();
+
     private static final List<GenreDto> mockGenresList = new ArrayList<>();
 
     @BeforeAll
