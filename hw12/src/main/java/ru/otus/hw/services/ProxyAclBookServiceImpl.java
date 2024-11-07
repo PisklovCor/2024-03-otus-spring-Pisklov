@@ -5,7 +5,6 @@ import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.exceptions.NotFoundException;
 import ru.otus.hw.models.Book;
 import ru.otus.hw.repositories.BookRepository;
@@ -48,7 +47,6 @@ public class ProxyAclBookServiceImpl implements ProxyAclBookService {
 
     @PreAuthorize("hasPermission(#bookEntity, 'WRITE')")
     @Override
-    @Transactional
     public Book update(Book bookEntity) {
         return bookRepository.save(bookEntity);
     }
