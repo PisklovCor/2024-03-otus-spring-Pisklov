@@ -3,10 +3,9 @@ package ru.otus.hw.service;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import ru.otus.hw.SpringBootApplicationTest;
 import ru.otus.hw.dao.CsvQuestionDao;
 import ru.otus.hw.domain.Answer;
 import ru.otus.hw.domain.Question;
@@ -17,20 +16,19 @@ import java.util.List;
 
 import static org.mockito.BDDMockito.given;
 
-@ExtendWith(MockitoExtension.class)
 @DisplayName("Сервис тестирования студента ")
-class TestServiceImplTest {
+class TestServiceImplTest extends SpringBootApplicationTest {
 
     private static final String STUDENT_FULL_NAME = "FirstName LastName";
 
-    @Mock
+    @MockBean
     private LocalizedIOService ioService;
 
-    @Mock
+    @MockBean
     private CsvQuestionDao questionDao;
 
-    @InjectMocks
-    private TestServiceImpl testService;
+    @Autowired
+    private TestService testService;
 
     @DisplayName("должен вернуть корректный результат тестирования и имя")
     @Test
