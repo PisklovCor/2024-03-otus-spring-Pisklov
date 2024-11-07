@@ -4,8 +4,8 @@ spring:
   sql:
     init:
       mode: always
-      data-locations: data.sql
-      schema-locations: db/changelog/1.0.0/2024-11-07--0001-schema.sql
+      data-locations: classpath:data.sql
+      schema-locations: classpath:db/changelog/1.0.0/2024-11-07--0001-schema.sql
   liquibase:
     enabled: false
   jpa:

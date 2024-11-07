@@ -47,7 +47,6 @@ class BookControllerSecurityTest {
     private static UserDetails userDetails;
 
     private static final BookDto mockBook = new BookDto();
-    private static final List<BookDto> mockBookList = new ArrayList<>();
     private static final List<AuthorDto> mockAuthorsList = new ArrayList<>();
     private static final List<GenreDto> mockGenresList = new ArrayList<>();
 
@@ -62,8 +61,6 @@ class BookControllerSecurityTest {
         mockBook.setTitle("BookTitle_1");
         mockBook.setAuthor(authorDto);
         mockBook.setGenres(mockGenresList);
-
-        mockBookList.add(mockBook);
 
         userDetails = User.builder()
                 .username(USER_TEST_LOGIN)

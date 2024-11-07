@@ -51,8 +51,8 @@ values (1, 1),
 insert into acl_sid (principal, sid)
 -- principal – определяет тип security identity (0/1 – роль/имя пользователя)
 -- sid – содержит security identity
-values (1, 'admin'),
-       (1, 'user'),
+values (1, 'admin_test'),
+       (1, 'user_test'),
        (0, 'ROLE_EDITOR');
 
 -- идентифицирует тип сущности
