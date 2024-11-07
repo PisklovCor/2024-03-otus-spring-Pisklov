@@ -16,7 +16,6 @@ import ru.otus.hw.services.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
@@ -131,7 +130,7 @@ class BookControllerSecurityTest {
     void editBook() throws Exception {
 
         given(bookService.findById(1))
-                .willReturn(Optional.of(mockBook));
+                .willReturn(mockBook);
         given(authorService.findAll())
                 .willReturn(mockAuthorsList);
         given(genreService.findAll())
@@ -149,7 +148,7 @@ class BookControllerSecurityTest {
     void editBookWithoutAuthentication() throws Exception {
 
         given(bookService.findById(1))
-                .willReturn(Optional.of(mockBook));
+                .willReturn(mockBook);
         given(authorService.findAll())
                 .willReturn(mockAuthorsList);
         given(genreService.findAll())

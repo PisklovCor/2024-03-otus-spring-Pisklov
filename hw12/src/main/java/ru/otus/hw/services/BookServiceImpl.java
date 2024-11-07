@@ -17,7 +17,6 @@ import ru.otus.hw.repositories.BookRepository;
 import ru.otus.hw.repositories.GenreRepository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -35,22 +34,26 @@ public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
 
+    private final ProxyAclBookService proxyAclBookService;
+
     @Override
     @Transactional(readOnly = true)
     public List<BookDto> findAll() {
-        return bookRepository.findAll().stream().map(bookMapper::toDto).toList();
+        return proxyAclBookService.findAll().stream().map(bookMapper::toDto).toList();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<BookDto> findById(long id) {
-        return bookRepository.findById(id).stream().map(bookMapper::toDto).findAny();
+    public BookDto findById(long id) {
+        var bookEntity = proxyAclBookService.findById(id);
+
+        return bookMapper.toDto(bookEntity);
     }
 
     @Override
     @Transactional
     public BookDto create(BookCreateDto dto) {
-        return bookMapper.toDto(bookRepository.save(
+        return bookMapper.toDto(proxyAclBookService.create(
                 new Book(null, dto.getTitle(), checkingAndSearchingAuthor(dto.getAuthor().getId()),
                         checkingAndSearchingGenres(dto.getGenres().stream()
                                 .map(GenreDto::getId)
@@ -63,22 +66,25 @@ public class BookServiceImpl implements BookService {
 
         final long bookId = dto.getId();
 
-        var book = bookRepository.findById(bookId)
+        var bookEntity = bookRepository.findById(bookId)
                 .orElseThrow(() -> new NotFoundException("Book with id %d not found".formatted(bookId)));
 
-        book.setTitle(dto.getTitle());
-        book.setAuthor(checkingAndSearchingAuthor(dto.getAuthor().getId()));
-        book.setGenres(checkingAndSearchingGenres(dto.getGenres().stream()
+        bookEntity.setTitle(dto.getTitle());
+        bookEntity.setAuthor(checkingAndSearchingAuthor(dto.getAuthor().getId()));
+        bookEntity.setGenres(checkingAndSearchingGenres(dto.getGenres().stream()
                 .map(GenreDto::getId)
                 .collect(Collectors.toSet())));
 
-        return bookMapper.toDto(bookRepository.save(book));
+        return bookMapper.toDto(proxyAclBookService.update(bookEntity));
     }
 
     @Override
     @Transactional
     public void deleteById(long id) {
-        bookRepository.deleteById(id);
+        var bookEntity = bookRepository.findById(id).orElseThrow(
+                () -> new NotFoundException("Book with id %d not found".formatted(id)));
+
+        proxyAclBookService.deleteById(bookEntity);
     }
 
     private Author checkingAndSearchingAuthor(long authorId) {

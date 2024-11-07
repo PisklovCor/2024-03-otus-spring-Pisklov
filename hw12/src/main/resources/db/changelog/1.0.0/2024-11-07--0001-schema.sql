@@ -83,7 +83,7 @@ create table acl_class
 (
     id           bigserial,
     class        varchar(100) not null,
-    lass_id_type varchar(100),
+    class_id_type varchar(100) not null,
     primary key (id),
     constraint unique_uk_acl_class unique (class)
 );
@@ -94,8 +94,8 @@ create table acl_object_identity
     id                 bigserial,
     object_id_class    bigint references acl_class (id) on delete cascade not null,
     object_id_identity varchar(36)                                        not null,
-    parent_object      bigint                                             not null,
-    owner_sid          bigint references acl_sid (id) on delete cascade   not null,
+    parent_object      bigint,
+    owner_sid          bigint references acl_sid (id) on delete cascade,
     entries_inheriting boolean                                            not null,
     primary key (id),
     constraint unique_uk_acl_object_identity unique (object_id_class, object_id_identity)

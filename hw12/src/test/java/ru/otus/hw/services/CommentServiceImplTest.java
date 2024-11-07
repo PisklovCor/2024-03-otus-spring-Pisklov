@@ -20,7 +20,7 @@ import static org.hibernate.internal.util.collections.CollectionHelper.setOf;
 @DisplayName("Сервис для работы с комментариями ")
 @DataJpaTest
 @Import({CommentMapper.class, CommentServiceImpl.class, BookMapper.class,
-        AuthorMapper.class, GenreMapper.class, BookServiceImpl.class})
+        AuthorMapper.class, GenreMapper.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @Transactional(propagation = Propagation.NEVER)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -51,6 +51,7 @@ class CommentServiceImplTest {
     @Order(2)
     void findAllByBookId() {
         var listBookDto = service.findAllByBookId(BOOK_ID);
+
         assertThat(listBookDto).isNotNull().hasSize(EXPECTED_NUMBER_OF_COMMENT)
                 .allMatch(b -> !b.getContent().isEmpty())
                 .allMatch(b -> COMMENT_CONTENT_VALUE.contains(b.getContent()));

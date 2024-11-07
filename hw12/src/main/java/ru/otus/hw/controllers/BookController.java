@@ -12,7 +12,6 @@ import ru.otus.hw.dto.BookCreateDto;
 import ru.otus.hw.dto.BookUpdateDto;
 import ru.otus.hw.dto.BookDto;
 import ru.otus.hw.dto.GenreDto;
-import ru.otus.hw.exceptions.NotFoundException;
 import ru.otus.hw.services.AuthorService;
 import ru.otus.hw.services.BookService;
 import ru.otus.hw.services.GenreService;
@@ -66,8 +65,7 @@ public class BookController {
     @GetMapping("/book/edit")
     public String editBook(@RequestParam("id") long id, Model model) {
 
-        BookDto book = bookService.findById(id).orElseThrow(
-                () -> new NotFoundException("Book with id %d not found".formatted(id)));
+        BookDto book = bookService.findById(id);
         List<AuthorDto> author = authorService.findAll();
         List<GenreDto> genre = genreService.findAll();
 

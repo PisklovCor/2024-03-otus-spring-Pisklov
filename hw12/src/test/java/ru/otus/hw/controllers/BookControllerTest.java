@@ -15,7 +15,6 @@ import ru.otus.hw.services.BookService;
 import ru.otus.hw.services.GenreService;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -100,7 +99,7 @@ class BookControllerTest {
     void createBookPage() throws Exception {
 
         given(bookService.findById(1))
-                .willReturn(Optional.of(mockBook));
+                .willReturn(mockBook);
         given(authorService.findAll())
                 .willReturn(mockAuthorsList);
         given(genreService.findAll())
@@ -141,7 +140,7 @@ class BookControllerTest {
     void editBook() throws Exception {
 
         given(bookService.findById(1))
-                .willReturn(Optional.of(mockBook));
+                .willReturn(mockBook);
         given(authorService.findAll())
                 .willReturn(mockAuthorsList);
         given(genreService.findAll())
