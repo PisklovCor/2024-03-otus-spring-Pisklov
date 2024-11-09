@@ -1,0 +1,16 @@
+application:
+  test:
+    locale: ru-RU
+    rightAnswersCountToPass: 3
+    fileNameByLocaleTag:
+      ru-RU: questions_ru.csv
+      en-US: questions.csv
+
+spring:
+  messages:
+    baseName: messages
+    encoding: UTF-8
+    fallbackToSystemLocale: false
+  shell:
+    interactive:
+      enabled: false
