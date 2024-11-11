@@ -28,7 +28,7 @@ public class CommentServiceImpl implements CommentService {
         return commentRepository.findById(id).stream()
                 .map(commentMapper::toDto)
                 .findAny()
-                .orElseThrow(() -> new NotFoundException("Book with id %d not found".formatted(id)));
+                .orElseThrow(() -> new NotFoundException("Comment with id %d not found".formatted(id)));
     }
 
     @Override
