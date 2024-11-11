@@ -1,6 +1,6 @@
 --liquibase formatted sql
 
---changeset pisklov:2024-11-11-001-table-authors
+--changeset pisklov:2024-11-11-001-authors
 insert into authors(full_name)
 values ('Author_1'),
        ('Author_2'),

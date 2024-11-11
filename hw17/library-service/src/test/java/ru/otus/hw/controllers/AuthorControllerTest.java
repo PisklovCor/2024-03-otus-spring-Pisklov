@@ -14,7 +14,6 @@ import ru.otus.hw.services.AuthorService;
 
 import java.util.List;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;

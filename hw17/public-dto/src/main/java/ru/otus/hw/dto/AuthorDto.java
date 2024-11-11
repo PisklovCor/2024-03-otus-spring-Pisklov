@@ -22,4 +22,5 @@ public class AuthorDto {
      */
     @Schema(description = "Полное имя", example = "Иванов Иван Иванович")
     private String fullName;
+
 }

@@ -23,4 +23,5 @@ public class GenreDto {
      */
     @Schema(description = "Название", example = "Ужасы")
     private String name;
+
 }

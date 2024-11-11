@@ -22,7 +22,7 @@ public class BookDto {
     /**
      * Title book.
      */
-    @Schema(description = "Заголовок", example = "Название какого-либо произведения")
+    @Schema(description = "Заголовок", example = "Джентльмены удачи")
     private String title;
 
     /**
@@ -36,4 +36,5 @@ public class BookDto {
      */
     @Schema(description = "Жанры")
     private List<GenreDto> genres;
+
 }

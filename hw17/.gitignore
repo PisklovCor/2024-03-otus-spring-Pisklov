@@ -2,7 +2,8 @@ target/
 dependency-reduced-pom.xml
 /prometheus
 /logs
-/pgdata
+/pgdata_order
+/pgdata_library
 
 ### STS ###
 .apt_generated

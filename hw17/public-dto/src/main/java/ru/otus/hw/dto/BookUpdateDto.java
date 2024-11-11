@@ -25,7 +25,7 @@ public class BookUpdateDto {
     /**
      * Title book.
      */
-    @Schema(description = "Заголовок", example = "Название какого-либо произведения")
+    @Schema(description = "Заголовок", example = "Джентльмены удачи")
     @NotBlank
     private String title;
 
@@ -42,4 +42,5 @@ public class BookUpdateDto {
     @Schema(description = "IDs жанров")
     @NotNull
     private List<Long> genresId;
+
 }

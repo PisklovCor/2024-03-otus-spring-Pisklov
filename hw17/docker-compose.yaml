@@ -1,7 +1,7 @@
 version: "3.9"
 services:
 
-  postgres:
+  postgres_library:
     image: postgres:13.3
     container_name: library-service-db
     environment:
@@ -11,7 +11,23 @@ services:
     ports:
       - "5433:5432"
     volumes:
-      - ./pgdata:/var/lib/postgresql/data
+      - ./pgdata_library:/var/lib/postgresql/data
+    networks:
+      monitoring:
+        aliases:
+          - postgres
+
+  postgres_order:
+    image: postgres:13.3
+    container_name: order-service-db
+    environment:
+      POSTGRES_DB: "order-service-db"
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "admin"
+    ports:
+      - "5434:5432"
+    volumes:
+      - ./pgdata_order:/var/lib/postgresql/data
     networks:
       monitoring:
         aliases:

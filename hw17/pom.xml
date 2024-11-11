@@ -11,8 +11,9 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>library-service</module>
         <module>public-dto</module>
+        <module>library-service</module>
+        <module>order-service</module>
     </modules>
 
     <properties>

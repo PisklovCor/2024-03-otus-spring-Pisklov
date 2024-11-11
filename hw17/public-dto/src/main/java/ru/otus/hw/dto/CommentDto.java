@@ -22,4 +22,5 @@ public class CommentDto {
      */
     @Schema(description = "Содержание", example = "Позновательный комментарий")
     private String content;
+
 }

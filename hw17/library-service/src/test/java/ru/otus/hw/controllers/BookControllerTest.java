@@ -3,7 +3,6 @@ package ru.otus.hw.controllers;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -13,10 +12,8 @@ import ru.otus.hw.dto.BookDto;
 import ru.otus.hw.dto.BookUpdateDto;
 import ru.otus.hw.exceptions.NotFoundException;
 import ru.otus.hw.services.BookService;
-
 import java.util.List;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -32,8 +29,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class BookControllerTest extends SpringBootApplicationTest {
 
     private static final MediaType CONTENT_TYPE = new MediaType(APPLICATION_JSON);
-    private static final long BOOK_ID_TEST = 1;
-    private static final long BOOK_AUTHOR_ID_TEST = 1;
+    private static final long BOOK_ID_TEST = 1L;
+    private static final long BOOK_AUTHOR_ID_TEST = 1L;
     private static final List<Long> BOOK_GENRES_ID_LIST_TEST = List.of(1L);
     private static final String BOOK_TITLE_TEST = "test";
 

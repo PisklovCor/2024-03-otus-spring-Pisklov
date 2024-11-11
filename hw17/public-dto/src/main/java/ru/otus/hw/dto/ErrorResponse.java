@@ -30,4 +30,5 @@ public class ErrorResponse {
      */
     @Schema(description = "Стек")
     private List<String> cause;
+
 }

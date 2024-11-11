@@ -18,7 +18,7 @@ public class BookCreateDto {
     /**
      * Title book.
      */
-    @Schema(description = "Заголовок", example = "Название какого-либо произведения")
+    @Schema(description = "Заголовок", example = "Джентльмены удачи")
     @NotBlank
     private String title;
 
