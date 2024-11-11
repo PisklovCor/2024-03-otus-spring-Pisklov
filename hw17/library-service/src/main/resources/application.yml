@@ -1,5 +1,6 @@
 server:
   port: 8000
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5433/library-service-db
@@ -17,3 +18,28 @@ spring:
     hibernate:
       ddl-auto: none
     show-sql: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: [ 'health', 'info', 'metrics', 'prometheus', 'git', 'env' ]
+  endpoint:
+    health:
+      show-details: always
+  health:
+    defaults:
+      enabled: true
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+    distribution:
+      percentiles-histogram:
+        "[http.server.requests]": true
+
+logging:
+  level:
+    '[root]': info
+    '[http]': info
+    '[com.zaxxer.hikari]': trace
