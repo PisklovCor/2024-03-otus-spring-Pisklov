@@ -12,7 +12,7 @@ import static org.testcontainers.shaded.org.awaitility.Awaitility.await;
 
 
 @DisplayName("Сервис периодически запускаемых задач ")
-class ScheduledTasksTest extends SpringBootApplicationTest  {
+class ProcessingScheduledTasksImplTest extends SpringBootApplicationTest  {
 
     @SpyBean
     ScheduledTasks tasks;
@@ -21,7 +21,7 @@ class ScheduledTasksTest extends SpringBootApplicationTest  {
     @Test
     public void creationBookBasedOnOrder() {
         await().atMost(Durations.TEN_SECONDS).untilAsserted(() -> {
-            verify(tasks, atLeast(2)).creationBookBasedOnOrder();
+            verify(tasks, atLeast(2)).run();
         });
     }
 }

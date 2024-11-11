@@ -1,3 +1,6 @@
+application:
+  libraryUrlBase: http://localhost:8000
+
 spring:
   datasource:
     username: ${CONTAINER.USERNAME}

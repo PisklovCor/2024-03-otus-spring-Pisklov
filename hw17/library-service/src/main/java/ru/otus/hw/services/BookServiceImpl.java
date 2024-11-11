@@ -1,9 +1,13 @@
 package ru.otus.hw.services;
 
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.otus.hw.clients.OrderClient;
 import ru.otus.hw.dto.BookUpdateDto;
+import ru.otus.hw.dto.order.OrderCreateDto;
+import ru.otus.hw.dto.order.OrderDto;
 import ru.otus.hw.mappers.BookMapper;
 import ru.otus.hw.dto.BookCreateDto;
 import ru.otus.hw.dto.BookDto;
@@ -32,6 +36,8 @@ public class BookServiceImpl implements BookService {
     private final GenreRepository genreRepository;
 
     private final BookRepository bookRepository;
+
+    private final OrderClient orderClient;
 
     @Override
     @Transactional(readOnly = true)
@@ -95,5 +101,14 @@ public class BookServiceImpl implements BookService {
         }
 
         return genres;
+    }
+
+    @Override
+    public OrderDto leaveBookOrder(String bookTitle) {
+
+        //todo: планируется вытягивать из токена
+        val login = "guest";
+
+        return orderClient.createOrder(new OrderCreateDto(login, bookTitle));
     }
 }

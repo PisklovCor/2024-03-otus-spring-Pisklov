@@ -3,10 +3,13 @@
 
 ## 1.0.2
 ### Добавлено:
+- ExternalSystem.java
 - Status.java
 - OrderCreateDto.java
 - OrderDto.java
 - OrderUpdateDto.java
+- CacheException.java
+- ExternalSystemException.java
 
 ## 1.0.1
 ### Добавлено:

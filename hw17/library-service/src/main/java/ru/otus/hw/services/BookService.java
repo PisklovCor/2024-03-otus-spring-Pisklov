@@ -3,6 +3,7 @@ package ru.otus.hw.services;
 import ru.otus.hw.dto.BookCreateDto;
 import ru.otus.hw.dto.BookDto;
 import ru.otus.hw.dto.BookUpdateDto;
+import ru.otus.hw.dto.order.OrderDto;
 
 import java.util.List;
 
@@ -17,4 +18,7 @@ public interface BookService {
     BookDto update(BookUpdateDto dto);
 
     void deleteById(long id);
+
+    OrderDto leaveBookOrder(String bookTitle);
+
 }

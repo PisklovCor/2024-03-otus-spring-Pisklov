@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import ru.otus.hw.dto.BookDto;
 import ru.otus.hw.dto.BookCreateDto;
 import ru.otus.hw.dto.BookUpdateDto;
+import ru.otus.hw.dto.order.OrderDto;
 import ru.otus.hw.services.BookService;
 
 import java.util.List;
@@ -78,5 +79,15 @@ public class BookController {
     public void deleteBook(@PathVariable("bookId")
                            @Parameter(description = "ID книги", example = "1") long bookId) {
         bookService.deleteById(bookId);
+    }
+
+    @Operation(
+            summary = "Разместить заказ",
+            description = "Позволяет разместить заказ на пополнение библиотеки книгой по названию"
+    )
+    @PostMapping("/api/v1/book/order")
+    @ResponseStatus(HttpStatus.CREATED)
+    public OrderDto leaveBookOrder(@RequestBody String bookTitle) {
+        return bookService.leaveBookOrder(bookTitle);
     }
 }

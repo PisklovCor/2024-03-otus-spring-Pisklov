@@ -44,3 +44,9 @@ Content-Type: application/json
 
 ###
 DELETE http://localhost:8000/api/v1/book/1
+
+###
+POST http://localhost:8000/api/v1/book/order
+Content-Type: application/json
+
+"Dune: Part One"
