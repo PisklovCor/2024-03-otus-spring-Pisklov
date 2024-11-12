@@ -17,7 +17,6 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.GATEWAY_TIMEOUT;
 
-
 @Slf4j
 @RestControllerAdvice
 public class ExceptionHandlingController {
@@ -46,7 +45,7 @@ public class ExceptionHandlingController {
     @ExceptionHandler(ExternalSystemException.class)
     @ResponseStatus(GATEWAY_TIMEOUT)
     public ErrorResponse externalSystemException(ExternalSystemException ex) {
-        log.error("Error: " + ExceptionHandlingController.class.getName(), ex);
+        log.error("Error: {}",ex.getExternalSystem(), ex);
         return createErrorResponseBody(ex);
     }
 

@@ -13,6 +13,7 @@ import ru.otus.hw.exceptions.ExternalSystemException;
 import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static ru.otus.hw.dictionaries.ExternalSystem.LIBRARY_SERVICE;
 
 @RequiredArgsConstructor
 @Service
@@ -33,7 +34,7 @@ public class LibraryClient {
                 .body(dto)
                 .retrieve()
                 .onStatus(status -> status.value() == 500, (request, response) -> {
-                    throw new ExternalSystemException(response.toString());
+                    throw new ExternalSystemException("Error creating book", LIBRARY_SERVICE);
                 })
                 .body(BookDto.class);
     }
@@ -43,6 +44,9 @@ public class LibraryClient {
                 .uri(AUTHOR_LIST)
                 .accept(APPLICATION_JSON)
                 .retrieve()
+                .onStatus(status -> status.value() == 500, (request, response) -> {
+                    throw new ExternalSystemException("Error get Authors", LIBRARY_SERVICE);
+                })
                 .body(new ParameterizedTypeReference<>() {});
     }
 
@@ -51,6 +55,9 @@ public class LibraryClient {
                 .uri(GENRE_LIST)
                 .accept(APPLICATION_JSON)
                 .retrieve()
+                .onStatus(status -> status.value() == 500, (request, response) -> {
+                    throw new ExternalSystemException("Error get Genres", LIBRARY_SERVICE);
+                })
                 .body(new ParameterizedTypeReference<>() {});
     }
 }

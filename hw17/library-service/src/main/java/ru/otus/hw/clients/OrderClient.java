@@ -8,6 +8,7 @@ import ru.otus.hw.dto.order.OrderDto;
 import ru.otus.hw.exceptions.ExternalSystemException;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static ru.otus.hw.dictionaries.ExternalSystem.ORDER_SERVICE;
 
 @RequiredArgsConstructor
 @Service
@@ -24,7 +25,7 @@ public class OrderClient {
                 .body(dto)
                 .retrieve()
                 .onStatus(status -> status.value() == 500, (request, response) -> {
-                    throw new ExternalSystemException(response.toString());
+                    throw new ExternalSystemException("Error creating order", ORDER_SERVICE);
                 })
                 .body(OrderDto.class);
     }

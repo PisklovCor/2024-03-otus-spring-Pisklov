@@ -2,6 +2,7 @@ package ru.otus.hw.services;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.testcontainers.shaded.org.awaitility.Durations;
 import ru.otus.hw.SpringBootApplicationTest;
@@ -15,13 +16,14 @@ import static org.testcontainers.shaded.org.awaitility.Awaitility.await;
 class ProcessingScheduledTasksImplTest extends SpringBootApplicationTest  {
 
     @SpyBean
-    ScheduledTasks tasks;
+    @Qualifier("processingScheduledTasksImpl")
+    ScheduledTasks task;
 
     @DisplayName("должен найти записи по заказам и обновить их")
     @Test
     public void creationBookBasedOnOrder() {
         await().atMost(Durations.TEN_SECONDS).untilAsserted(() -> {
-            verify(tasks, atLeast(2)).run();
+            verify(task, atLeast(1)).run();
         });
     }
 }

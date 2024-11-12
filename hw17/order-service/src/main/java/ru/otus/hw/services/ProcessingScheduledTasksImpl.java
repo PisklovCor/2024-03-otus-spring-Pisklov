@@ -28,7 +28,7 @@ public class ProcessingScheduledTasksImpl implements ScheduledTasks {
     private final LibraryClient client;
 
 
-    @Scheduled(fixedDelayString = "PT020S")
+    @Scheduled(fixedDelayString = "PT010S")
     @Override
     public void run() {
         log.info("Start ProcessingScheduledTasksImpl");
