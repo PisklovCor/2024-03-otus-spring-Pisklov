@@ -1,5 +1,6 @@
 package ru.otus.hw.controllers;
 
+import io.github.resilience4j.ratelimiter.RequestNotPermitted;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -46,6 +47,13 @@ public class ExceptionHandlingController {
     @ResponseStatus(GATEWAY_TIMEOUT)
     public ErrorResponse externalSystemException(ExternalSystemException ex) {
         log.error("Error: {}",ex.getExternalSystem(), ex);
+        return createErrorResponseBody(ex);
+    }
+
+    @ExceptionHandler(RequestNotPermitted.class)
+    @ResponseStatus(GATEWAY_TIMEOUT)
+    public ErrorResponse requestNotPermitted(RequestNotPermitted ex) {
+        log.error("Error: " + ExceptionHandlingController.class.getName(), ex);
         return createErrorResponseBody(ex);
     }
 
