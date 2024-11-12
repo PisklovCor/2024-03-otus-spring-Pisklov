@@ -46,6 +46,12 @@ services:
         aliases:
           - prometheus
 
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    ports:
+      - "9411:9411"
+
 networks:
   monitoring:
     name: hw-networks

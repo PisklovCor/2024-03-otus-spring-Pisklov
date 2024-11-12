@@ -5,6 +5,8 @@ server:
   port: 8000
 
 spring:
+  application:
+    name: library-service
   datasource:
     url: jdbc:postgresql://localhost:5433/library-service-db
     username: admin
@@ -23,23 +25,28 @@ spring:
     show-sql: true
 
 management:
+  tracing:
+    sampling:
+      probability: 1.0
+  endpoint:
+    prometheus:
+      enabled: true
+    metrics:
+      enabled: true
+    health:
+      enabled: true
+      probes:
+        enabled: true
+  #    refresh:
+  #      enabled: true
   endpoints:
     web:
       exposure:
         include: [ 'health', 'info', 'metrics', 'prometheus', 'git', 'env' ]
-  endpoint:
-    health:
-      show-details: always
-  health:
-    defaults:
-      enabled: true
-  prometheus:
-    metrics:
-      export:
-        enabled: true
-    distribution:
-      percentiles-histogram:
-        "[http.server.requests]": true
+    enabled-by-default: false
+#    distribution:
+#      percentiles-histogram:
+#        "[http.server.requests]": true
 
 logging:
   level:
