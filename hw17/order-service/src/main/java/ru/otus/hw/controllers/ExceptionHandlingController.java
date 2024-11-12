@@ -17,6 +17,7 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.GATEWAY_TIMEOUT;
+import static org.springframework.http.HttpStatus.SERVICE_UNAVAILABLE;
 
 @Slf4j
 @RestControllerAdvice
@@ -51,7 +52,7 @@ public class ExceptionHandlingController {
     }
 
     @ExceptionHandler(RequestNotPermitted.class)
-    @ResponseStatus(GATEWAY_TIMEOUT)
+    @ResponseStatus(SERVICE_UNAVAILABLE)
     public ErrorResponse requestNotPermitted(RequestNotPermitted ex) {
         log.error("Error: " + ExceptionHandlingController.class.getName(), ex);
         return createErrorResponseBody(ex);

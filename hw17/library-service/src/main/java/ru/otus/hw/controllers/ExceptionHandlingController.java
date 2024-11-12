@@ -1,5 +1,6 @@
 package ru.otus.hw.controllers;
 
+import io.github.resilience4j.ratelimiter.RequestNotPermitted;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -16,6 +17,7 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.GATEWAY_TIMEOUT;
+import static org.springframework.http.HttpStatus.SERVICE_UNAVAILABLE;
 
 @Slf4j
 @RestControllerAdvice
@@ -46,6 +48,13 @@ public class ExceptionHandlingController {
     @ResponseStatus(GATEWAY_TIMEOUT)
     public ErrorResponse externalSystemException(ExternalSystemException ex) {
         log.error("Error: {}",ex.getExternalSystem(), ex);
+        return createErrorResponseBody(ex);
+    }
+
+    @ExceptionHandler(RequestNotPermitted.class)
+    @ResponseStatus(SERVICE_UNAVAILABLE)
+    public ErrorResponse requestNotPermitted(RequestNotPermitted ex) {
+        log.error("Error: " + ExceptionHandlingController.class.getName(), ex);
         return createErrorResponseBody(ex);
     }
 

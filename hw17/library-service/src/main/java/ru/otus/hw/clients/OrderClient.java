@@ -1,5 +1,6 @@
 package ru.otus.hw.clients;
 
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
@@ -18,6 +19,7 @@ public class OrderClient {
 
     private final RestClient orderRestClient;
 
+    @RateLimiter(name = "rateLimiter")
     public OrderDto createOrder(OrderCreateDto dto) {
         return orderRestClient.post()
                 .uri(ORDER_CREATE)

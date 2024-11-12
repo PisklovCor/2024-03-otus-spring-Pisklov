@@ -24,6 +24,7 @@
         </checkstyle.config.url>
         <reflections.version>0.10.2</reflections.version>
         <openapi.version>2.6.0</openapi.version>
+        <resilience4j-spring-boot3.version>2.2.0</resilience4j-spring-boot3.version>
     </properties>
 
     <dependencies>
@@ -103,22 +104,10 @@
             <artifactId>opentelemetry-exporter-zipkin</artifactId>
         </dependency>
 
-        <!--resilience4j -->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.cloud</groupId>-->
-<!--            <artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>-->
-<!--            <version>3.1.0</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>io.github.resilience4j</groupId>-->
-<!--            <artifactId>resilience4j-retry</artifactId>-->
-<!--            <version>1.7.1</version>-->
-<!--        </dependency>-->
-
         <dependency>
             <groupId>io.github.resilience4j</groupId>
             <artifactId>resilience4j-spring-boot3</artifactId>
-            <version>2.2.0</version>
+            <version>${resilience4j-spring-boot3.version}</version>
         </dependency>
 
         <dependency>
