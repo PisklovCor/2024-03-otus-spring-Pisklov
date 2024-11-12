@@ -1,4 +1,4 @@
-package ru.otus.hw.cofiguration;
+package ru.otus.hw.configuration;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;

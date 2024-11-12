@@ -11,7 +11,7 @@ services:
     ports:
       - "5433:5432"
     volumes:
-      - ./pgdata_library:/var/lib/postgresql/data
+      - ./temporary/pgdata_library:/var/lib/postgresql/data
     networks:
       monitoring:
         aliases:
@@ -27,7 +27,7 @@ services:
     ports:
       - "5434:5432"
     volumes:
-      - ./pgdata_order:/var/lib/postgresql/data
+      - ./temporary/pgdata_order:/var/lib/postgresql/data
     networks:
       monitoring:
         aliases:
@@ -39,8 +39,8 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
-      - ./prometheus:/prometheus
+      - ./configuration/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./temporary/prometheus:/prometheus
     networks:
       monitoring:
         aliases:
@@ -51,6 +51,26 @@ services:
     container_name: zipkin
     ports:
       - "9411:9411"
+    networks:
+      monitoring:
+        aliases:
+          - zipkin
+
+  grafana:
+    image: grafana/grafana:8.0.0
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./temporary/grafana:/var/lib/grafana
+      - ./configuration/grafana/provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    networks:
+      monitoring:
+        aliases:
+          - grafana
 
 networks:
   monitoring:

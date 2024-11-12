@@ -4,6 +4,8 @@ dependency-reduced-pom.xml
 /logs
 /pgdata_order
 /pgdata_library
+/grafana
+/temporary
 
 ### STS ###
 .apt_generated

@@ -31,3 +31,8 @@ http://localhost:9411/zipkin/
 ````
 http://localhost:9090/
 ````
+
+###### Дашборд grafana (JVM)
+````
+http://localhost:3000/d/ZFSul8UMz/jvm-micrometer
+````

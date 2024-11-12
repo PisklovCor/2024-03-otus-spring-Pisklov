@@ -1,4 +1,4 @@
-package ru.otus.hw.cofiguration;
+package ru.otus.hw.configuration;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
