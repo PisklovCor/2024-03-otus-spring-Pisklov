@@ -25,6 +25,8 @@
         <reflections.version>0.10.2</reflections.version>
         <openapi.version>2.6.0</openapi.version>
         <resilience4j-spring-boot3.version>2.2.0</resilience4j-spring-boot3.version>
+        <envers.version>6.2.23.Final</envers.version>
+        <hibernate.version>6.2.23.Final</hibernate.version>
     </properties>
 
     <dependencies>
@@ -48,6 +50,18 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-envers</artifactId>
+            <version>${envers.version}</version>
         </dependency>
 
         <dependency>

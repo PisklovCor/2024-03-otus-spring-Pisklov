@@ -1,6 +1,5 @@
 package ru.otus.hw.models;
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
@@ -13,10 +12,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.envers.Audited;
 import ru.otus.hw.dictionaries.Status;
 
 import java.time.LocalDateTime;
 
+@Audited
 @Getter
 @Setter
 @AllArgsConstructor
@@ -45,9 +46,4 @@ public class Order {
     @Column(name = "status")
     private Status status;
 
-    public Order(final String login, final String bookTitle, final Status status) {
-        this.login = login;
-        this.bookTitle = bookTitle;
-        this.status = status;
-    }
 }
