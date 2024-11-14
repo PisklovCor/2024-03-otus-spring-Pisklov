@@ -74,7 +74,14 @@ resilience4j:
     metrics:
       enabled: true
     instances:
-      rateLimiter:
+      rateLimiterAuthor:
+        limit-for-period: 5
+        limit-refresh-period: 30s
+        timeout-duration: 0s
+        allow-health-indicator-to-fail: true
+        subscribe-for-events: true
+        event-consumer-buffer-size: 50
+      rateLimiterGenre:
         limit-for-period: 5
         limit-refresh-period: 30s
         timeout-duration: 0s

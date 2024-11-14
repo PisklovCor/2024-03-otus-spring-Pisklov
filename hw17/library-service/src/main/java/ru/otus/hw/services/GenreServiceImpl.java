@@ -18,7 +18,7 @@ public class GenreServiceImpl implements GenreService {
 
     private final GenreRepository genreRepository;
 
-    @RateLimiter(name = "rateLimiter")
+    @RateLimiter(name = "rateLimiterGenre")
     @Override
     @Transactional(readOnly = true)
     public List<GenreDto> findAll() {

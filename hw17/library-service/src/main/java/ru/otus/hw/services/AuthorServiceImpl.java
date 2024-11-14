@@ -18,7 +18,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     private final AuthorRepository authorRepository;
 
-    @RateLimiter(name = "rateLimiter")
+    @RateLimiter(name = "rateLimiterAuthor")
     @Override
     @Transactional(readOnly = true)
     public List<AuthorDto> findAll() {
