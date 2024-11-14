@@ -56,6 +56,20 @@ logging:
     '[com.zaxxer.hikari]': trace
 
 resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        slidingWindowSize: 100
+        permittedNumberOfCallsInHalfOpenState: 10
+        slowCallDurationThreshold: 4s
+        slowCallRateThreshold: 90
+        failureRateThreshold: 50
+        waitDurationInOpenState: 5s
+        minimumNumberOfCalls: 10
+    instances:
+      circuitBreakerAccountRestClient:
+        baseConfig: default
+        waitDurationInOpenState: 20s
   ratelimiter:
     metrics:
       enabled: true

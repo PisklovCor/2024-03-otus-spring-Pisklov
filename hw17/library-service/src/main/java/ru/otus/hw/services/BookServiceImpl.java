@@ -107,6 +107,7 @@ public class BookServiceImpl implements BookService {
         return genres;
     }
 
+    //todo: переделать на фасад
     @Override
     public OrderDto leaveBookOrder(String bookTitle) {
 
@@ -114,8 +115,11 @@ public class BookServiceImpl implements BookService {
         val login = "user";
 
         return orderClient.createOrder(new OrderCreateDto(login, bookTitle));
+
+        //todo: евент успеха или ошибки
     }
 
+    //todo: переделать на фасад
     @Override
     @Transactional(readOnly = true)
     public void takeBook(long bookId) {
@@ -129,5 +133,7 @@ public class BookServiceImpl implements BookService {
         val login = "user";
 
         accountClient.takeBook(new AccountBookCreateDto(login, bookDto.getId()));
+
+        //todo: евент успеха
     }
 }

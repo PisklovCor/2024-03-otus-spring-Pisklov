@@ -1,6 +1,6 @@
 package ru.otus.hw.clients;
 
-import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class AccountClient {
 
     private final RestClient accountRestClient;
 
-    @RateLimiter(name = "rateLimiter")
+    @CircuitBreaker(name = "circuitBreakerAccountRestClient", fallbackMethod = "recoverMethod")
     public void takeBook(AccountBookCreateDto dto) {
 
         accountRestClient.post()
@@ -32,5 +32,11 @@ public class AccountClient {
                     throw new ExternalSystemException("Error take a book", ACCOUNT_SERVICE);
                 })
                 .toBodilessEntity();
+    }
+
+    private void recoverMethod(Exception ex) {
+        log.error("Worked CircuitBreaker, e=[{}]", ex.getMessage());
+        //todo: евент ошибки
+        throw new ExternalSystemException("Error interacting with the service", ACCOUNT_SERVICE);
     }
 }

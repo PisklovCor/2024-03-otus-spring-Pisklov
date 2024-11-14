@@ -15,14 +15,8 @@ Content-Type: application/json
 
 {
     "title": "test",
-    "author": {
-      "id": 1
-    },
-    "genres": [
-      {
-        "id": 1
-      }
-    ]
+    "authorId": 1,
+    "genresId": [1]
   }
 
 ###
@@ -32,14 +26,8 @@ Content-Type: application/json
 {
   "id": 1,
   "title": "test",
-  "author": {
-    "id": 1
-  },
-  "genres": [
-    {
-      "id": 1
-    }
-  ]
+  "authorId": 1,
+  "genresId": [1]
 }
 
 ###

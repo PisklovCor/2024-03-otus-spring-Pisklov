@@ -1,7 +1,5 @@
 package ru.otus.hw.clients;
 
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
-import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +32,6 @@ public class LibraryClient {
 
     private final RestClient libraryRestClient;
 
-    @RateLimiter(name = "rateLimiter")
     public BookDto createBook(BookCreateDto dto) {
         return libraryRestClient.post()
                 .uri(BOOK_CREATE)
@@ -47,7 +44,7 @@ public class LibraryClient {
                 .body(BookDto.class);
     }
 
-    @Retry(name = "retryAuthor", fallbackMethod = "recoverMethod")
+    @Retry(name = "retryCacheScheduled", fallbackMethod = "recoverMethod")
     public List<AuthorDto> getListAuthor() {
         return libraryRestClient.get()
                 .uri(AUTHOR_LIST)
@@ -59,7 +56,7 @@ public class LibraryClient {
                 .body(new ParameterizedTypeReference<>() {});
     }
 
-    @CircuitBreaker(name = "circuitBreakerGenre", fallbackMethod = "recoverMethod")
+    @Retry(name = "retryCacheScheduled", fallbackMethod = "recoverMethod")
     public List<GenreDto> getListGenre() {
         return libraryRestClient.get()
                 .uri(GENRE_LIST)
@@ -72,7 +69,7 @@ public class LibraryClient {
     }
 
     private List<Objects> recoverMethod(Exception ex) {
-        log.warn("Worked CircuitBreaker, e=[{}]", ex.getMessage());
+        log.error("Worked CircuitBreaker, e=[{}]", ex.getMessage());
         return Collections.emptyList();
     }
 }

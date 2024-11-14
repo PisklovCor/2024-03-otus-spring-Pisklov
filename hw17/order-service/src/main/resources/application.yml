@@ -54,37 +54,12 @@ logging:
     '[com.zaxxer.hikari]': trace
 
 resilience4j:
-  circuitbreaker:
-    configs:
-      default:
-        slidingWindowSize: 100
-        permittedNumberOfCallsInHalfOpenState: 10
-        slowCallDurationThreshold: 4s
-        slowCallRateThreshold: 90
-        failureRateThreshold: 50
-        waitDurationInOpenState: 5s
-        minimumNumberOfCalls: 10
-    instances:
-      circuitBreakerGenre:
-        baseConfig: default
-        waitDurationInOpenState: 20s
-  ratelimiter:
-    metrics:
-      enabled: true
-    instances:
-      rateLimiter:
-        limit-for-period: 5
-        limit-refresh-period: 60s
-        timeout-duration: 0s
-        allow-health-indicator-to-fail: true
-        subscribe-for-events: true
-        event-consumer-buffer-size: 50
   retry:
     metrics:
       enabled: true
       legacy:
         enabled: true
     instances:
-      retryAuthor:
+      retryCacheScheduled:
         max-attempts: 4
         wait-duration: 2s

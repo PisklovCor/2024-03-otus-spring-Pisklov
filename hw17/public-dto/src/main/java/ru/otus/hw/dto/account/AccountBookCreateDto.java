@@ -1,8 +1,8 @@
 package ru.otus.hw.dto.account;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,7 +24,7 @@ public class AccountBookCreateDto {
      * Identifier book by library-service.
      */
     @Schema(description = "ID книги", example = "1")
-    @NotNull
+    @Min(1)
     private long bookId;
 
 }
