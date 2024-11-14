@@ -4,13 +4,13 @@
 create table book_order_aud
 (
     id                 bigserial,
-    rev                integer   not null,
-    created_date       timestamp not null,
+    rev                integer not null,
+    created_date       timestamp,
     last_modified_date timestamp,
     login              varchar(255),
     book_title         varchar(255),
     status             varchar(55),
-    revtype            smallint,
+    revtype            smallint not null,
     primary key (id, rev)
 );
 
@@ -22,7 +22,7 @@ create table revinfo
     primary key (rev)
 );
 
---changeset pisklov:2024-11-13-003-book_order_aud-foreign key
+--changeset pisklov:2024-11-13-003-book_order_aud-foreign_key
 alter table book_order_aud
     add foreign key (rev) references revinfo (rev);
 

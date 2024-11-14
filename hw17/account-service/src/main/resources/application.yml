@@ -1,0 +1,69 @@
+application:
+  libraryUrlBase: http://localhost:8000
+  orderUrlBase: http://localhost:8001
+
+server:
+  port: 8002
+
+spring:
+  application:
+    name: account-service
+  datasource:
+    url: jdbc:postgresql://localhost:5435/account-service-db
+    username: admin
+    password: admin
+    driverClassName: org.postgresql.Driver
+  sql:
+    init:
+      mode: always
+  liquibase:
+    enabled: true
+  jpa:
+    open-in-view: false
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+  endpoint:
+    prometheus:
+      enabled: true
+    metrics:
+      enabled: true
+    health:
+      enabled: true
+      probes:
+        enabled: true
+#    refresh:
+#      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: [ 'health', 'info', 'metrics', 'prometheus', 'git', 'env' ]
+    enabled-by-default: false
+
+logging:
+  level:
+    '[root]': info
+    '[http]': info
+    '[com.zaxxer.hikari]': trace
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        slidingWindowSize: 100
+        permittedNumberOfCallsInHalfOpenState: 10
+        slowCallDurationThreshold: 4s
+        slowCallRateThreshold: 90
+        failureRateThreshold: 50
+        waitDurationInOpenState: 5s
+        minimumNumberOfCalls: 10
+    instances:
+      circuitBreakerOrderRestClient:
+        baseConfig: default
+        waitDurationInOpenState: 20s

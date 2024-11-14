@@ -60,7 +60,7 @@ public class OrderController {
 
     @Operation(
             summary = "Обновление заказа",
-            description = "Позволяет обновить существующую заказ"
+            description = "Позволяет обновить существующий заказ"
     )
     @PutMapping("/api/v1/order")
     @ResponseStatus(HttpStatus.OK)

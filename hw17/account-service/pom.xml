@@ -9,7 +9,7 @@
         <version>3.3.0</version>
     </parent>
 
-    <artifactId>library-service</artifactId>
+    <artifactId>account-service</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
     <properties>
@@ -24,9 +24,9 @@
         </checkstyle.config.url>
         <reflections.version>0.10.2</reflections.version>
         <openapi.version>2.6.0</openapi.version>
-        <wiremock.version>3.3.1</wiremock.version>
-        <wiremock.spring.version>2.0.0</wiremock.spring.version>
         <resilience4j-spring-boot3.version>2.2.0</resilience4j-spring-boot3.version>
+        <envers.version>6.2.23.Final</envers.version>
+        <hibernate.version>6.2.23.Final</hibernate.version>
     </properties>
 
     <dependencies>
@@ -50,6 +50,18 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-envers</artifactId>
+            <version>${envers.version}</version>
         </dependency>
 
         <dependency>
@@ -83,27 +95,6 @@
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>${openapi.version}</version>
-        </dependency>
-
-        <!--Observability -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-registry-prometheus</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-tracing-bridge-otel</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.opentelemetry</groupId>
-            <artifactId>opentelemetry-exporter-zipkin</artifactId>
         </dependency>
 
         <!--observability -->
@@ -167,25 +158,6 @@
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.maciejwalkowiak.spring</groupId>
-            <artifactId>wiremock-spring-boot</artifactId>
-            <version>${wiremock.spring.version}</version>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.wiremock</groupId>
-                    <artifactId>wiremock</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.wiremock</groupId>
-            <artifactId>wiremock-standalone</artifactId>
-            <version>${wiremock.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

@@ -22,6 +22,11 @@ http://localhost:8000/swagger-ui/index.html
 http://localhost:8001/swagger-ui/index.html
 ````
 
+###### Сервис для рабоыт с аккаунтами пользователей
+````
+http://localhost:8002/swagger-ui/index.html
+````
+
 ###### Дашборд  zipkin
 ````
 http://localhost:9411/zipkin/

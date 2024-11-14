@@ -7,6 +7,7 @@ import ru.otus.hw.dto.GenreDto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Random;
 
 @UtilityClass
@@ -19,7 +20,7 @@ public class CacheService {
     public Long getRandomElementAuthorsCache() {
 
         if (authorsCache.isEmpty()) {
-            return null;
+            throw new NoSuchElementException("Element cache authorsCache is empty");
         }
 
         Random rand = new Random();
@@ -29,7 +30,7 @@ public class CacheService {
     public Long getRandomElementGenresCache() {
 
         if (genresCache.isEmpty()) {
-            return null;
+            throw new NoSuchElementException("Element cache genresCache is empty");
         }
 
         Random rand = new Random();

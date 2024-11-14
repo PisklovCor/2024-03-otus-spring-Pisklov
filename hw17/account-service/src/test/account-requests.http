@@ -1,0 +1,33 @@
+GET http://localhost:8002/api/v1/account
+
+###
+GET http://localhost:8002/api/v1/account/user
+
+###
+POST http://localhost:8002/api/v1/account
+Content-Type: application/json
+
+{
+    "name": "guest",
+    "surname": "guest",
+    "login": "guest",
+    "mail": "guest@protonmail.com"
+  }
+
+###
+PUT http://localhost:8002/api/v1/account
+Content-Type: application/json
+
+{
+  "id": 2,
+  "name": "guest_update",
+  "surname": "guest_update",
+  "login": "guest_update",
+  "mail": "guest_update@protonmail.com"
+}
+
+###
+DELETE http://localhost:8002/api/v1/account/2
+
+###
+GET http://localhost:8002/api/v1/account/order/user

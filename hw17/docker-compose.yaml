@@ -33,6 +33,22 @@ services:
         aliases:
           - postgres
 
+  postgres_account:
+    image: postgres:13.3
+    container_name: account-service-db
+    environment:
+      POSTGRES_DB: "account-service-db"
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "admin"
+    ports:
+      - "5435:5432"
+    volumes:
+      - ./temporary/pgdata_account:/var/lib/postgresql/data
+    networks:
+      monitoring:
+        aliases:
+          - postgres
+
   prometheus:
     image: prom/prometheus
     container_name: prometheus
