@@ -2,34 +2,35 @@ package ru.otus.hw.clients;
 
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
-import ru.otus.hw.dto.order.OrderCreateDto;
-import ru.otus.hw.dto.order.OrderDto;
+import ru.otus.hw.dto.account.AccountBookCreateDto;
 import ru.otus.hw.exceptions.ExternalSystemException;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static ru.otus.hw.dictionaries.ExternalSystem.ORDER_SERVICE;
+import static ru.otus.hw.dictionaries.ExternalSystem.ACCOUNT_SERVICE;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
-public class OrderClient {
+public class AccountClient {
 
-    private static final String ORDER_CREATE = "/api/v1/order";
+    private static final String TAKE_BOOK = "/api/v1/account/book";
 
-    private final RestClient orderRestClient;
+    private final RestClient accountRestClient;
 
     @RateLimiter(name = "rateLimiter")
-    public OrderDto createOrder(OrderCreateDto dto) {
+    public void takeBook(AccountBookCreateDto dto) {
 
-        return orderRestClient.post()
-                .uri(ORDER_CREATE)
+        accountRestClient.post()
+                .uri(TAKE_BOOK)
                 .contentType(APPLICATION_JSON)
                 .body(dto)
                 .retrieve()
                 .onStatus(status -> status.value() == 500, (request, response) -> {
-                    throw new ExternalSystemException("Error creating order", ORDER_SERVICE);
+                    throw new ExternalSystemException("Error take a book", ACCOUNT_SERVICE);
                 })
-                .body(OrderDto.class);
+                .toBodilessEntity();
     }
 }

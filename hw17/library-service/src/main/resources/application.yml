@@ -1,5 +1,6 @@
 application:
   orderUrlBase: http://localhost:8001
+  accountUrlBase: http://localhost:8002
 
 server:
   port: 8000

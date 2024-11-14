@@ -21,4 +21,6 @@ public interface BookService {
 
     OrderDto leaveBookOrder(String bookTitle);
 
+    void takeBook(long id);
+
 }

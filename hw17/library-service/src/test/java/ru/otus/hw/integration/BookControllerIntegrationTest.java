@@ -24,6 +24,8 @@ public class BookControllerIntegrationTest extends BaseIntegrationTest {
 
     private static final String BOOK_TITLE_TEST = "Book title test";
 
+    private static final long BOOK_ID = 1;
+
     @Autowired
     private MockMvc mvc;
 
@@ -33,14 +35,14 @@ public class BookControllerIntegrationTest extends BaseIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        mockServer = new WireMockServer(8001);
+        mockServer = new WireMockServer(8888);
         mockServer.start();
         gson = new Gson();
     }
 
     @DisplayName("должен создать заказ на добавление книги")
     @Test
-    void getListBook() throws Exception {
+    void leaveBookOrder() throws Exception {
 
         mockServer.stubFor(WireMock.post(WireMock.urlEqualTo("/api/v1/order"))
                 .willReturn(aResponse()
@@ -54,6 +56,19 @@ public class BookControllerIntegrationTest extends BaseIntegrationTest {
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(content().json(gson.toJson(makeResponse())));
+    }
+
+    @DisplayName("должен создать книгу у пользователя")
+    @Test
+    void takeBook() throws Exception {
+
+        mockServer.stubFor(WireMock.post(WireMock.urlEqualTo("/api/v1/account/book"))
+                .willReturn(aResponse()
+                        .withStatus(HttpStatus.CREATED.value())
+                        .withHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)));
+
+        mvc.perform(post("/api/v1/book/" + BOOK_ID + "/take"))
+                .andExpect(status().isCreated());
     }
 
     @AfterEach

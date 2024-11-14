@@ -32,4 +32,17 @@ public class RestClientConfiguration {
                 //.defaultHeader("AUTHORIZATION", fetchToken())
                 .build();
     }
+
+    @Bean
+    RestClient accountRestClient() {
+
+        var client = (HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1).build());
+        var requestFactory = new JdkClientHttpRequestFactory(client);
+
+        return RestClient.builder()
+                .requestFactory(requestFactory)
+                .baseUrl(configuration.getAccountUrlBase())
+                //.defaultHeader("AUTHORIZATION", fetchToken())
+                .build();
+    }
 }

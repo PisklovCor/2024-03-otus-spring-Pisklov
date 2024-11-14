@@ -90,4 +90,15 @@ public class BookController {
     public OrderDto leaveBookOrder(@RequestBody String bookTitle) {
         return bookService.leaveBookOrder(bookTitle);
     }
+
+    @Operation(
+            summary = "Взять книгу",
+            description = "Позволяет пользователю получить книгу"
+    )
+    @PostMapping("/api/v1/book/{bookId}/take")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void takeBook(@PathVariable("bookId")
+                         @Parameter(description = "ID книги", example = "1") long bookId) {
+        bookService.takeBook(bookId);
+    }
 }

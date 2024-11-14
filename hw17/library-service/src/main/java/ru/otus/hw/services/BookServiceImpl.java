@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.otus.hw.clients.AccountClient;
 import ru.otus.hw.clients.OrderClient;
 import ru.otus.hw.dto.BookUpdateDto;
+import ru.otus.hw.dto.account.AccountBookCreateDto;
 import ru.otus.hw.dto.order.OrderCreateDto;
 import ru.otus.hw.dto.order.OrderDto;
 import ru.otus.hw.mappers.BookMapper;
@@ -38,6 +40,8 @@ public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
 
     private final OrderClient orderClient;
+
+    private final AccountClient accountClient;
 
     @Override
     @Transactional(readOnly = true)
@@ -107,8 +111,23 @@ public class BookServiceImpl implements BookService {
     public OrderDto leaveBookOrder(String bookTitle) {
 
         //todo: планируется вытягивать из токена
-        val login = "guest";
+        val login = "user";
 
         return orderClient.createOrder(new OrderCreateDto(login, bookTitle));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public void takeBook(long bookId) {
+
+        BookDto bookDto = bookRepository.findById(bookId).stream()
+                .map(bookMapper::toDto)
+                .findAny()
+                .orElseThrow(() -> new NotFoundException("Book with id %d not found".formatted(bookId)));
+
+        //todo: планируется вытягивать из токена
+        val login = "user";
+
+        accountClient.takeBook(new AccountBookCreateDto(login, bookDto.getId()));
     }
 }
