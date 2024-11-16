@@ -14,6 +14,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import ru.otus.hw.clients.LibraryClient;
+import ru.otus.hw.clients.OrderClient;
 
 /**
  * General class for test containers.
@@ -28,7 +29,10 @@ import ru.otus.hw.clients.LibraryClient;
 public class SpringBootApplicationTest {
 
     @MockBean
-    protected LibraryClient client;
+    protected LibraryClient libraryClient;
+
+    @MockBean
+    protected OrderClient orderClient;
 
     private static final String DATABASE_NAME = "postgres";
 

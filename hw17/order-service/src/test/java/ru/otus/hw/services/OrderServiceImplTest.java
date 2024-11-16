@@ -2,9 +2,6 @@ package ru.otus.hw.services;
 
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.SpringBootApplicationTest;
 import ru.otus.hw.dto.order.OrderCreateDto;
 import ru.otus.hw.dto.order.OrderUpdateDto;
@@ -18,8 +15,6 @@ import static ru.otus.hw.dictionaries.Status.CREATED;
 import static ru.otus.hw.dictionaries.Status.WAIT;
 
 @DisplayName("Сервис для работы с заказакми ")
-@Transactional(propagation = Propagation.NEVER)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class OrderServiceImplTest extends SpringBootApplicationTest {
 

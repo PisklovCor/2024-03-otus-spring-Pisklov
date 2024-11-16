@@ -67,3 +67,6 @@ resilience4j:
       circuitBreakerOrderRestClient:
         baseConfig: default
         waitDurationInOpenState: 20s
+      circuitBreakerLibraryRestClient:
+        baseConfig: default
+        waitDurationInOpenState: 20s

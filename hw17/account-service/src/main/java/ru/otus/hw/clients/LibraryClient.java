@@ -1,5 +1,6 @@
 package ru.otus.hw.clients;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,9 +17,9 @@ public class LibraryClient {
 
     private static final String BOOK_BY_ID = "/api/v1/book/";
 
-
     private final RestClient libraryRestClient;
 
+    @CircuitBreaker(name = "circuitBreakerLibraryRestClient", fallbackMethod = "recoverMethod")
     public BookDto getBookById(long bookId) {
         return libraryRestClient.get()
                 .uri(BOOK_BY_ID + bookId)
@@ -27,5 +28,12 @@ public class LibraryClient {
                     throw new ExternalSystemException("Error creating book", LIBRARY_SERVICE);
                 })
                 .body(BookDto.class);
+    }
+
+    private BookDto recoverMethod(Exception ex) {
+        log.error("Worked circuitBreakerLibraryRestClient, e=[{}]", ex.getMessage());
+        var bookDto = new BookDto();
+        bookDto.setId(-1);
+        return bookDto;
     }
 }

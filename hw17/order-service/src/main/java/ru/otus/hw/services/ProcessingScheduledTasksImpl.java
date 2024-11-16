@@ -52,7 +52,6 @@ public class ProcessingScheduledTasksImpl implements ScheduledTasks {
                 orderDto.setStatus(CONFIRMED);
                 service.update(mapper.toUpdateDto(orderDto));
 
-
             } catch (Exception e) {
                 log.error(e.getMessage());
                 orderDto.setStatus(ERROR);

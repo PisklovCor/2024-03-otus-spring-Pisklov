@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import ru.otus.hw.dto.BookDto;
 import ru.otus.hw.dto.BookCreateDto;
 import ru.otus.hw.dto.BookUpdateDto;
+import ru.otus.hw.dto.account.AccountBookDto;
 import ru.otus.hw.dto.order.OrderDto;
 import ru.otus.hw.services.BookService;
 
@@ -97,8 +98,8 @@ public class BookController {
     )
     @PostMapping("/api/v1/book/{bookId}/take")
     @ResponseStatus(HttpStatus.CREATED)
-    public void takeBook(@PathVariable("bookId")
+    public AccountBookDto takeBook(@PathVariable("bookId")
                          @Parameter(description = "ID книги", example = "1") long bookId) {
-        bookService.takeBook(bookId);
+        return bookService.takeBook(bookId);
     }
 }

@@ -4,4 +4,5 @@ scrape_configs:
     metrics_path: '/actuator/prometheus'
     static_configs:
       - targets: ['host.docker.internal:8000',
-                  'host.docker.internal:8001']
+                  'host.docker.internal:8001',
+                  'host.docker.internal:8002']
