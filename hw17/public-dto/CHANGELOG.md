@@ -4,6 +4,8 @@
 ## 1.0.3
 ### Добавлено:
 - AccountBookCreateDto.java
+- AccountBookDto.java
+- AccountBookUpdateDto.java
 - AccountCreateDto.java
 - AccountDto.java
 - AccountUpdateDto.java

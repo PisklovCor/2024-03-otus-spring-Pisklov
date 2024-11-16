@@ -1,5 +1,6 @@
 application:
-  libraryUrlBase: http://localhost:8000
+  libraryUrlBase: http://localhost:8888
+  orderUrlBase: http://localhost:8888
 
 spring:
   datasource:

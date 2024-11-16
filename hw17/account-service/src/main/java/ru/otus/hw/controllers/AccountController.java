@@ -86,7 +86,7 @@ public class AccountController {
     )
     @GetMapping("/api/v1/account/order/{login}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public List<OrderDto> deleteAccount(@PathVariable("login") String login) {
+    public List<OrderDto> getAllOrderByLogin(@PathVariable("login") String login) {
         return  service.getAllOrderByLogin(login);
     }
 }

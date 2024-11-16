@@ -35,6 +35,13 @@ class OrderControllerTest extends SpringBootApplicationTest {
     @MockBean
     private OrderService service;
 
+    private Gson gson;
+
+    @BeforeEach
+    void setUp() {
+        gson = new Gson();
+    }
+
     @DisplayName("должен вернуть список всех заказов")
     @Order(1)
     @Test
@@ -43,13 +50,10 @@ class OrderControllerTest extends SpringBootApplicationTest {
         List<OrderDto> bookDtoList = List.of(new OrderDto());
         given(service.findAll()).willReturn(bookDtoList);
 
-        Gson gson = new Gson();
-        String resultJson = gson.toJson(bookDtoList);
-
         mvc.perform(get("/api/v1/order"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(content().json(resultJson));
+                .andExpect(content().json(gson.toJson(bookDtoList)));
 
     }
 
@@ -64,13 +68,10 @@ class OrderControllerTest extends SpringBootApplicationTest {
         dto.setBookTitle(INSERT_TITLE_VALUE);
         given(service.findAllByLogin(USER_LOGIN)).willReturn(List.of(dto));
 
-        Gson gson = new Gson();
-        String resultJson = gson.toJson(List.of(dto));
-
         mvc.perform(get("/api/v1/order/" + USER_LOGIN))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(content().json(resultJson));
+                .andExpect(content().json(gson.toJson(List.of(dto))));
     }
 
     @DisplayName("должен создать заказ")
@@ -88,16 +89,12 @@ class OrderControllerTest extends SpringBootApplicationTest {
 
         given(service.create(orderCreateDto)).willReturn(responseBookDto);
 
-        Gson gson = new Gson();
-        String requestJson = gson.toJson(orderCreateDto);
-        String responseJson = gson.toJson(responseBookDto);
-
         mvc.perform(post("/api/v1/order")
                         .contentType(APPLICATION_JSON)
-                        .content(requestJson))
+                        .content(gson.toJson(orderCreateDto)))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(content().json(responseJson));
+                .andExpect(content().json(gson.toJson(responseBookDto)));
 
     }
 
@@ -117,16 +114,12 @@ class OrderControllerTest extends SpringBootApplicationTest {
 
         given(service.update(orderUpdateDto)).willReturn(responseOrderDto);
 
-        Gson gson = new Gson();
-        String requestJson = gson.toJson(orderUpdateDto);
-        String responseJson = gson.toJson(responseOrderDto);
-
         mvc.perform(put("/api/v1/order")
                         .contentType(APPLICATION_JSON)
-                        .content(requestJson))
+                        .content(gson.toJson(orderUpdateDto)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(content().json(responseJson));
+                .andExpect(content().json(gson.toJson(responseOrderDto)));
 
     }
 }
