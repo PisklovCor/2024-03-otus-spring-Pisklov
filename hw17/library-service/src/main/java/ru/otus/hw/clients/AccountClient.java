@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import ru.otus.hw.dto.account.AccountBookCreateDto;
+import ru.otus.hw.dto.account.AccountBookDto;
 import ru.otus.hw.exceptions.ExternalSystemException;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -21,9 +22,9 @@ public class AccountClient {
     private final RestClient accountRestClient;
 
     @CircuitBreaker(name = "circuitBreakerAccountRestClient", fallbackMethod = "recoverMethod")
-    public void takeBook(AccountBookCreateDto dto) {
+    public AccountBookDto takeBook(AccountBookCreateDto dto) {
 
-        accountRestClient.post()
+       return  accountRestClient.post()
                 .uri(TAKE_BOOK)
                 .contentType(APPLICATION_JSON)
                 .body(dto)
@@ -31,7 +32,7 @@ public class AccountClient {
                 .onStatus(status -> status.value() == 500, (request, response) -> {
                     throw new ExternalSystemException("Error take a book", ACCOUNT_SERVICE);
                 })
-                .toBodilessEntity();
+                .body(AccountBookDto.class);
     }
 
     private void recoverMethod(Exception ex) {

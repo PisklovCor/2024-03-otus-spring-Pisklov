@@ -38,7 +38,7 @@ public class AccountBook {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", referencedColumnName = "id")
-    private Account accountId;
+    private Account account;
 
     @Column(name = "book_id")
     private long bookId;

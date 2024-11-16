@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.otus.hw.dictionaries.Status;
 
-@Schema(description = "Сущность заказа (создание)")
+@Schema(description = "Сущность заказа (обновление)")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

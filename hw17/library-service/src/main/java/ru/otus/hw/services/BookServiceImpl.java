@@ -8,6 +8,7 @@ import ru.otus.hw.clients.AccountClient;
 import ru.otus.hw.clients.OrderClient;
 import ru.otus.hw.dto.BookUpdateDto;
 import ru.otus.hw.dto.account.AccountBookCreateDto;
+import ru.otus.hw.dto.account.AccountBookDto;
 import ru.otus.hw.dto.order.OrderCreateDto;
 import ru.otus.hw.dto.order.OrderDto;
 import ru.otus.hw.mappers.BookMapper;
@@ -122,7 +123,7 @@ public class BookServiceImpl implements BookService {
     //todo: переделать на фасад
     @Override
     @Transactional(readOnly = true)
-    public void takeBook(long bookId) {
+    public AccountBookDto takeBook(long bookId) {
 
         BookDto bookDto = bookRepository.findById(bookId).stream()
                 .map(bookMapper::toDto)
@@ -132,7 +133,7 @@ public class BookServiceImpl implements BookService {
         //todo: планируется вытягивать из токена
         val login = "user";
 
-        accountClient.takeBook(new AccountBookCreateDto(login, bookDto.getId()));
+        return  accountClient.takeBook(new AccountBookCreateDto(login, bookDto.getId()));
 
         //todo: евент успеха
     }
