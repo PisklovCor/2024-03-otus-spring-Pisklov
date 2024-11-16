@@ -42,7 +42,6 @@ public class AccountBookServiceImpl implements AccountBookService {
         return repository.findAllByAccount(account).stream().map(mapper::toDto).toList();
     }
 
-    //todo: фасад для рабоыт с книгами
     @Override
     @Transactional
     public AccountBookDto create(AccountBookCreateDto dto) {
@@ -55,7 +54,6 @@ public class AccountBookServiceImpl implements AccountBookService {
                         account, dto.getBookId())));
     }
 
-    //todo: фасад для рабоыт с книгами
     @Override
     @Transactional
     public AccountBookDto update(AccountBookUpdateDto dto) {
