@@ -1,0 +1,18 @@
+application:
+  orderUrlBase: http://localhost:8888
+  accountUrlBase: http://localhost:8888
+
+spring:
+  datasource:
+    username: ${CONTAINER.USERNAME}
+    password: ${CONTAINER.PASSWORD}
+    url: ${CONTAINER.URL}
+    driverClassName: org.postgresql.Driver
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/changelog/db.changelog-master-test.yaml
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    show-sql: true

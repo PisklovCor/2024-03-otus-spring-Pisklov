@@ -1,0 +1,17 @@
+application:
+  libraryUrlBase: http://localhost:8000
+
+spring:
+  datasource:
+    username: ${CONTAINER.USERNAME}
+    password: ${CONTAINER.PASSWORD}
+    url: ${CONTAINER.URL}
+    driverClassName: org.postgresql.Driver
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/changelog/db.changelog-master-test.yaml
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    show-sql: true

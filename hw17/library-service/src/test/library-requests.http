@@ -1,0 +1,44 @@
+GET http://localhost:8000/api/v1/book
+
+###
+GET http://localhost:8000/api/v1/author
+
+###
+GET http://localhost:8000/api/v1/genre
+
+###
+GET http://localhost:8000/api/v1/book/1
+
+###
+POST http://localhost:8000/api/v1/book
+Content-Type: application/json
+
+{
+    "title": "test",
+    "authorId": 1,
+    "genresId": [1]
+  }
+
+###
+PUT http://localhost:8000/api/v1/book
+Content-Type: application/json
+
+{
+  "id": 1,
+  "title": "test",
+  "authorId": 1,
+  "genresId": [1]
+}
+
+###
+DELETE http://localhost:8000/api/v1/book/1
+
+###
+POST http://localhost:8000/api/v1/book/order
+Content-Type: application/json
+
+"Dune: Part One"
+
+###
+POST http://localhost:8000/api/v1/book/1/take
+Content-Type: application/json
