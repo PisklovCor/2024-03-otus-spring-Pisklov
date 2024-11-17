@@ -27,6 +27,8 @@ public class ProcessingScheduledTasksImpl implements ScheduledTasks {
 
     private final LibraryClient client;
 
+    private final OrderFacade facade;
+
 
     @Scheduled(fixedDelayString = "PT010S")
     @Override
@@ -50,7 +52,7 @@ public class ProcessingScheduledTasksImpl implements ScheduledTasks {
             try {
                 createBook(orderDto.getBookTitle());
                 orderDto.setStatus(CONFIRMED);
-                service.update(mapper.toUpdateDto(orderDto));
+                facade.updateAndSendMessage(mapper.toUpdateDto(orderDto));
 
             } catch (Exception e) {
                 log.error(e.getMessage());

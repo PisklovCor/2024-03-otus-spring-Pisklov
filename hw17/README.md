@@ -46,3 +46,8 @@ http://localhost:9090/
 ````
 http://localhost:3000/d/ZFSul8UMz/jvm-micrometer
 ````
+
+###### RabbitMQ (management)
+````
+http://localhost:15672/
+````

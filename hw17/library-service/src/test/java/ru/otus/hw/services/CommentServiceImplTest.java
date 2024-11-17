@@ -2,17 +2,11 @@ package ru.otus.hw.services;
 
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.SpringBootApplicationTest;
 import ru.otus.hw.exceptions.NotFoundException;
-import ru.otus.hw.mappers.AuthorMapper;
-import ru.otus.hw.mappers.BookMapper;
-import ru.otus.hw.mappers.CommentMapper;
-import ru.otus.hw.mappers.GenreMapper;
 
 import java.util.Set;
 

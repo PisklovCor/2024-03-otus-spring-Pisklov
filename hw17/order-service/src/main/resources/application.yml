@@ -14,6 +14,11 @@ spring:
     username: admin
     password: admin
     driverClassName: org.postgresql.Driver
+  rabbitmq:
+    addresses: localhost
+    port: 5672
+    username: admin
+    password: admin
   sql:
     init:
       mode: always
@@ -48,12 +53,12 @@ management:
       enabled: true
       probes:
         enabled: true
-#    refresh:
-#      enabled: true
+    refresh:
+      enabled: true
   endpoints:
     web:
       exposure:
-        include: [ 'health', 'info', 'metrics', 'prometheus', 'git', 'env' ]
+        include: [ 'health', 'info', 'metrics', 'prometheus', 'git', 'env', 'refresh' ]
     enabled-by-default: false
 
 logging:

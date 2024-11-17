@@ -1,6 +1,11 @@
 # Лог изменений
 Формат файла основан на ведите [changelog](https://keepachangelog.com/ru/1.0.0/).
 
+## 1.0.4
+### Добавлено:
+- MessageType.java
+- JmsOrderMessage.java
+
 ## 1.0.3
 ### Добавлено:
 - AccountBookCreateDto.java

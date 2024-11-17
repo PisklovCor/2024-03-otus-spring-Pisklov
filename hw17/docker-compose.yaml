@@ -49,6 +49,16 @@ services:
         aliases:
           - postgres
 
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_PASS: "admin"
+      RABBITMQ_DEFAULT_USER: "admin"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
   prometheus:
     image: prom/prometheus
     container_name: prometheus
