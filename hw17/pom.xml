@@ -11,6 +11,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>discovery-service</module>
         <module>public-dto</module>
         <module>library-service</module>
         <module>order-service</module>

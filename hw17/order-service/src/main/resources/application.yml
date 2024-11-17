@@ -25,6 +25,15 @@ spring:
     hibernate:
       ddl-auto: none
     show-sql: true
+  cloud:
+    config:
+      enabled: false
+
+eureka:
+  client:
+    service-url:
+#      defaultZone: ${DISCOVERY_URL:http://localhost:8761/eureka}
+      defaultZone: http://localhost:8761/eureka
 
 management:
   tracing:

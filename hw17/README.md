@@ -27,6 +27,11 @@ http://localhost:8001/swagger-ui/index.html
 http://localhost:8002/swagger-ui/index.html
 ````
 
+###### Discovery service
+````
+http://localhost:8761/
+````
+
 ###### Дашборд  zipkin
 ````
 http://localhost:9411/zipkin/
