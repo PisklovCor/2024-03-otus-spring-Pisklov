@@ -21,13 +21,15 @@ public class OrderClient {
 
     private static final String ORDER_BY_LOGIN = "/api/v1/order/";
 
-    private final RestClient orderRestClient;
+    private final RestClient.Builder orderRestClientBuilder;
 
     @CircuitBreaker(name = "circuitBreakerOrderRestClient", fallbackMethod = "recoverMethod")
     public List<OrderDto> getOrderByLogin(String login) {
 
-        return orderRestClient.get()
-                .uri(ORDER_BY_LOGIN + login)
+
+        return orderRestClientBuilder
+//                .defaultHeader("AUTHORIZATION", fetchToken())
+                .build().get().uri(ORDER_BY_LOGIN + login)
                 .retrieve()
                 .onStatus(status -> status.value() == 500, (request, response) -> {
                     throw new ExternalSystemException("Error creating order", ORDER_SERVICE);

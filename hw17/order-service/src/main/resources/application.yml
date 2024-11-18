@@ -1,5 +1,5 @@
 application:
-  libraryUrlBase: http://localhost:8000
+  libraryUrlBase: ${LIBRARY-SERVICE:http://localhost:8000}
   scheduler:
     enabled: true
 
@@ -37,8 +37,12 @@ spring:
 eureka:
   client:
     service-url:
-#      defaultZone: ${DISCOVERY_URL:http://localhost:8761/eureka}
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: ${DISCOVERY_URL:http://localhost:8761/eureka}
+  instance:
+    instance-id: order-service:${spring.application.instance_id:0}
+    lease-renewal-interval-in-seconds: 30
+    metadataMap:
+      zone: zone1
 
 management:
   tracing:
