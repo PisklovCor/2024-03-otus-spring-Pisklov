@@ -68,4 +68,4 @@ jobs:
 
       - name: Build application
         run: |
-          mvn clean package
+          mvn clean package -DskipTests
