@@ -2,12 +2,14 @@ package ru.otus.hw.dto.account;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.otus.hw.dto.BookDto;
 
 @Schema(description = "Сущность связи пользователя с книгой")
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class AccountBookDto {

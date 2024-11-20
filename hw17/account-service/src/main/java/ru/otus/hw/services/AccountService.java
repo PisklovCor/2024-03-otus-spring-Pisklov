@@ -3,7 +3,6 @@ package ru.otus.hw.services;
 import ru.otus.hw.dto.account.AccountCreateDto;
 import ru.otus.hw.dto.account.AccountDto;
 import ru.otus.hw.dto.account.AccountUpdateDto;
-import ru.otus.hw.dto.order.OrderDto;
 
 import java.util.List;
 
@@ -18,7 +17,5 @@ public interface AccountService {
     AccountDto update(AccountUpdateDto dto);
 
     void deleteById(long id);
-
-    List<OrderDto> getAllOrderByLogin(String login);
 
 }

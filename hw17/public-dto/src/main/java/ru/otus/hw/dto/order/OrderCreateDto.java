@@ -22,7 +22,7 @@ public class OrderCreateDto {
     /**
      * Book title from order.
      */
-    @Schema(description = "Заголовок книги", example = "Джентльмены удачи")
+    @Schema(description = "Заголовок книги", example = "Гордость и предубеждение")
     @NotBlank
     private String bookTitle;
 

@@ -16,4 +16,7 @@ public class PropertiesConfiguration {
     @NotBlank
     private String orderUrlBase;
 
+    @NotBlank
+    private String notificationUrlBase;
+
 }

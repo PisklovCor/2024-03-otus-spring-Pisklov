@@ -4,6 +4,7 @@ public enum ExternalSystem {
 
     LIBRARY_SERVICE,
     ORDER_SERVICE,
-    ACCOUNT_SERVICE
+    ACCOUNT_SERVICE,
+    NOTIFICATION_SERVICE
 
 }

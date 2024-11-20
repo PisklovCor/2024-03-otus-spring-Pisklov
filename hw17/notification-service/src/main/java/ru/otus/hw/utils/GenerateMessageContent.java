@@ -23,6 +23,7 @@ public class GenerateMessageContent {
             case LIBRARY_SERVICE -> "Вы оставили комментарий: " + rawMessage.getContent();
             case ACCOUNT_SERVICE -> "Вы получили это сообщение" +
                     " потому, что стали обладателм книги:" + rawMessage.getContent();
+            default -> "";
         };
     }
 

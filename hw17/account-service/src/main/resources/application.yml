@@ -1,7 +1,8 @@
 application:
   libraryUrlBase: ${LIBRARY-SERVICE:http://localhost:8000}
 #  orderUrlBase:  ${ORDER-SERVICE:http://localhost:8001}
-  orderUrlBase: ORDER-SERVICE
+  orderUrlBase: http://ORDER-SERVICE
+  notificationUrlBase: http://NOTIFICATION-SERVICE
 
 server:
   port: 8002
@@ -10,10 +11,15 @@ spring:
   application:
     name: account-service
   datasource:
-    url: jdbc:postgresql://localhost:5435/account-service-db
+    url: ${DATASOURCE_URL:jdbc:postgresql://localhost:5435/account-service-db}
     username: admin
     password: admin
     driverClassName: org.postgresql.Driver
+  rabbitmq:
+    addresses: localhost
+    port: 5672
+    username: admin
+    password: admin
   sql:
     init:
       mode: always
@@ -84,3 +90,6 @@ resilience4j:
       circuitBreakerLibraryRestClient:
         baseConfig: default
         waitDurationInOpenState: 20s
+      circuitBreakerNotificationRestClient:
+        baseConfig: default
+        waitDurationInOpenState: 10

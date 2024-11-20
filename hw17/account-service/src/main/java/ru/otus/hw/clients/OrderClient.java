@@ -26,7 +26,6 @@ public class OrderClient {
     @CircuitBreaker(name = "circuitBreakerOrderRestClient", fallbackMethod = "recoverMethod")
     public List<OrderDto> getOrderByLogin(String login) {
 
-
         return orderRestClientBuilder
 //                .defaultHeader("AUTHORIZATION", fetchToken())
                 .build().get().uri(ORDER_BY_LOGIN + login)
@@ -34,11 +33,12 @@ public class OrderClient {
                 .onStatus(status -> status.value() == 500, (request, response) -> {
                     throw new ExternalSystemException("Error creating order", ORDER_SERVICE);
                 })
-                .body(new ParameterizedTypeReference<>() {});
+                .body(new ParameterizedTypeReference<>() {
+                });
     }
 
-    private List<OrderDto> recoverMethod(Exception ex) {
-        log.error("Worked circuitBreakerOrderRestClient, e=[{}]", ex.getMessage());
+    private List<OrderDto> recoverMethod(String login, Throwable throwable) {
+        log.error("Worked circuitBreakerOrderRestClient, login: {} throwable: {}", login, throwable.getMessage());
         return Collections.emptyList();
     }
 }

@@ -1,6 +1,7 @@
 application:
   libraryUrlBase: http://localhost:8888
   orderUrlBase: http://localhost:8888
+  notificationUrlBase: http://localhost:8888
 
 spring:
   datasource:

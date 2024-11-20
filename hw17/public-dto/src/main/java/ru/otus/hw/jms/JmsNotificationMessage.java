@@ -8,12 +8,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.otus.hw.dictionaries.MessageType;
 
-@Schema(description = "JMS сообщение сервиса заказов")
+@Schema(description = "JMS сообщение сервиса аккаунтов")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class JmsOrderMessage {
+public class JmsNotificationMessage {
 
     /**
      * User login.
@@ -32,8 +32,8 @@ public class JmsOrderMessage {
     /**
      * Book title from order.
      */
-    @Schema(description = "Заголовок книги", example = "Гордость и предубеждение")
+    @Schema(description = "Описание книги", example = "Гордость и предубеждение, Джейн Остен")
     @NotBlank
-    private String bookTitle;
+    private String bookDescription;
 
 }

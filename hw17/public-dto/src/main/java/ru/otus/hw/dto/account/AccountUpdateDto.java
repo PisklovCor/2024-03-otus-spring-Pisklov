@@ -5,11 +5,13 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Schema(description = "Сущность аккаунта пользоваетля")
+@Schema(description = "Сущность аккаунта пользоваетля (обновление)")
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class AccountUpdateDto {

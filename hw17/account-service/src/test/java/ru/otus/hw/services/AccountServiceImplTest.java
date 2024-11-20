@@ -96,14 +96,4 @@ class AccountServiceImplTest extends SpringBootApplicationTest {
 
         assertThrows(NotFoundException.class, () -> service.findAllByLogin(NEW_ACCOUNT_LOGIN));
     }
-
-    @DisplayName("должен загружать список заказов по логину")
-    @Test
-    @Order(6)
-    void getAllOrderByLogin() {
-        var OrderDtoList = service.getAllOrderByLogin(USER_LOGIN);
-
-        verify(orderClient, times(1)).getOrderByLogin(USER_LOGIN);
-        assertEquals(OrderDtoList, Collections.emptyList());
-    }
 }

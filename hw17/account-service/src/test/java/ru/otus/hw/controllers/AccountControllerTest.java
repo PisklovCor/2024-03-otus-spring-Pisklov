@@ -1,5 +1,6 @@
 package ru.otus.hw.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +21,8 @@ class AccountControllerTest extends SpringBootApplicationTest {
     @MockBean
     private AccountService service;
 
-    private Gson gson;
-
-    @BeforeEach
-    void setUp() {
-        gson = new Gson();
-    }
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Test
     void getListAccount() {

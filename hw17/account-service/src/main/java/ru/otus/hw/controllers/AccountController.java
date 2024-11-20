@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import ru.otus.hw.dto.account.AccountCreateDto;
 import ru.otus.hw.dto.account.AccountDto;
 import ru.otus.hw.dto.account.AccountUpdateDto;
+import ru.otus.hw.dto.notification.MessageUserDto;
 import ru.otus.hw.dto.order.OrderDto;
+import ru.otus.hw.services.AccountFacade;
 import ru.otus.hw.services.AccountService;
 
 import java.util.List;
@@ -28,6 +30,8 @@ import java.util.List;
 public class AccountController {
 
     private final AccountService service;
+
+    private final AccountFacade facade;
 
     @Operation(
             summary = "Получение аккаунтов",
@@ -46,7 +50,7 @@ public class AccountController {
     @GetMapping("/api/v1/account/{login}")
     @ResponseStatus(HttpStatus.OK)
     public AccountDto gteAccountByLogin(@PathVariable("login")
-                               @Parameter(description = "Логин пользователя", example = "guest") String login) {
+                                        @Parameter(description = "Логин пользователя", example = "guest") String login) {
         return service.findAllByLogin(login);
     }
 
@@ -81,12 +85,22 @@ public class AccountController {
     }
 
     @Operation(
-            summary = "Поулчение заказов",
+            summary = "Получение заказов",
             description = "Позволяет получить все заказы пользователя по его лоигину"
     )
     @GetMapping("/api/v1/account/order/{login}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public List<OrderDto> getAllOrderByLogin(@PathVariable("login") String login) {
-        return  service.getAllOrderByLogin(login);
+        return facade.getAllOrderByLogin(login);
+    }
+
+    @Operation(
+            summary = "Получение уведомлений",
+            description = "Позволяет получить все уведомления пользователя по его лоигину"
+    )
+    @GetMapping("/api/v1/account/notification/{login}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public List<MessageUserDto> getAllNotificationByLogin(@PathVariable("login") String login) {
+        return facade.getAllNotificationByLogin(login);
     }
 }

@@ -26,35 +26,35 @@ public class ExceptionHandlingController {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(BAD_REQUEST)
     public ErrorResponse methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException ex) {
-        log.error("Error: " + ExceptionHandlingController.class.getName(), ex);
+        log.error("Error: {}", ExceptionHandlingController.class.getName(), ex);
         return createErrorResponseBody(ex);
     }
 
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(NOT_FOUND)
     public ErrorResponse notFoundExceptionHandler(NotFoundException ex) {
-        log.error("Error: " + ExceptionHandlingController.class.getName(), ex);
+        log.error("Error: {}", ExceptionHandlingController.class.getName(), ex);
         return createErrorResponseBody(ex);
     }
 
     @ExceptionHandler(RuntimeException.class)
     @ResponseStatus(INTERNAL_SERVER_ERROR)
     public ErrorResponse exceptionHandler(Exception ex) {
-        log.error("Error: " + ExceptionHandlingController.class.getName(), ex);
+        log.error("Error: {}", ExceptionHandlingController.class.getName(), ex);
         return createErrorResponseBody(ex);
     }
 
     @ExceptionHandler(ExternalSystemException.class)
     @ResponseStatus(GATEWAY_TIMEOUT)
     public ErrorResponse externalSystemException(ExternalSystemException ex) {
-        log.error("Error: {}",ex.getExternalSystem(), ex);
+        log.error("Error: {}", ex.getExternalSystem(), ex);
         return createErrorResponseBody(ex);
     }
 
     @ExceptionHandler(RequestNotPermitted.class)
     @ResponseStatus(SERVICE_UNAVAILABLE)
     public ErrorResponse requestNotPermitted(RequestNotPermitted ex) {
-        log.error("Error: " + ExceptionHandlingController.class.getName(), ex);
+        log.error("Error: {}", ExceptionHandlingController.class.getName(), ex);
         return createErrorResponseBody(ex);
     }
 

@@ -26,9 +26,15 @@ public class RestClientConfiguration {
                 .build();
     }
 
-    @LoadBalanced
     @Bean
+    @LoadBalanced
     RestClient.Builder orderRestClientBuilder() {
-        return RestClient.builder().baseUrl("http://" + configuration.getOrderUrlBase());
+        return RestClient.builder().baseUrl(configuration.getOrderUrlBase());
+    }
+
+    @Bean
+    @LoadBalanced
+    RestClient.Builder notificationRestClientBuilder() {
+        return RestClient.builder().baseUrl(configuration.getNotificationUrlBase());
     }
 }

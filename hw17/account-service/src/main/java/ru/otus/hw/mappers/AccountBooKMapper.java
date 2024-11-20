@@ -13,13 +13,11 @@ public class AccountBooKMapper {
     private final AccountMapper accountMapper;
 
     public AccountBookDto toDto(AccountBook entity) {
-        BookDto bookDtoEmpty = new BookDto();
-        bookDtoEmpty.setId(entity.getBookId());
 
-        AccountBookDto dto = new AccountBookDto();
-        dto.setId(entity.getId());
-        dto.setAccount(accountMapper.toDto(entity.getAccount()));
-        dto.setBook(bookDtoEmpty);
-        return  dto;
+        return AccountBookDto.builder()
+                .id(entity.getId())
+                .account(accountMapper.toDto(entity.getAccount()))
+                .book(BookDto.builder().id(-1).build())
+                .build();
     }
 }

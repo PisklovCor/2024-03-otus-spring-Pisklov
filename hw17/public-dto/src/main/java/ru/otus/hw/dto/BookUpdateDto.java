@@ -26,7 +26,7 @@ public class BookUpdateDto {
     /**
      * Title book.
      */
-    @Schema(description = "Заголовок", example = "Джентльмены удачи")
+    @Schema(description = "Заголовок", example = "Гордость и предубеждение")
     @NotBlank
     private String title;
 
