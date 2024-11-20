@@ -5,6 +5,8 @@
 ### Добавлено:
 - MessageType.java
 - JmsOrderMessage.java
+- RawMessageCreateDto.java
+- RawMessageDto.java
 
 ## 1.0.3
 ### Добавлено:

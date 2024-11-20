@@ -1,0 +1,18 @@
+GET http://localhost:8003/api/v1/raw-message
+
+###
+POST http://localhost:8003/api/v1/raw-message
+Content-Type: application/json
+
+{
+  "login": "user",
+  "content": "message content",
+  "externalSystemName": "LIBRARY_SERVICE",
+  "messageType": "CREATION"
+}
+
+####
+GET http://localhost:8003/api/v1/user-message
+
+####
+GET http://localhost:8003/api/v1/user-message/user

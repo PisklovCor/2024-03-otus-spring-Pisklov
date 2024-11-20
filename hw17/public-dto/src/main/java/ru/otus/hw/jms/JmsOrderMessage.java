@@ -3,12 +3,14 @@ package ru.otus.hw.jms;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.otus.hw.dictionaries.MessageType;
 
-@Schema(description = "Сообщение сервиса заказов")
+@Schema(description = "JMS сообщение сервиса заказов")
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class JmsOrderMessage {
