@@ -47,7 +47,8 @@ public class OrderController {
     @GetMapping("/api/v1/order/{login}")
     @ResponseStatus(HttpStatus.OK)
     public List<OrderDto> gteListOrderByLogin(@PathVariable("login")
-                                              @Parameter(description = "Логин пользователя", example = "guest") String login) {
+                                              @Parameter(description = "Логин пользователя",
+                                                      example = "guest") String login) {
         return service.findAllByLogin(login);
     }
 
