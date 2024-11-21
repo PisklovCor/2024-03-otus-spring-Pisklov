@@ -1,5 +1,6 @@
 application:
-  accountUrlBase: http://ACCOUNT-SERVICE
+  services:
+    account-url: http://ACCOUNT-SERVICE
   scheduler:
     enabled: false
 

@@ -7,10 +7,10 @@ import org.springframework.validation.annotation.Validated;
 
 @Data
 @Validated
-@ConfigurationProperties(prefix = "application")
+@ConfigurationProperties(prefix = "application.services")
 public class PropertiesConfiguration {
 
     @NotBlank
-    private String accountUrlBase;
+    private String accountUrl;
 
 }

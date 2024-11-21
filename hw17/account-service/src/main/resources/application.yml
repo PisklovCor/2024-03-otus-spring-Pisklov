@@ -1,8 +1,8 @@
 application:
-  libraryUrlBase: ${LIBRARY-SERVICE:http://localhost:8000}
-#  orderUrlBase:  ${ORDER-SERVICE:http://localhost:8001}
-  orderUrlBase: http://ORDER-SERVICE
-  notificationUrlBase: http://NOTIFICATION-SERVICE
+  services:
+    libraryUrl: ${LIBRARY-SERVICE:http://localhost:8000}
+    orderUrl: lb://ORDER-SERVICE
+    notificationUrl: lb://NOTIFICATION-SERVICE
 
 server:
   port: 8002

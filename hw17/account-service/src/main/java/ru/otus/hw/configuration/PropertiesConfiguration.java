@@ -7,16 +7,16 @@ import org.springframework.validation.annotation.Validated;
 
 @Data
 @Validated
-@ConfigurationProperties(prefix = "application")
+@ConfigurationProperties(prefix = "application.services")
 public class PropertiesConfiguration {
 
     @NotBlank
-    private String libraryUrlBase;
+    private String libraryUrl;
 
     @NotBlank
-    private String orderUrlBase;
+    private String orderUrl;
 
     @NotBlank
-    private String notificationUrlBase;
+    private String notificationUrl;
 
 }

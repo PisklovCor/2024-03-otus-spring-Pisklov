@@ -1,7 +1,6 @@
 application:
-  libraryUrlBase: ${LIBRARY-SERVICE:http://localhost:8000}
-  scheduler:
-    enabled: true
+  services:
+    libraryUrl: ${LIBRARY-SERVICE:http://localhost:8000}
 
 server:
   port: 8001
@@ -10,7 +9,7 @@ spring:
   application:
     name: order-service
   datasource:
-    url: jdbc:postgresql://localhost:5434/order-service-db
+    url: ${DATASOURCE_URL:jdbc:postgresql://localhost:5434/order-service-db}
     username: admin
     password: admin
     driverClassName: org.postgresql.Driver
@@ -59,10 +58,12 @@ management:
         enabled: true
     refresh:
       enabled: true
+    info:
+      enabled: true
   endpoints:
     web:
       exposure:
-        include: [ 'health', 'info', 'metrics', 'prometheus', 'git', 'env', 'refresh' ]
+        include: [ 'health', 'info', 'metrics', 'prometheus', 'git', 'env', 'refresh', 'info']
     enabled-by-default: false
 
 logging:

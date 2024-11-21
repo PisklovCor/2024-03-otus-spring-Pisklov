@@ -22,7 +22,7 @@ public class RestClientConfiguration {
     RestClient libraryRestClient() {
 
         return RestClient.builder()
-                .baseUrl(configuration.getLibraryUrlBase())
+                .baseUrl(configuration.getLibraryUrl())
                 //.defaultHeader("AUTHORIZATION", fetchToken())
                 .build();
     }

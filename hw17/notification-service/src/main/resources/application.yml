@@ -1,7 +1,6 @@
 application:
-  accountUrlBase: http://ACCOUNT-SERVICE
-  scheduler:
-    enabled: true
+  services:
+    account-url: lb://ACCOUNT-SERVICE
 
 server:
   port: 8003
@@ -11,10 +10,10 @@ spring:
     name: notification-service
   datasource:
     hikari:
-#      transaction-isolation: TRANSACTION_READ_COMMITTED # TRANSACTION_READ_COMMITTED / TRANSACTION_REPEATABLE_READ / TRANSACTION_SERIALIZABLE
+      # transaction-isolation: TRANSACTION_READ_COMMITTED # TRANSACTION_READ_COMMITTED / TRANSACTION_REPEATABLE_READ / TRANSACTION_SERIALIZABLE
       maximum-pool-size: 10
       minimum-idle: 1
-    url: jdbc:postgresql://localhost:5436/notification-service-db
+    url: ${DATASOURCE_URL:jdbc:postgresql://localhost:5436/notification-service-db}
     username: admin
     password: admin
     driverClassName: org.postgresql.Driver

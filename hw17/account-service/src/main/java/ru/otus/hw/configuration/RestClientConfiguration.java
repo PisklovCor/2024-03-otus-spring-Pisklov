@@ -21,7 +21,7 @@ public class RestClientConfiguration {
     RestClient libraryRestClient() {
 
         return RestClient.builder()
-                .baseUrl(configuration.getLibraryUrlBase())
+                .baseUrl(configuration.getLibraryUrl())
                 //.defaultHeader("AUTHORIZATION", fetchToken())
                 .build();
     }
@@ -29,12 +29,12 @@ public class RestClientConfiguration {
     @Bean
     @LoadBalanced
     RestClient.Builder orderRestClientBuilder() {
-        return RestClient.builder().baseUrl(configuration.getOrderUrlBase());
+        return RestClient.builder().baseUrl(configuration.getOrderUrl());
     }
 
     @Bean
     @LoadBalanced
     RestClient.Builder notificationRestClientBuilder() {
-        return RestClient.builder().baseUrl(configuration.getNotificationUrlBase());
+        return RestClient.builder().baseUrl(configuration.getNotificationUrl());
     }
 }

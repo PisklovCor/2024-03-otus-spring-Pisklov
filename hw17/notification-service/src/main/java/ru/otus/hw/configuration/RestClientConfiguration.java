@@ -22,6 +22,6 @@ public class RestClientConfiguration {
     @Bean
     @LoadBalanced
     RestClient.Builder accountRestClientBuilder() {
-        return RestClient.builder().baseUrl(configuration.getAccountUrlBase());
+        return RestClient.builder().baseUrl(configuration.getAccountUrl());
     }
 }
