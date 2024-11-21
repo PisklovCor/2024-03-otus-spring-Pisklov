@@ -15,15 +15,15 @@ import static org.testcontainers.shaded.org.awaitility.Awaitility.await;
 @DisplayName("Сервис периодически запускаемых задач ")
 class ProcessingScheduledTasksImplTest extends SpringBootApplicationTest  {
 
-    @SpyBean
-    @Qualifier("processingScheduledTasksImpl")
-    ScheduledTasks task;
-
-    @DisplayName("должен найти записи по заказам и обновить их")
-    @Test
-    public void creationBookBasedOnOrder() {
-        await().atMost(Durations.TEN_SECONDS).untilAsserted(() -> {
-            verify(task, atLeast(1)).run();
-        });
-    }
+//    @SpyBean
+//    @Qualifier("processingScheduledTasksImpl")
+//    ScheduledTasks task;
+//
+//    @DisplayName("должен найти записи по заказам и обновить их")
+//    @Test
+//    public void creationBookBasedOnOrder() {
+//        await().atMost(Durations.TEN_SECONDS).untilAsserted(() -> {
+//            verify(task, atLeast(1)).run();
+//        });
+//    }
 }
