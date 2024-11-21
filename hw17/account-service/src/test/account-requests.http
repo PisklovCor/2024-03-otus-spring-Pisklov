@@ -31,3 +31,6 @@ DELETE http://localhost:8002/api/v1/account/2
 
 ###
 GET http://localhost:8002/api/v1/account/order/user
+
+###
+GET http://localhost:8002/api/v1/account/notification/user

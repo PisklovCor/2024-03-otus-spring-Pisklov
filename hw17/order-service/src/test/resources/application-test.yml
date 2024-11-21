@@ -1,5 +1,8 @@
 application:
-  libraryUrlBase: http://localhost:8888
+  services:
+    libraryUrl: http://localhost:8888
+  scheduler:
+    enabled: false
 
 spring:
   datasource:
@@ -15,3 +18,7 @@ spring:
     hibernate:
       ddl-auto: none
     show-sql: true
+
+eureka:
+  client:
+    enabled: false

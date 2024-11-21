@@ -1,6 +1,8 @@
 application:
-  libraryUrlBase: http://localhost:8888
-  orderUrlBase: http://localhost:8888
+  services:
+    libraryUrl: http://localhost:8888
+    orderUrl: http://localhost:8888
+    notificationUrl: http://localhost:8888
 
 spring:
   datasource:
@@ -16,3 +18,7 @@ spring:
     hibernate:
       ddl-auto: none
     show-sql: true
+
+eureka:
+  client:
+    enabled: false

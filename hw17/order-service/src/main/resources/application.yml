@@ -1,7 +1,6 @@
 application:
-  libraryUrlBase: http://localhost:8000
-  scheduler:
-    enabled: true
+  services:
+    libraryUrl: ${LIBRARY-SERVICE:http://localhost:8000}
 
 server:
   port: 8001
@@ -10,10 +9,15 @@ spring:
   application:
     name: order-service
   datasource:
-    url: jdbc:postgresql://localhost:5434/order-service-db
+    url: ${DATASOURCE_URL:jdbc:postgresql://localhost:5434/order-service-db}
     username: admin
     password: admin
     driverClassName: org.postgresql.Driver
+  rabbitmq:
+    addresses: localhost
+    port: 5672
+    username: admin
+    password: admin
   sql:
     init:
       mode: always
@@ -25,6 +29,19 @@ spring:
     hibernate:
       ddl-auto: none
     show-sql: true
+  cloud:
+    config:
+      enabled: false
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${DISCOVERY_URL:http://localhost:8761/eureka}
+  instance:
+    instance-id: order-service:${spring.application.instance_id:0}
+    lease-renewal-interval-in-seconds: 30
+    metadataMap:
+      zone: zone1
 
 management:
   tracing:
@@ -39,12 +56,14 @@ management:
       enabled: true
       probes:
         enabled: true
-#    refresh:
-#      enabled: true
+    refresh:
+      enabled: true
+    info:
+      enabled: true
   endpoints:
     web:
       exposure:
-        include: [ 'health', 'info', 'metrics', 'prometheus', 'git', 'env' ]
+        include: [ 'health', 'info', 'metrics', 'prometheus', 'git', 'env', 'refresh', 'info']
     enabled-by-default: false
 
 logging:

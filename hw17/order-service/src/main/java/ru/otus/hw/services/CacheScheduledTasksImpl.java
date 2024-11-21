@@ -7,6 +7,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import ru.otus.hw.clients.LibraryClient;
 import ru.otus.hw.exceptions.CacheException;
+import ru.otus.hw.utils.CacheService;
 
 @Slf4j
 @RequiredArgsConstructor

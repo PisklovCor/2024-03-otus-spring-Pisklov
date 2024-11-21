@@ -11,10 +11,13 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>discovery-service</module>
         <module>public-dto</module>
         <module>library-service</module>
         <module>order-service</module>
         <module>account-service</module>
+        <module>notification-service</module>
+        <module>api-gateway</module>
     </modules>
 
     <properties>

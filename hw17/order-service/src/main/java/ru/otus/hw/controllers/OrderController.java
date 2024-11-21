@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import ru.otus.hw.dto.order.OrderCreateDto;
 import ru.otus.hw.dto.order.OrderDto;
 import ru.otus.hw.dto.order.OrderUpdateDto;
+import ru.otus.hw.services.OrderFacade;
 import ru.otus.hw.services.OrderService;
 
 import java.util.List;
@@ -26,6 +27,8 @@ import java.util.List;
 public class OrderController {
 
     private final OrderService service;
+
+    private final OrderFacade facade;
 
     @Operation(
             summary = "Получение заказов",
@@ -44,7 +47,8 @@ public class OrderController {
     @GetMapping("/api/v1/order/{login}")
     @ResponseStatus(HttpStatus.OK)
     public List<OrderDto> gteListOrderByLogin(@PathVariable("login")
-                               @Parameter(description = "Логин пользователя", example = "guest") String login) {
+                                              @Parameter(description = "Логин пользователя",
+                                                      example = "guest") String login) {
         return service.findAllByLogin(login);
     }
 
@@ -55,7 +59,7 @@ public class OrderController {
     @PostMapping("/api/v1/order")
     @ResponseStatus(HttpStatus.CREATED)
     public OrderDto createOrder(@Valid @RequestBody OrderCreateDto orderCreateDto) {
-        return service.create(orderCreateDto);
+        return facade.createAndSendMessage(orderCreateDto);
     }
 
     @Operation(
@@ -65,6 +69,6 @@ public class OrderController {
     @PutMapping("/api/v1/order")
     @ResponseStatus(HttpStatus.OK)
     public OrderDto updateOrder(@Valid @RequestBody OrderUpdateDto orderUpdateDto) {
-        return service.update(orderUpdateDto);
+        return facade.updateAndSendMessage(orderUpdateDto);
     }
 }

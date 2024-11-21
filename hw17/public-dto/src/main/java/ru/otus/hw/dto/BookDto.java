@@ -2,6 +2,7 @@ package ru.otus.hw.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Schema(description = "Сущность книги")
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class BookDto {
@@ -22,7 +24,7 @@ public class BookDto {
     /**
      * Title book.
      */
-    @Schema(description = "Заголовок", example = "Джентльмены удачи")
+    @Schema(description = "Заголовок", example = "Гордость и предубеждение")
     private String title;
 
     /**

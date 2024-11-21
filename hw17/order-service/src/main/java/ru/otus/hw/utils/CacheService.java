@@ -1,4 +1,4 @@
-package ru.otus.hw.services;
+package ru.otus.hw.utils;
 
 import lombok.experimental.UtilityClass;
 import lombok.val;

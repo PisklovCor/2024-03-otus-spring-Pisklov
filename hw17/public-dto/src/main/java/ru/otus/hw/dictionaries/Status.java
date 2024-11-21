@@ -4,11 +4,11 @@ import lombok.Generated;
 
 public enum Status {
 
-    CREATED("created", "Order created"),
-    WAIT("wait", "The order is in the status of awaiting processing"),
-    CANCELED("canceled", "Order cancelled"),
-    CONFIRMED("confirmed", "The order has been completed"),
-    ERROR("error", "Error while processing order");
+    CREATED("created", "Entry created"),
+    WAIT("wait", "Awaiting further processing"),
+    CANCELED("canceled", "Record processing canceled"),
+    CONFIRMED("confirmed", "The entry was processed successfully"),
+    ERROR("error", "The entry was processed with an error");
 
     private final String value;
 

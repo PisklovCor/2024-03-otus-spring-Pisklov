@@ -50,7 +50,8 @@ public class AccountBookController {
     @GetMapping("/api/v1/account/book/{login}")
     @ResponseStatus(HttpStatus.OK)
     public List<AccountBookDto> gteAccountByLogin(@PathVariable("login")
-                               @Parameter(description = "Логин пользователя", example = "guest") String login) {
+                                                  @Parameter(description = "Логин пользователя",
+                                                          example = "guest") String login) {
         return facade.findAllByLogin(login);
     }
 

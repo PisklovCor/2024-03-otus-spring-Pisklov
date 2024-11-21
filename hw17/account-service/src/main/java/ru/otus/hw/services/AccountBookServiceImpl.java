@@ -16,8 +16,8 @@ import ru.otus.hw.repositories.AccountRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class AccountBookServiceImpl implements AccountBookService {
 
     private final AccountBooKMapper mapper;
