@@ -11,10 +11,10 @@ server:
 application:
   api-routes:
     - id: order-service
-      from: api/v1/order
+      from: order-service
       to: lb://ORDER-SERVICE
     - id: account-service
-      from: api/v1/account
+      from: account-service
       to: lb://ACCOUNT-SERVICE
     - id: notification-service
       from: /api/v1/user-message

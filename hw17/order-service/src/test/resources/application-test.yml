@@ -3,6 +3,8 @@ application:
     libraryUrl: http://localhost:8888
   scheduler:
     enabled: false
+  security:
+    enabled: false
 
 spring:
   datasource:

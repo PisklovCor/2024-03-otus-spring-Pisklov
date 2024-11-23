@@ -50,7 +50,7 @@ class OrderControllerTest extends SpringBootApplicationTest {
         List<OrderDto> bookDtoList = List.of(new OrderDto());
         given(service.findAll()).willReturn(bookDtoList);
 
-        mvc.perform(get("/api/v1/order"))
+        mvc.perform(get("/order-service/api/v1/order"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(content().json(gson.toJson(bookDtoList)));
@@ -68,7 +68,7 @@ class OrderControllerTest extends SpringBootApplicationTest {
         dto.setBookTitle(INSERT_TITLE_VALUE);
         given(service.findAllByLogin(USER_LOGIN)).willReturn(List.of(dto));
 
-        mvc.perform(get("/api/v1/order/" + USER_LOGIN))
+        mvc.perform(get("/order-service/api/v1/order/" + USER_LOGIN))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(content().json(gson.toJson(List.of(dto))));
@@ -89,7 +89,7 @@ class OrderControllerTest extends SpringBootApplicationTest {
 
         given(service.create(orderCreateDto)).willReturn(responseBookDto);
 
-        mvc.perform(post("/api/v1/order")
+        mvc.perform(post("/order-service/api/v1/order")
                         .contentType(APPLICATION_JSON)
                         .content(gson.toJson(orderCreateDto)))
                 .andExpect(status().isCreated())
@@ -114,7 +114,7 @@ class OrderControllerTest extends SpringBootApplicationTest {
 
         given(service.update(orderUpdateDto)).willReturn(responseOrderDto);
 
-        mvc.perform(put("/api/v1/order")
+        mvc.perform(put("/order-service/api/v1/order")
                         .contentType(APPLICATION_JSON)
                         .content(gson.toJson(orderUpdateDto)))
                 .andExpect(status().isOk())
