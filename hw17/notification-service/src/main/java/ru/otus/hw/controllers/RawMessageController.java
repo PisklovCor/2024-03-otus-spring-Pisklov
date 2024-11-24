@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @Tag(name = "Контроллер сырых сообщений", description = "Контроллер взаимодействия с сырыми сообщениями")
 @RestController
+@RequestMapping("/notification-service")
 @RequiredArgsConstructor
 public class RawMessageController {
 

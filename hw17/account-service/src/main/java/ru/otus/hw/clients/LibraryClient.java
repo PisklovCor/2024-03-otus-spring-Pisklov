@@ -15,13 +15,13 @@ import static ru.otus.hw.dictionaries.ExternalSystem.LIBRARY_SERVICE;
 @RequiredArgsConstructor
 public class LibraryClient {
 
-    private static final String BOOK_BY_ID = "/api/v1/book/";
+    private static final String BOOK_BY_ID = "library-service/api/v1/book/";
 
-    private final RestClient libraryRestClient;
+    private final RestClient.Builder libraryRestClientBuilder;
 
     @CircuitBreaker(name = "circuitBreakerLibraryRestClient", fallbackMethod = "recoverMethod")
     public BookDto getBookById(long bookId) {
-        return libraryRestClient.get()
+        return libraryRestClientBuilder.build().get()
                 .uri(BOOK_BY_ID + bookId)
                 .retrieve()
                 .onStatus(status -> status.value() == 500, (request, response) -> {

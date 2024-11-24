@@ -20,20 +20,20 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static ru.otus.hw.dictionaries.ExternalSystem.LIBRARY_SERVICE;
 
 @Slf4j
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class LibraryClient {
 
-    private static final String BOOK_CREATE = "/api/v1/book";
+    private static final String BOOK_CREATE = "library-service/api/v1/book";
 
-    private static final String AUTHOR_LIST = "/api/v1/author";
+    private static final String AUTHOR_LIST = "library-service/api/v1/author";
 
-    private static final String GENRE_LIST = "/api/v1/genre";
+    private static final String GENRE_LIST = "library-service/api/v1/genre";
 
-    private final RestClient libraryRestClient;
+    private final RestClient.Builder libraryRestClientBuilder;
 
     public BookDto createBook(BookCreateDto dto) {
-        return libraryRestClient.post()
+        return libraryRestClientBuilder.build().post()
                 .uri(BOOK_CREATE)
                 .contentType(APPLICATION_JSON)
                 .body(dto)
@@ -46,7 +46,7 @@ public class LibraryClient {
 
     @Retry(name = "retryCacheScheduled", fallbackMethod = "recoverMethod")
     public List<AuthorDto> getListAuthor() {
-        return libraryRestClient.get()
+        return libraryRestClientBuilder.build().get()
                 .uri(AUTHOR_LIST)
                 .accept(APPLICATION_JSON)
                 .retrieve()
@@ -58,7 +58,7 @@ public class LibraryClient {
 
     @Retry(name = "retryCacheScheduled", fallbackMethod = "recoverMethod")
     public List<GenreDto> getListGenre() {
-        return libraryRestClient.get()
+        return libraryRestClientBuilder.build().get()
                 .uri(GENRE_LIST)
                 .accept(APPLICATION_JSON)
                 .retrieve()

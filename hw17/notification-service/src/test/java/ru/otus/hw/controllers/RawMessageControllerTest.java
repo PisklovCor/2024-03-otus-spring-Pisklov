@@ -49,7 +49,7 @@ class RawMessageControllerTest extends SpringBootApplicationTest {
 
         var resultSet = service.findAll();
 
-        mvc.perform(get("/api/v1/raw-message"))
+        mvc.perform(get("/notification-service/api/v1/raw-message"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(content().json(objectMapper.writeValueAsString(resultSet)));
@@ -66,7 +66,7 @@ class RawMessageControllerTest extends SpringBootApplicationTest {
                 .messageType(CREATION)
                 .build();
 
-        mvc.perform(post("/api/v1/raw-message")
+        mvc.perform(post("/notification-service/api/v1/raw-message")
                         .contentType(APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(rawMessageCreateDto)))
                 .andExpect(status().isCreated())

@@ -18,8 +18,8 @@ import static ru.otus.hw.dictionaries.Status.CONFIRMED;
 import static ru.otus.hw.dictionaries.Status.ERROR;
 
 @Slf4j
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class ProcessingScheduledTasksImpl implements ScheduledTasks {
 
     private final OrderService service;

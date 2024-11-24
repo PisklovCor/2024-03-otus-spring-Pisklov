@@ -34,7 +34,6 @@ public class JacksonConfiguration {
 
     }
 
-
     public ObjectMapper defaultMapper() {
         return new ObjectMapper()
                 .enable(
@@ -58,5 +57,4 @@ public class JacksonConfiguration {
                 .addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ISO_DATE_TIME))
                 .addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(DateTimeFormatter.ISO_DATE_TIME));
     }
-
 }

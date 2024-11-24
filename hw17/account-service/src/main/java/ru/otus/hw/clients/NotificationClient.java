@@ -15,11 +15,11 @@ import java.util.List;
 import static ru.otus.hw.dictionaries.ExternalSystem.NOTIFICATION_SERVICE;
 
 @Slf4j
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class NotificationClient {
 
-    private static final String MESSAGE_USER_BY_LOGIN = "/api/v1/user-message/";
+    private static final String MESSAGE_USER_BY_LOGIN = "notification-service/api/v1/user-message/";
 
     private final RestClient.Builder notificationRestClientBuilder;
 

@@ -31,9 +31,7 @@ public class JacksonConfiguration {
                 .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
                 .configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL, true)
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
     }
-
 
     public ObjectMapper defaultMapper() {
         return new ObjectMapper()
@@ -46,7 +44,6 @@ public class JacksonConfiguration {
                         SerializationFeature.INDENT_OUTPUT,
                         SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
                 .disable(JsonGenerator.Feature.WRITE_BIGDECIMAL_AS_PLAIN);
-
     }
 
     public SimpleModule httpTimeModule() {
@@ -58,5 +55,4 @@ public class JacksonConfiguration {
                 .addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ISO_DATE_TIME))
                 .addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(DateTimeFormatter.ISO_DATE_TIME));
     }
-
 }

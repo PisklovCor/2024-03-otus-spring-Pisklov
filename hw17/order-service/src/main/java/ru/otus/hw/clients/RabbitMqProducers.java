@@ -9,6 +9,7 @@ import ru.otus.hw.jms.JmsOrderMessage;
 
 import static ru.otus.hw.configuration.RabbitMqConfiguration.BASE_ROUTING_KEY;
 import static ru.otus.hw.dictionaries.MessageType.CREATION;
+import static ru.otus.hw.dictionaries.MessageType.ERROR;
 import static ru.otus.hw.dictionaries.MessageType.UPDATE;
 
 @Slf4j
@@ -16,20 +17,27 @@ import static ru.otus.hw.dictionaries.MessageType.UPDATE;
 @RequiredArgsConstructor
 public class RabbitMqProducers {
 
-    private static final String CREATED_QUEUE = "created";
+    private static final String CREATED_ROUTING_KEY = "created";
 
-    private static final String CONFIRMED_QUEUE = "confirmed";
+    private static final String CONFIRMED_ROUTING_KEY = "confirmed";
+
+    private static final String ERROR_ROUTING_KEY = "error";
 
     private final RabbitTemplate rabbitTemplate;
 
     public void sendingCreationMessage(JmsOrderMessage message) {
         message.setMessageType(CREATION);
-        sandingMessages(message, CREATED_QUEUE);
+        sandingMessages(message, CREATED_ROUTING_KEY);
     }
 
     public void sendingUpdateMessage(JmsOrderMessage message) {
         message.setMessageType(UPDATE);
-        sandingMessages(message, CONFIRMED_QUEUE);
+        sandingMessages(message, CONFIRMED_ROUTING_KEY);
+    }
+
+    public void sendingErrorMessage(JmsOrderMessage message) {
+        message.setMessageType(ERROR);
+        sandingMessages(message, ERROR_ROUTING_KEY);
     }
 
     private void sandingMessages(JmsOrderMessage message, String queue) {
@@ -37,6 +45,5 @@ public class RabbitMqProducers {
         val routingKey = BASE_ROUTING_KEY + queue;
         rabbitTemplate.convertAndSend(routingKey, message);
         log.info("Send queue: [{}] message: [{}]", routingKey, message);
-
     }
 }
