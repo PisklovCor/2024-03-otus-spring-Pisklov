@@ -3,6 +3,8 @@ application:
     libraryUrl: http://localhost:8888
     orderUrl: http://localhost:8888
     notificationUrl: http://localhost:8888
+  security:
+    enabled: false
 
 spring:
   datasource:
