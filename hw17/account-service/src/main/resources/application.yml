@@ -3,8 +3,8 @@ application:
     libraryUrl: lb//LIBRARY-SERVICE
     orderUrl: lb://ORDER-SERVICE
     notificationUrl: lb://NOTIFICATION-SERVICE
-    security:
-      enabled: ${SECURITY_ENABLED:false}
+  security:
+    enabled: ${SECURITY_ENABLED:false}
 
 server:
   port: 8002

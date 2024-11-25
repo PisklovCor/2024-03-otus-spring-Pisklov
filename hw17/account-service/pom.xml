@@ -35,7 +35,7 @@
         <!--internal dependencies-->
         <dependency>
             <groupId>ru.otus.hw</groupId>
-            <artifactId>public-dto</artifactId>
+            <artifactId>hw17-public-dto</artifactId>
             <version>${public-dto.version}</version>
         </dependency>
 
@@ -179,12 +179,6 @@
             <artifactId>reflections</artifactId>
             <scope>test</scope>
             <version>${reflections.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <scope>test</scope>
         </dependency>
 
         <dependency>

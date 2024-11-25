@@ -1,8 +1,8 @@
 application:
   services:
     account-url: lb://ACCOUNT-SERVICE
-    security:
-      enabled: ${SECURITY_ENABLED:false}
+  security:
+    enabled: ${SECURITY_ENABLED:false}
 
 server:
   port: 8003

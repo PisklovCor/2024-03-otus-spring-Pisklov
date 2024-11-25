@@ -58,7 +58,6 @@ public class ProcessingScheduledTasksImpl implements ScheduledTasks {
             } catch (Exception e) {
                 log.error(e.getMessage());
                 orderDto.setStatus(ERROR);
-                //TODO: переделать на фасад ошибки
                 service.update(mapper.toUpdateDto(orderDto));
             }
         }

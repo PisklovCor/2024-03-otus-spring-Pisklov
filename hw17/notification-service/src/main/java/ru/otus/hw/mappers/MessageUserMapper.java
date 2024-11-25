@@ -14,6 +14,7 @@ public class MessageUserMapper {
                 .lastModifiedDate(entity.getLastModifiedDate())
                 .login(entity.getLogin())
                 .mail(entity.getMail())
+                .message(entity.getMessage())
                 .status(entity.getStatus())
                 .build();
     }

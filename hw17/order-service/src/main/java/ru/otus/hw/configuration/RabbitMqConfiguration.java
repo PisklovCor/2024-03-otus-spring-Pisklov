@@ -11,8 +11,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMqConfiguration {
 
-    public static final String BASE_ROUTING_KEY = "order.message.";
-
     private static final String MAIN_EXCHANGE_NAME = "main-exchange-order";
 
     @Bean

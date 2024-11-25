@@ -33,7 +33,7 @@
 
         <dependency>
             <groupId>ru.otus.hw</groupId>
-            <artifactId>public-dto</artifactId>
+            <artifactId>hw17-public-dto</artifactId>
             <version>${public-dto.version}</version>
         </dependency>
 

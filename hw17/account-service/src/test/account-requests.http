@@ -4,6 +4,12 @@ GET http://localhost:8002/account-service/api/v1/account
 GET http://localhost:8002/account-service/api/v1/account/user
 
 ###
+GET http://localhost:8002/account-service/api/v1/account/book
+
+###
+GET http://localhost:8002/account-service/api/v1/account/book/user
+
+###
 POST http://localhost:8002/account-service/api/v1/account
 Content-Type: application/json
 
@@ -24,6 +30,15 @@ Content-Type: application/json
   "surname": "guest_update",
   "login": "guest_update",
   "mail": "guest_update@protonmail.com"
+}
+
+###
+POST http://localhost:8002/account-service/api/v1/account/book
+Content-Type: application/json
+
+{
+  "login": "user",
+  "bookId": 3
 }
 
 ###

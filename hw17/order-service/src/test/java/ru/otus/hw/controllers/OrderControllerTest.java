@@ -1,6 +1,6 @@
 package ru.otus.hw.controllers;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -35,12 +35,8 @@ class OrderControllerTest extends SpringBootApplicationTest {
     @MockBean
     private OrderService service;
 
-    private Gson gson;
-
-    @BeforeEach
-    void setUp() {
-        gson = new Gson();
-    }
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @DisplayName("должен вернуть список всех заказов")
     @Order(1)
@@ -53,8 +49,7 @@ class OrderControllerTest extends SpringBootApplicationTest {
         mvc.perform(get("/order-service/api/v1/order"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(content().json(gson.toJson(bookDtoList)));
-
+                .andExpect(content().json(objectMapper.writeValueAsString(bookDtoList)));
     }
 
     @DisplayName("должен вернуть заказ по логину пользователя")
@@ -71,7 +66,7 @@ class OrderControllerTest extends SpringBootApplicationTest {
         mvc.perform(get("/order-service/api/v1/order/" + USER_LOGIN))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(content().json(gson.toJson(List.of(dto))));
+                .andExpect(content().json(objectMapper.writeValueAsString(List.of(dto))));
     }
 
     @DisplayName("должен создать заказ")
@@ -91,11 +86,10 @@ class OrderControllerTest extends SpringBootApplicationTest {
 
         mvc.perform(post("/order-service/api/v1/order")
                         .contentType(APPLICATION_JSON)
-                        .content(gson.toJson(orderCreateDto)))
+                        .content(objectMapper.writeValueAsString(orderCreateDto)))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(content().json(gson.toJson(responseBookDto)));
-
+                .andExpect(content().json(objectMapper.writeValueAsString(responseBookDto)));
     }
 
     @DisplayName("должен обновить заказ")
@@ -116,10 +110,9 @@ class OrderControllerTest extends SpringBootApplicationTest {
 
         mvc.perform(put("/order-service/api/v1/order")
                         .contentType(APPLICATION_JSON)
-                        .content(gson.toJson(orderUpdateDto)))
+                        .content(objectMapper.writeValueAsString(orderUpdateDto)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(content().json(gson.toJson(responseOrderDto)));
-
+                .andExpect(content().json(objectMapper.writeValueAsString(responseOrderDto)));
     }
 }

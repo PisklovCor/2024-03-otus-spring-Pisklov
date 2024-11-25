@@ -8,7 +8,7 @@
 //
 //@RabbitListenerTest
 //@TestConfiguration(proxyBeanMethods = false)
-//class RabbitMqConfigurationTest extends RabbitMqConfiguration {
+//class RabbitMqConfigurationTest extends RabbitMqOrderConfiguration {
 //
 //
 //}

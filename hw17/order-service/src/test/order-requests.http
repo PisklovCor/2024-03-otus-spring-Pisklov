@@ -8,7 +8,7 @@ POST http://localhost:8001/order-service/api/v1/order
 Content-Type: application/json
 
 {
-    "login": "user_request",
+    "login": "user",
     "bookTitle": "The Three-Body Problem"
   }
 

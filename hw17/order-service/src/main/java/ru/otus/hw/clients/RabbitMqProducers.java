@@ -7,7 +7,6 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 import ru.otus.hw.jms.JmsOrderMessage;
 
-import static ru.otus.hw.configuration.RabbitMqConfiguration.BASE_ROUTING_KEY;
 import static ru.otus.hw.dictionaries.MessageType.CREATION;
 import static ru.otus.hw.dictionaries.MessageType.ERROR;
 import static ru.otus.hw.dictionaries.MessageType.UPDATE;
@@ -16,6 +15,8 @@ import static ru.otus.hw.dictionaries.MessageType.UPDATE;
 @Service
 @RequiredArgsConstructor
 public class RabbitMqProducers {
+
+    public static final String BASE_ROUTING_KEY = "order.message.";
 
     private static final String CREATED_ROUTING_KEY = "created";
 
