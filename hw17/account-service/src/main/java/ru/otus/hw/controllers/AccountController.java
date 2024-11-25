@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import ru.otus.hw.dto.account.AccountCreateDto;
 import ru.otus.hw.dto.account.AccountDto;
 import ru.otus.hw.dto.account.AccountUpdateDto;
+import ru.otus.hw.dto.library.CommentDto;
 import ru.otus.hw.dto.notification.MessageUserDto;
 import ru.otus.hw.dto.order.OrderDto;
 import ru.otus.hw.services.AccountFacade;
@@ -104,5 +105,15 @@ public class AccountController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     public List<MessageUserDto> getAllNotificationByLogin(@PathVariable("login") String login) {
         return facade.getAllNotificationByLogin(login);
+    }
+
+    @Operation(
+            summary = "Получение комментарии",
+            description = "Позволяет получить все комментарии пользователя по его лоигину"
+    )
+    @GetMapping("/api/v1/account/comment/{login}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public List<CommentDto> getAllCommentByLogin(@PathVariable("login") String login) {
+        return facade.getAllCommentByLogin(login);
     }
 }

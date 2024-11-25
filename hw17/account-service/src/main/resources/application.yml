@@ -1,6 +1,6 @@
 application:
   services:
-    libraryUrl: lb//LIBRARY-SERVICE
+    libraryUrl: lb://LIBRARY-SERVICE
     orderUrl: lb://ORDER-SERVICE
     notificationUrl: lb://NOTIFICATION-SERVICE
   security:
@@ -94,7 +94,10 @@ resilience4j:
       circuitBreakerOrderRestClient:
         baseConfig: default
         waitDurationInOpenState: 20s
-      circuitBreakerLibraryRestClient:
+      circuitBreakerLibraryBookRestClient:
+        baseConfig: default
+        waitDurationInOpenState: 20s
+      circuitBreakerLibraryCommentRestClient:
         baseConfig: default
         waitDurationInOpenState: 20s
       circuitBreakerNotificationRestClient:

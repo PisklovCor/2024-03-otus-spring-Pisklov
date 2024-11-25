@@ -1,24 +1,22 @@
-package ru.otus.hw.dto.order;
+package ru.otus.hw.dto.library;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.otus.hw.dictionaries.Status;
 
-@Schema(description = "Сущность заказа (обновление)")
+@Schema(description = "Сущность комментария (обновление)")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderUpdateDto {
+public class CommentUpdateDto {
 
     /**
-     * Identifier order.
+     * Identifier comment.
      */
     @Schema(description = "ID", example = "1")
     @Min(1)
@@ -32,17 +30,17 @@ public class OrderUpdateDto {
     private String login;
 
     /**
-     * Book title from order.
+     * Content comment.
      */
-    @Schema(description = "Заголовок книги", example = "Гордость и предубеждение")
+    @Schema(description = "Содержание", example = "Позновательный комментарий")
     @NotBlank
-    private String bookTitle;
+    private String content;
 
     /**
-     * Order status.
+     * Identifier book.
      */
-    @Schema(description = "Статус", example = "CONFIRMED")
-    @NotNull
-    private Status status;
+    @Schema(description = "ID книги", example = "1")
+    @Min(1)
+    private long bookId;
 
 }

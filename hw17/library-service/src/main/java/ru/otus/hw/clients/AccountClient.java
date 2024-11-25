@@ -13,18 +13,18 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static ru.otus.hw.dictionaries.ExternalSystem.ACCOUNT_SERVICE;
 
 @Slf4j
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class AccountClient {
 
-    private static final String TAKE_BOOK = "/api/v1/account/book";
+    private static final String TAKE_BOOK = "account-service/api/v1/account/book";
 
-    private final RestClient accountRestClient;
+    private final RestClient.Builder accountRestClientBuilder;
 
     @CircuitBreaker(name = "circuitBreakerAccountRestClient", fallbackMethod = "recoverMethod")
     public AccountBookDto takeBook(AccountBookCreateDto dto) {
 
-       return  accountRestClient.post()
+       return  accountRestClientBuilder.build().post()
                 .uri(TAKE_BOOK)
                 .contentType(APPLICATION_JSON)
                 .body(dto)
@@ -35,9 +35,8 @@ public class AccountClient {
                 .body(AccountBookDto.class);
     }
 
-    private void recoverMethod(Exception ex) {
-        log.error("Worked CircuitBreaker, e=[{}]", ex.getMessage());
-        //todo: евент ошибки
+    private void recoverMethod(AccountBookCreateDto dto, Exception ex) {
+        log.error("Worked circuitBreakerAccountRestClient, AccountBookCreateDto: {}, e: [{}]", dto, ex.getMessage());
         throw new ExternalSystemException("Error interacting with the service", ACCOUNT_SERVICE);
     }
 }

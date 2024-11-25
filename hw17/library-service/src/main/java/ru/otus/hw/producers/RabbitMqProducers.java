@@ -1,11 +1,11 @@
-package ru.otus.hw.clients;
+package ru.otus.hw.producers;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
-import ru.otus.hw.jms.JmsOrderMessage;
+import ru.otus.hw.jms.JmsAccountMessage;
 
 import static ru.otus.hw.dictionaries.MessageType.CREATION;
 import static ru.otus.hw.dictionaries.MessageType.ERROR;
@@ -16,7 +16,7 @@ import static ru.otus.hw.dictionaries.MessageType.UPDATE;
 @RequiredArgsConstructor
 public class RabbitMqProducers {
 
-    public static final String BASE_ROUTING_KEY = "order.message.";
+    private static final String BASE_ROUTING_KEY = "library.message.";
 
     private static final String CREATED_ROUTING_KEY = "created";
 
@@ -26,25 +26,25 @@ public class RabbitMqProducers {
 
     private final RabbitTemplate rabbitTemplate;
 
-    public void sendingCreationMessage(JmsOrderMessage message) {
+    public void sendingCreationMessage(JmsAccountMessage message) {
         message.setMessageType(CREATION);
         sandingMessages(message, CREATED_ROUTING_KEY);
     }
 
-    public void sendingUpdateMessage(JmsOrderMessage message) {
+    public void sendingUpdateMessage(JmsAccountMessage message) {
         message.setMessageType(UPDATE);
         sandingMessages(message, CONFIRMED_ROUTING_KEY);
     }
 
-    public void sendingErrorMessage(JmsOrderMessage message) {
+    public void sendingErrorMessage(JmsAccountMessage message) {
         message.setMessageType(ERROR);
         sandingMessages(message, ERROR_ROUTING_KEY);
     }
 
-    private void sandingMessages(JmsOrderMessage message, String queue) {
+    private void sandingMessages(JmsAccountMessage message, String queue) {
 
         val routingKey = BASE_ROUTING_KEY + queue;
         rabbitTemplate.convertAndSend(routingKey, message);
-        log.info("Send queue: [{}] message: [{}]", routingKey, message);
+        log.info("Send queue: {} message: {}", routingKey, message);
     }
 }

@@ -1,4 +1,4 @@
-package ru.otus.hw.clients;
+package ru.otus.hw.producers;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.stereotype.Service;
 import ru.otus.hw.clients.LibraryClient;
-import ru.otus.hw.clients.RabbitMqProducers;
+import ru.otus.hw.producers.RabbitMqProducers;
 import ru.otus.hw.dto.library.BookDto;
 import ru.otus.hw.dto.account.AccountBookCreateDto;
 import ru.otus.hw.dto.account.AccountBookDto;
@@ -37,7 +37,6 @@ public class AccountBookFacade {
 
             accountBookDto.setBook(bookDto);
         }
-
         return accountBookDtoList;
     }
 

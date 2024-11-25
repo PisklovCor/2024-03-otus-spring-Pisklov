@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.stereotype.Service;
-import ru.otus.hw.clients.RabbitMqProducers;
+import ru.otus.hw.producers.RabbitMqProducers;
 import ru.otus.hw.dto.order.OrderCreateDto;
 import ru.otus.hw.dto.order.OrderDto;
 import ru.otus.hw.dto.order.OrderUpdateDto;

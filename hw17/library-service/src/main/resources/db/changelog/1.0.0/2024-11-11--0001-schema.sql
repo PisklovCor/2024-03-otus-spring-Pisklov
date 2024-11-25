@@ -33,10 +33,11 @@ create table books_genres
     primary key (book_id, genre_id)
 );
 
---changeset pisklov:2024-11-11-005-table-comment
+--changeset pisklov:2024-11-25-005-table-comment
 create table comment
 (
     id      bigserial,
+    login   varchar(255) not null,
     content varchar(255),
     book_id bigint references books (id) on delete cascade,
     primary key (id)

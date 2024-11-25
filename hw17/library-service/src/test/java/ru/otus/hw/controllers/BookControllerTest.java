@@ -1,5 +1,6 @@
 package ru.otus.hw.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,9 @@ class BookControllerTest extends SpringBootApplicationTest {
 
     @MockBean
     private BookService bookService;
+    @Autowired
+    private ObjectMapper objectMapper;
+
 
     @DisplayName("должен вернуть список всех книг")
     @Order(1)
@@ -48,13 +52,10 @@ class BookControllerTest extends SpringBootApplicationTest {
         List<BookDto> bookDtoList = List.of(new BookDto());
         given(bookService.findAll()).willReturn(bookDtoList);
 
-        Gson gson = new Gson();
-        String resultJson = gson.toJson(bookDtoList);
-
-        mvc.perform(get("/api/v1/book"))
+        mvc.perform(get("/library-service/api/v1/book"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(content().json(resultJson));
+                .andExpect(content().json(objectMapper.writeValueAsString(bookDtoList)));
 
     }
 
@@ -65,7 +66,7 @@ class BookControllerTest extends SpringBootApplicationTest {
 
         given(bookService.findAll()).willThrow(NotFoundException.class);
 
-        mvc.perform(get("/api/v1/book"))
+        mvc.perform(get("/library-service/api/v1/book"))
                 .andExpect(status().isNotFound())
                 .andExpect(content().contentType(CONTENT_TYPE));
 
@@ -81,13 +82,11 @@ class BookControllerTest extends SpringBootApplicationTest {
         bookDto.setTitle(BOOK_TITLE_TEST);
         given(bookService.findById(BOOK_ID_TEST)).willReturn(bookDto);
 
-        Gson gson = new Gson();
-        String resultJson = gson.toJson(bookDto);
 
-        mvc.perform(get("/api/v1/book/" + BOOK_ID_TEST))
+        mvc.perform(get("/library-service/api/v1/book/" + BOOK_ID_TEST))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(content().json(resultJson));
+                .andExpect(content().json(objectMapper.writeValueAsString(bookDto)));
     }
 
     @DisplayName("должен вернуть ошибку NOT_FOUND при поиске книги по ID")
@@ -97,7 +96,7 @@ class BookControllerTest extends SpringBootApplicationTest {
 
         given(bookService.findById(BOOK_ID_TEST)).willThrow(NotFoundException.class);
 
-        mvc.perform(get("/api/v1/book/" + BOOK_ID_TEST))
+        mvc.perform(get("/library-service/api/v1/book/" + BOOK_ID_TEST))
                 .andExpect(status().isNotFound())
                 .andExpect(content().contentType(CONTENT_TYPE));
     }
@@ -115,16 +114,12 @@ class BookControllerTest extends SpringBootApplicationTest {
 
         given(bookService.create(bookCreateDto)).willReturn(responseBookDto);
 
-        Gson gson = new Gson();
-        String requestJson = gson.toJson(bookCreateDto);
-        String responseJson = gson.toJson(responseBookDto);
-
-        mvc.perform(post("/api/v1/book")
+        mvc.perform(post("/library-service/api/v1/book")
                         .contentType(APPLICATION_JSON)
-                        .content(requestJson))
+                        .content(objectMapper.writeValueAsString(bookCreateDto)))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(content().json(responseJson));
+                .andExpect(content().json(objectMapper.writeValueAsString(responseBookDto)));
     }
 
     @DisplayName("должен вернуть ошибку INTERNAL_SERVER_ERROR при создание книги")
@@ -136,12 +131,9 @@ class BookControllerTest extends SpringBootApplicationTest {
 
         given(bookService.create(bookCreateDto)).willThrow(RuntimeException.class);
 
-        Gson gson = new Gson();
-        String requestJson = gson.toJson(bookCreateDto);
-
-        mvc.perform(post("/api/v1/book")
+        mvc.perform(post("/library-service/api/v1/book")
                         .contentType(APPLICATION_JSON)
-                        .content(requestJson))
+                        .content(objectMapper.writeValueAsString(bookCreateDto)))
                 .andExpect(status().isInternalServerError())
                 .andExpect(content().contentType(CONTENT_TYPE));
     }
@@ -159,16 +151,12 @@ class BookControllerTest extends SpringBootApplicationTest {
 
         given(bookService.update(bookUpdateDto)).willReturn(responseBookDto);
 
-        Gson gson = new Gson();
-        String requestJson = gson.toJson(bookUpdateDto);
-        String responseJson = gson.toJson(responseBookDto);
-
-        mvc.perform(put("/api/v1/book")
+        mvc.perform(put("/library-service/api/v1/book")
                         .contentType(APPLICATION_JSON)
-                        .content(requestJson))
+                        .content(objectMapper.writeValueAsString(bookUpdateDto)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(content().json(responseJson));
+                .andExpect(content().json(objectMapper.writeValueAsString(responseBookDto)));
     }
 
     @DisplayName("должен вернуть ошибку INTERNAL_SERVER_ERROR при обновление книги")
@@ -180,12 +168,9 @@ class BookControllerTest extends SpringBootApplicationTest {
 
         given(bookService.update(bookUpdateDto)).willThrow(RuntimeException.class);
 
-        Gson gson = new Gson();
-        String requestJson = gson.toJson(bookUpdateDto);
-
-        mvc.perform(put("/api/v1/book")
+        mvc.perform(put("/library-service/api/v1/book")
                         .contentType(APPLICATION_JSON)
-                        .content(requestJson))
+                        .content(objectMapper.writeValueAsString(bookUpdateDto)))
                 .andExpect(status().isInternalServerError())
                 .andExpect(content().contentType(CONTENT_TYPE));
     }
@@ -195,7 +180,7 @@ class BookControllerTest extends SpringBootApplicationTest {
     @Test
     void deleteBook() throws Exception {
 
-        mvc.perform(delete("/api/v1/book/" + BOOK_ID_TEST))
+        mvc.perform(delete("/library-service/api/v1/book/" + BOOK_ID_TEST))
                 .andExpect(status().isNoContent());
     }
 
@@ -207,7 +192,7 @@ class BookControllerTest extends SpringBootApplicationTest {
         doThrow(RuntimeException.class).when(bookService)
                 .deleteById(BOOK_ID_TEST);
 
-        mvc.perform(delete("/api/v1/book/" + BOOK_ID_TEST))
+        mvc.perform(delete("/library-service/api/v1/book/" + BOOK_ID_TEST))
                 .andExpect(status().isInternalServerError())
                 .andExpect(content().contentType(CONTENT_TYPE));
     }

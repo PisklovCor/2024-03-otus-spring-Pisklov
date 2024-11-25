@@ -12,17 +12,17 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static ru.otus.hw.dictionaries.ExternalSystem.ORDER_SERVICE;
 
 @Slf4j
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class OrderClient {
 
-    private static final String ORDER_CREATE = "/api/v1/order";
+    private static final String ORDER_CREATE = "order-service/api/v1/order";
 
-    private final RestClient orderRestClient;
+    private final RestClient.Builder orderRestClientBuilder;
 
     public OrderDto createOrder(OrderCreateDto dto) {
 
-        return orderRestClient.post()
+        return orderRestClientBuilder.build().post()
                 .uri(ORDER_CREATE)
                 .contentType(APPLICATION_JSON)
                 .body(dto)

@@ -1,5 +1,6 @@
 package ru.otus.hw.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ class GenreControllerTest extends SpringBootApplicationTest {
     @MockBean
     private GenreService genreService;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @DisplayName("должен вернуть список всех жанров")
     @Order(1)
     @Test
@@ -37,13 +41,10 @@ class GenreControllerTest extends SpringBootApplicationTest {
         List<GenreDto> genreDtoList = List.of(new GenreDto());
         given(genreService.findAll()).willReturn(genreDtoList);
 
-        Gson gson = new Gson();
-        String resultJson = gson.toJson(genreDtoList);
-
-        mvc.perform(get("/api/v1/genre"))
+        mvc.perform(get("/library-service/api/v1/genre"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(content().json(resultJson));
+                .andExpect(content().json(objectMapper.writeValueAsString(genreDtoList)));
 
     }
 
@@ -54,7 +55,7 @@ class GenreControllerTest extends SpringBootApplicationTest {
 
         given(genreService.findAll()).willThrow(RuntimeException.class);
 
-        mvc.perform(get("/api/v1/genre"))
+        mvc.perform(get("/library-service/api/v1/genre"))
                 .andExpect(status().isInternalServerError())
                 .andExpect(content().contentType(CONTENT_TYPE));
     }

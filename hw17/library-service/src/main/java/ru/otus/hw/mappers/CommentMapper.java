@@ -10,10 +10,10 @@ import ru.otus.hw.models.Comment;
 public class CommentMapper {
 
     public CommentDto toDto(Comment entity) {
-        CommentDto dto = new CommentDto();
-        dto.setId(entity.getId());
-        dto.setContent(entity.getContent());
-        return  dto;
+        return CommentDto.builder()
+                .id(entity.getId())
+                .login(entity.getLogin())
+                .content(entity.getContent())
+                .build();
     }
-
 }

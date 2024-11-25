@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.stereotype.Service;
+import ru.otus.hw.clients.LibraryClient;
 import ru.otus.hw.clients.NotificationClient;
 import ru.otus.hw.clients.OrderClient;
+import ru.otus.hw.dto.library.CommentDto;
 import ru.otus.hw.dto.notification.MessageUserDto;
 import ru.otus.hw.dto.order.OrderDto;
 
@@ -22,6 +24,8 @@ public class AccountFacade {
 
     private final NotificationClient notificationClient;
 
+    private final LibraryClient libraryClient;
+
     public List<OrderDto> getAllOrderByLogin(String login) {
         val accountDto = accountService.findAllByLogin(login);
         return orderClient.getOrderByLogin(accountDto.getLogin());
@@ -30,5 +34,10 @@ public class AccountFacade {
     public List<MessageUserDto> getAllNotificationByLogin(String login) {
         val accountDto = accountService.findAllByLogin(login);
         return notificationClient.getAllMessageUserByLogin(accountDto.getLogin());
+    }
+
+    public List<CommentDto> getAllCommentByLogin(String login) {
+        val accountDto = accountService.findAllByLogin(login);
+        return libraryClient.getCommentByUserLogin(accountDto.getLogin());
     }
 }

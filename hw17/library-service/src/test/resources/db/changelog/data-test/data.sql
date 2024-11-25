@@ -30,11 +30,11 @@ values (1, 1),
        (3, 5),
        (3, 6);
 
---changeset pisklov:2024-11-11-004-comment
-insert into comment(content, book_id)
-values ('Content_1', 1),
-       ('Content_2', 1),
-       ('Content_3', 2),
-       ('Content_4', 2),
-       ('Content_5', 3),
-       ('Content_6', 3);
+--changeset pisklov:2024-11-25-005-comment
+insert into comment(login, content, book_id)
+values ('user_test', 'Content_1', 1),
+       ('user_test', 'Content_2', 1),
+       ('user_test', 'Content_3', 2),
+       ('user_test', 'Content_4', 2),
+       ('user_test', 'Content_5', 3),
+       ('user_test', 'Content_6', 3);

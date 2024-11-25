@@ -30,12 +30,15 @@ values (1, 1),
        (3, 5),
        (3, 6);
 
---changeset pisklov:2024-11-11-004-comment
-insert into comment(content, book_id)
-values ('There is something about yourself that you don''t know. - Jason Statham', 1),
-       ('People take chances every now and then, and you don''t want to disappoint them. - Jason Statham', 1),
-       ('I love people who have a good sense of humor, tell a good story, tell a good joke. - Jason Statham', 2),
-       ('When I''m getting ready for a movie, let''s just say my diet is ''The Antisocial Diet.- Jason Statham', 2),
-       ('I''ve come from nowhere, and I''m not shy to go back. - Jason Statham', 3),
-       ('You can''t be pretentious about what we do, because at the end of the day, movies are about entertainment,' ||
+--changeset pisklov:2024-11-25-005-comment
+insert into comment(login, content, book_id)
+values ('user', 'There is something about yourself that you don''t know. - Jason Statham', 1),
+       ('user', 'People take chances every now and then, and you don''t want to disappoint them. - Jason Statham', 1),
+       ('user', 'I love people who have a good sense of humor, tell a good story, tell a good joke. - Jason Statham',
+        2),
+       ('user', 'When I''m getting ready for a movie, let''s just say my diet is ''The Antisocial Diet.- Jason Statham',
+        2),
+       ('user', 'I''ve come from nowhere, and I''m not shy to go back. - Jason Statham', 3),
+       ('user',
+        'You can''t be pretentious about what we do, because at the end of the day, movies are about entertainment,' ||
         ' and if people get 10 dollars'' worth, then that''s okay. - Jason Statham', 3);
