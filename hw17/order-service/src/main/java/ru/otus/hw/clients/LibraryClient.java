@@ -68,8 +68,8 @@ public class LibraryClient {
                 .body(new ParameterizedTypeReference<>() {});
     }
 
-    private List<Objects> recoverMethod(Exception ex) {
-        log.error("Worked CircuitBreaker, e=[{}]", ex.getMessage());
+    private List<Objects> recoverMethod(Throwable throwable) {
+        log.error("Worked CircuitBreaker, e=[{}]", throwable.getMessage());
         return Collections.emptyList();
     }
 }
