@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
-import ru.otus.hw.dto.BookDto;
+import ru.otus.hw.dto.library.BookDto;
 import ru.otus.hw.exceptions.ExternalSystemException;
 
 import static ru.otus.hw.dictionaries.ExternalSystem.LIBRARY_SERVICE;

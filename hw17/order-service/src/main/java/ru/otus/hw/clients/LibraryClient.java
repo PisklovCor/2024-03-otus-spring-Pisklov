@@ -6,10 +6,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
-import ru.otus.hw.dto.AuthorDto;
-import ru.otus.hw.dto.BookCreateDto;
-import ru.otus.hw.dto.BookDto;
-import ru.otus.hw.dto.GenreDto;
+import ru.otus.hw.dto.library.AuthorDto;
+import ru.otus.hw.dto.library.BookCreateDto;
+import ru.otus.hw.dto.library.BookDto;
+import ru.otus.hw.dto.library.GenreDto;
 import ru.otus.hw.exceptions.ExternalSystemException;
 
 import java.util.Collections;

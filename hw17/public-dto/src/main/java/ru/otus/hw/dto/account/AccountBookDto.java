@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.otus.hw.dto.BookDto;
+import ru.otus.hw.dto.library.BookDto;
 
 @Schema(description = "Сущность связи пользователя с книгой")
 @Data

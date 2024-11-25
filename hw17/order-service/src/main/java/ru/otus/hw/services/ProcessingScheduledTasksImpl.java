@@ -6,7 +6,7 @@ import lombok.val;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import ru.otus.hw.clients.LibraryClient;
-import ru.otus.hw.dto.BookCreateDto;
+import ru.otus.hw.dto.library.BookCreateDto;
 import ru.otus.hw.dto.order.OrderDto;
 import ru.otus.hw.mappers.OrderMapper;
 import ru.otus.hw.utils.CacheService;

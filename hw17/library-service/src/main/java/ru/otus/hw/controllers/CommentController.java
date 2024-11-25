@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import ru.otus.hw.dto.CommentDto;
+import ru.otus.hw.dto.library.CommentDto;
 import ru.otus.hw.services.CommentService;
 
 import java.util.List;

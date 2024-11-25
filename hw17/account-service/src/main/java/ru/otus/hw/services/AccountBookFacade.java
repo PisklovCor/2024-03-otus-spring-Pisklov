@@ -6,7 +6,7 @@ import lombok.val;
 import org.springframework.stereotype.Service;
 import ru.otus.hw.clients.LibraryClient;
 import ru.otus.hw.clients.RabbitMqProducers;
-import ru.otus.hw.dto.BookDto;
+import ru.otus.hw.dto.library.BookDto;
 import ru.otus.hw.dto.account.AccountBookCreateDto;
 import ru.otus.hw.dto.account.AccountBookDto;
 import ru.otus.hw.dto.account.AccountBookUpdateDto;

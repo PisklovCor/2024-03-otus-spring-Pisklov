@@ -7,7 +7,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.hw.SpringBootApplicationTest;
-import ru.otus.hw.dto.AuthorDto;
+import ru.otus.hw.dto.library.AuthorDto;
 import ru.otus.hw.exceptions.NotFoundException;
 import ru.otus.hw.services.AuthorService;
 

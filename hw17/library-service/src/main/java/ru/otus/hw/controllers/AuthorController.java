@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import ru.otus.hw.dto.AuthorDto;
+import ru.otus.hw.dto.library.AuthorDto;
 import ru.otus.hw.services.AuthorService;
 
 import java.util.List;

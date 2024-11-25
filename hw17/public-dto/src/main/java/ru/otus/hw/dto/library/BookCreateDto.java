@@ -1,4 +1,4 @@
-package ru.otus.hw.dto;
+package ru.otus.hw.dto.library;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
@@ -10,18 +10,11 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Schema(description = "Сущность книги (обновление)")
+@Schema(description = "Сущность книги (создание)")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookUpdateDto {
-
-    /**
-     * Identifier book.
-     */
-    @Schema(description = "ID", example = "1")
-    @Min(1)
-    private long id;
+public class BookCreateDto {
 
     /**
      * Title book.
@@ -33,7 +26,7 @@ public class BookUpdateDto {
     /**
      * Identifier author of the book.
      */
-    @Schema(description = "ID автора", example = "1")
+    @Schema(description = "ID автора")
     @Min(1)
     private long authorId;
 

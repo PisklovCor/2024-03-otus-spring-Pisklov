@@ -1,7 +1,7 @@
 package ru.otus.hw.mappers;
 
 import org.springframework.stereotype.Component;
-import ru.otus.hw.dto.AuthorDto;
+import ru.otus.hw.dto.library.AuthorDto;
 import ru.otus.hw.models.Author;
 
 @Component

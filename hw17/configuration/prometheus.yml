@@ -5,4 +5,6 @@ scrape_configs:
     static_configs:
       - targets: ['host.docker.internal:8000',
                   'host.docker.internal:8001',
-                  'host.docker.internal:8002']
+                  'host.docker.internal:8002',
+                  'host.docker.internal:8003',
+                  'host.docker.internal:8080']

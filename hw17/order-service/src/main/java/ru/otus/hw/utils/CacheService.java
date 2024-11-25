@@ -2,8 +2,8 @@ package ru.otus.hw.utils;
 
 import lombok.experimental.UtilityClass;
 import lombok.val;
-import ru.otus.hw.dto.AuthorDto;
-import ru.otus.hw.dto.GenreDto;
+import ru.otus.hw.dto.library.AuthorDto;
+import ru.otus.hw.dto.library.GenreDto;
 
 import java.util.ArrayList;
 import java.util.List;
