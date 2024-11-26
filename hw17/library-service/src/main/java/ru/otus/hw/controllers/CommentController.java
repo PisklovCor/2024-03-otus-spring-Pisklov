@@ -3,16 +3,22 @@ package ru.otus.hw.controllers;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import ru.otus.hw.dto.library.CommentCreateDto;
 import ru.otus.hw.dto.library.CommentDto;
+import ru.otus.hw.dto.library.CommentUpdateDto;
+import ru.otus.hw.services.CommentFacade;
 import ru.otus.hw.services.CommentService;
 
 import java.util.List;
@@ -24,6 +30,8 @@ import java.util.List;
 public class CommentController {
 
     private final CommentService service;
+
+    private final CommentFacade facade;
 
     @Operation(
             summary = "Получение комментария по ID",
@@ -59,6 +67,25 @@ public class CommentController {
         return service.findAllByBookId(bookId);
     }
 
+    @Operation(
+            summary = "Создание комментария",
+            description = "Позволяет создать новый комментарий"
+    )
+    @PostMapping("/api/v1/comment")
+    @ResponseStatus(HttpStatus.CREATED)
+    public CommentDto createAccount(@Valid @RequestBody CommentCreateDto commentCreateDto) {
+        return facade.create(commentCreateDto);
+    }
+
+    @Operation(
+            summary = "Обновление комментария",
+            description = "Позволяет обновить существующий комментарий пользователя"
+    )
+    @PutMapping("/api/v1/comment")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public CommentDto updateAccount(@Valid @RequestBody CommentUpdateDto commentUpdateDto) {
+        return facade.update(commentUpdateDto);
+    }
 
     @Operation(
             summary = "Удаление комментария",

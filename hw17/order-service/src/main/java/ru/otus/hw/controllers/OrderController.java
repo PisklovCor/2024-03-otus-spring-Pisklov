@@ -69,7 +69,7 @@ public class OrderController {
             description = "Позволяет обновить существующий заказ"
     )
     @PutMapping("/api/v1/order")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public OrderDto updateOrder(@Valid @RequestBody OrderUpdateDto orderUpdateDto) {
         return facade.updateAndSendMessage(orderUpdateDto);
     }

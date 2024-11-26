@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
-import ru.otus.hw.jms.JmsAccountMessage;
+import ru.otus.hw.jms.JmsLibraryMessage;
 
 import static ru.otus.hw.dictionaries.MessageType.CREATION;
 import static ru.otus.hw.dictionaries.MessageType.ERROR;
@@ -26,22 +26,22 @@ public class RabbitMqProducers {
 
     private final RabbitTemplate rabbitTemplate;
 
-    public void sendingCreationMessage(JmsAccountMessage message) {
+    public void sendingCreationMessage(JmsLibraryMessage message) {
         message.setMessageType(CREATION);
         sandingMessages(message, CREATED_ROUTING_KEY);
     }
 
-    public void sendingUpdateMessage(JmsAccountMessage message) {
+    public void sendingUpdateMessage(JmsLibraryMessage message) {
         message.setMessageType(UPDATE);
         sandingMessages(message, CONFIRMED_ROUTING_KEY);
     }
 
-    public void sendingErrorMessage(JmsAccountMessage message) {
+    public void sendingErrorMessage(JmsLibraryMessage message) {
         message.setMessageType(ERROR);
         sandingMessages(message, ERROR_ROUTING_KEY);
     }
 
-    private void sandingMessages(JmsAccountMessage message, String queue) {
+    private void sandingMessages(JmsLibraryMessage message, String queue) {
 
         val routingKey = BASE_ROUTING_KEY + queue;
         rabbitTemplate.convertAndSend(routingKey, message);

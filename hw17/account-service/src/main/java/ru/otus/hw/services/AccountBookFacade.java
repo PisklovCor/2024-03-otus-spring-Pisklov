@@ -60,7 +60,7 @@ public class AccountBookFacade {
         } catch (Exception e) {
             log.error("Failed to send message [{}]", e.getMessage());
             producers.sendingErrorMessage(JmsAccountMessage.builder()
-                    .login(String.valueOf(accountBookDto.getAccount().getLogin()))
+                    .login(accountBookDto.getAccount().getLogin())
                     .build());
         }
 
@@ -78,7 +78,7 @@ public class AccountBookFacade {
         } catch (Exception e) {
             log.error("Failed to send message [{}]", e.getMessage());
             producers.sendingErrorMessage(JmsAccountMessage.builder()
-                    .login(String.valueOf(accountBookDto.getAccount().getLogin()))
+                    .login(accountBookDto.getAccount().getLogin())
                     .build());
         }
 

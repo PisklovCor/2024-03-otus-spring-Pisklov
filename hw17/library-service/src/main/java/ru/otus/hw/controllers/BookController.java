@@ -30,7 +30,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookController {
 
-    private final BookService bookService;
+    private final BookService service;
 
     @Operation(
             summary = "Получение книг",
@@ -39,7 +39,7 @@ public class BookController {
     @GetMapping("/api/v1/book")
     @ResponseStatus(HttpStatus.OK)
     public List<BookDto> getListBook() {
-        return bookService.findAll();
+        return service.findAll();
     }
 
     @Operation(
@@ -50,7 +50,7 @@ public class BookController {
     @ResponseStatus(HttpStatus.OK)
     public BookDto gteBookById(@PathVariable("bookId")
                                @Parameter(description = "ID книги", example = "1") long bookId) {
-        return bookService.findById(bookId);
+        return service.findById(bookId);
     }
 
     @Operation(
@@ -60,7 +60,7 @@ public class BookController {
     @PostMapping("/api/v1/book")
     @ResponseStatus(HttpStatus.CREATED)
     public BookDto createBook(@Valid @RequestBody BookCreateDto bookCreateDto) {
-        return bookService.create(bookCreateDto);
+        return service.create(bookCreateDto);
     }
 
     @Operation(
@@ -68,9 +68,9 @@ public class BookController {
             description = "Позволяет обновить существующую книгу"
     )
     @PutMapping("/api/v1/book")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public BookDto updateBook(@Valid @RequestBody BookUpdateDto bookUpdateDto) {
-        return bookService.update(bookUpdateDto);
+        return service.update(bookUpdateDto);
     }
 
     @Operation(
@@ -81,7 +81,7 @@ public class BookController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteBook(@PathVariable("bookId")
                            @Parameter(description = "ID книги", example = "1") long bookId) {
-        bookService.deleteById(bookId);
+        service.deleteById(bookId);
     }
 
     @Operation(
@@ -91,7 +91,7 @@ public class BookController {
     @PostMapping("/api/v1/book/order")
     @ResponseStatus(HttpStatus.CREATED)
     public OrderDto leaveBookOrder(@RequestBody String bookTitle) {
-        return bookService.leaveBookOrder(bookTitle);
+        return service.leaveBookOrder(bookTitle);
     }
 
     @Operation(
@@ -102,6 +102,6 @@ public class BookController {
     @ResponseStatus(HttpStatus.CREATED)
     public AccountBookDto takeBook(@PathVariable("bookId")
                          @Parameter(description = "ID книги", example = "1") long bookId) {
-        return bookService.takeBook(bookId);
+        return service.takeBook(bookId);
     }
 }

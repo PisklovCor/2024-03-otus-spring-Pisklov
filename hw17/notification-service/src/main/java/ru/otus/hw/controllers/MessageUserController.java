@@ -34,7 +34,7 @@ public class MessageUserController {
     }
 
     @Operation(
-            summary = "Получение сообщений пользоваетля",
+            summary = "Получение сообщений пользователя",
             description = "Позволяет получить все сообщения пользователя по логину"
     )
     @GetMapping("/api/v1/user-message/{login}")

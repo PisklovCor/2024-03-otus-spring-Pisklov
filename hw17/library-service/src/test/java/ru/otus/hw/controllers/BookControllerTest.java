@@ -154,7 +154,7 @@ class BookControllerTest extends SpringBootApplicationTest {
         mvc.perform(put("/library-service/api/v1/book")
                         .contentType(APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(bookUpdateDto)))
-                .andExpect(status().isOk())
+                .andExpect(status().isAccepted())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(content().json(objectMapper.writeValueAsString(responseBookDto)));
     }

@@ -20,16 +20,16 @@ import static ru.otus.hw.dictionaries.ExternalSystem.LIBRARY_SERVICE;
 @RequiredArgsConstructor
 public class LibraryClient {
 
-    private static final String BOOK_BY_ID = "library-service/api/v1/book/";
+    private static final String BOOK_BY_ID = "library-service/api/v1/book/{bookId}";
 
-    private static final String COMMENT_BY_LOGIN = "library-service/api/v1/comment/";
+    private static final String COMMENT_BY_LOGIN = "library-service/api/v1/comment/{login}";
 
     private final RestClient.Builder libraryRestClientBuilder;
 
     @CircuitBreaker(name = "circuitBreakerLibraryBookRestClient", fallbackMethod = "recoverBookMethod")
     public BookDto getBookById(long bookId) {
         return libraryRestClientBuilder.build().get()
-                .uri(BOOK_BY_ID + bookId)
+                .uri(BOOK_BY_ID , bookId)
                 .retrieve()
                 .onStatus(status -> status.value() == 500, (request, response) -> {
                     throw new ExternalSystemException("Error get book", LIBRARY_SERVICE);
@@ -48,7 +48,7 @@ public class LibraryClient {
     @CircuitBreaker(name = "circuitBreakerLibraryCommentRestClient", fallbackMethod = "recoverCommentMethod")
     public List<CommentDto> getCommentByUserLogin(String login) {
         return libraryRestClientBuilder.build().get()
-                .uri(COMMENT_BY_LOGIN + login)
+                .uri(COMMENT_BY_LOGIN, login)
                 .retrieve()
                 .onStatus(status -> status.value() == 500, (request, response) -> {
                     throw new ExternalSystemException("Error get comment", LIBRARY_SERVICE);

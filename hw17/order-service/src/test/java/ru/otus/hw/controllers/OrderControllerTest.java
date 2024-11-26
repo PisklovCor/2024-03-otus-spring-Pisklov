@@ -24,9 +24,13 @@ import static ru.otus.hw.dictionaries.Status.*;
 class OrderControllerTest extends SpringBootApplicationTest {
 
     private static final String USER_LOGIN = "guest";
+
     private static final String INSERT_TITLE_VALUE = "BookTitle_4";
+
     private static final long FIRST_ORDER_ID = 1L;
+
     private static final String UPDATE_TITLE_VALUE = "BookTitle_5";
+
     private static final long ORDER_ID_TEST = 1L;
 
     @Autowired
@@ -111,7 +115,7 @@ class OrderControllerTest extends SpringBootApplicationTest {
         mvc.perform(put("/order-service/api/v1/order")
                         .contentType(APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(orderUpdateDto)))
-                .andExpect(status().isOk())
+                .andExpect(status().isAccepted())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(content().json(objectMapper.writeValueAsString(responseOrderDto)));
     }

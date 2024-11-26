@@ -49,7 +49,7 @@ public class RabbitMqConsumers {
         }
     }
 
-    @RabbitListener(queues = "account-messages")
+    @RabbitListener(queues = "library-messages")
     public void processImportantLibraryMessages(JmsLibraryMessage message) {
         log.info("Received JmsLibraryMessage from account-messages: {}", message);
 

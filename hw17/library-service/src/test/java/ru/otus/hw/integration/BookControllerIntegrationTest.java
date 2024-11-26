@@ -69,7 +69,7 @@ public class BookControllerIntegrationTest extends BaseIntegrationTest {
                         .withStatus(HttpStatus.CREATED.value())
                         .withHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)));
 
-        mvc.perform(post("/library-service/api/v1/book/" + BOOK_ID + "/take"))
+        mvc.perform(post("/library-service/api/v1/book/{bookId}/take", BOOK_ID))
                 .andExpect(status().isCreated());
     }
 

@@ -19,7 +19,7 @@ import static ru.otus.hw.dictionaries.ExternalSystem.ORDER_SERVICE;
 @RequiredArgsConstructor
 public class OrderClient {
 
-    private static final String ORDER_BY_LOGIN = "order-service/api/v1/order/";
+    private static final String ORDER_BY_LOGIN = "order-service/api/v1/order/{login}";
 
     private final RestClient.Builder orderRestClientBuilder;
 
@@ -27,7 +27,7 @@ public class OrderClient {
     public List<OrderDto> getOrderByLogin(String login) {
 
         return orderRestClientBuilder
-                .build().get().uri(ORDER_BY_LOGIN + login)
+                .build().get().uri(ORDER_BY_LOGIN, login)
                 .retrieve()
                 .onStatus(status -> status.value() == 500, (request, response) -> {
                     throw new ExternalSystemException("Error creating order", ORDER_SERVICE);

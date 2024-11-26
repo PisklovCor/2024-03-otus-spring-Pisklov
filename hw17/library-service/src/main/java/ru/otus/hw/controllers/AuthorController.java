@@ -19,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AuthorController {
 
-    private final AuthorService authorService;
+    private final AuthorService service;
 
     @Operation(
             summary = "Получение авторов",
@@ -28,6 +28,6 @@ public class AuthorController {
     @GetMapping("/api/v1/author")
     @ResponseStatus(HttpStatus.OK)
     public List<AuthorDto> getListAuthor() {
-        return authorService.findAll();
+        return service.findAll();
     }
 }

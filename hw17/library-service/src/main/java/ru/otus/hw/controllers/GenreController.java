@@ -20,7 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GenreController {
 
-    private final GenreService genreService;
+    private final GenreService service;
 
     @Operation(
             summary = "Получение жанры",
@@ -29,6 +29,6 @@ public class GenreController {
     @GetMapping("/api/v1/genre")
     @ResponseStatus(HttpStatus.OK)
     public List<GenreDto> getListGenre() {
-        return genreService.findAll();
+        return service.findAll();
     }
 }

@@ -1,6 +1,7 @@
+### Получение сырых сообщений
 GET http://localhost:8003/notification-service/api/v1/raw-message
 
-###
+### Создание сырого сообщения
 POST http://localhost:8003/notification-service/api/v1/raw-message
 Content-Type: application/json
 
@@ -10,9 +11,3 @@ Content-Type: application/json
   "externalSystemName": "LIBRARY_SERVICE",
   "messageType": "CREATION"
 }
-
-####
-GET http://localhost:8003/notification-service/api/v1/user-message
-
-####
-GET http://localhost:8003/notification-service/api/v1/user-message/user
