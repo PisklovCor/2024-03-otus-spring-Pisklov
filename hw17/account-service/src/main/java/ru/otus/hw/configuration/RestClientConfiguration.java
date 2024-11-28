@@ -18,12 +18,9 @@ public class RestClientConfiguration {
    private final PropertiesConfiguration configuration;
 
     @Bean
-    RestClient libraryRestClient() {
-
-        return RestClient.builder()
-                .baseUrl(configuration.getLibraryUrl())
-                //.defaultHeader("AUTHORIZATION", fetchToken())
-                .build();
+    @LoadBalanced
+    RestClient.Builder libraryRestClientBuilder() {
+        return RestClient.builder().baseUrl(configuration.getLibraryUrl());
     }
 
     @Bean

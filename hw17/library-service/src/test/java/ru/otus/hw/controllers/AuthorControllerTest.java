@@ -1,5 +1,6 @@
 package ru.otus.hw.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.hw.SpringBootApplicationTest;
-import ru.otus.hw.dto.AuthorDto;
+import ru.otus.hw.dto.library.AuthorDto;
 import ru.otus.hw.exceptions.NotFoundException;
 import ru.otus.hw.services.AuthorService;
 
@@ -29,7 +30,10 @@ class AuthorControllerTest extends SpringBootApplicationTest {
     private MockMvc mvc;
 
     @MockBean
-    private AuthorService authorService;
+    private AuthorService service;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @DisplayName("должен вернуть список всех авторов")
     @Order(1)
@@ -37,15 +41,12 @@ class AuthorControllerTest extends SpringBootApplicationTest {
     void getListAuthor() throws Exception {
 
         List<AuthorDto> authorDtoList = List.of(new AuthorDto());
-        given(authorService.findAll()).willReturn(authorDtoList);
+        given(service.findAll()).willReturn(authorDtoList);
 
-        Gson gson = new Gson();
-        String resultJson = gson.toJson(authorDtoList);
-
-        mvc.perform(get("/api/v1/author"))
+        mvc.perform(get("/library-service/api/v1/author"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(content().json(resultJson));
+                .andExpect(content().json(objectMapper.writeValueAsString(authorDtoList)));
 
     }
 
@@ -54,9 +55,9 @@ class AuthorControllerTest extends SpringBootApplicationTest {
     @Test
     void getListAuthorException() throws Exception {
 
-        given(authorService.findAll()).willThrow(NotFoundException.class);
+        given(service.findAll()).willThrow(NotFoundException.class);
 
-        mvc.perform(get("/api/v1/author"))
+        mvc.perform(get("/library-service/api/v1/author"))
                 .andExpect(status().isNotFound())
                 .andExpect(content().contentType(CONTENT_TYPE));
     }

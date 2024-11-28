@@ -2,7 +2,7 @@ package ru.otus.hw.mappers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.otus.hw.dto.CommentDto;
+import ru.otus.hw.dto.library.CommentDto;
 import ru.otus.hw.models.Comment;
 
 @RequiredArgsConstructor
@@ -10,10 +10,10 @@ import ru.otus.hw.models.Comment;
 public class CommentMapper {
 
     public CommentDto toDto(Comment entity) {
-        CommentDto dto = new CommentDto();
-        dto.setId(entity.getId());
-        dto.setContent(entity.getContent());
-        return  dto;
+        return CommentDto.builder()
+                .id(entity.getId())
+                .login(entity.getLogin())
+                .content(entity.getContent())
+                .build();
     }
-
 }

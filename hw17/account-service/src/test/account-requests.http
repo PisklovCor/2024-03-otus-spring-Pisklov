@@ -1,10 +1,11 @@
-GET http://localhost:8002/api/v1/account
+### Получение аккаунтов
+GET http://localhost:8002/account-service/api/v1/account
 
-###
-GET http://localhost:8002/api/v1/account/user
+### Получение аккаунта по логину
+GET http://localhost:8002/account-service/api/v1/account/user
 
-###
-POST http://localhost:8002/api/v1/account
+### Создание аккаунта
+POST http://localhost:8002/account-service/api/v1/account
 Content-Type: application/json
 
 {
@@ -14,8 +15,8 @@ Content-Type: application/json
     "mail": "guest@protonmail.com"
   }
 
-###
-PUT http://localhost:8002/api/v1/account
+### Обновление аккаунта
+PUT http://localhost:8002/account-service/api/v1/account
 Content-Type: application/json
 
 {
@@ -26,11 +27,14 @@ Content-Type: application/json
   "mail": "guest_update@protonmail.com"
 }
 
-###
-DELETE http://localhost:8002/api/v1/account/2
+### Удаление аккаунта
+DELETE http://localhost:8002/account-service/api/v1/account/2
 
-###
-GET http://localhost:8002/api/v1/account/order/user
+### Получение заказов по логину
+GET http://localhost:8002/account-service/api/v1/account/order/user
 
-###
-GET http://localhost:8002/api/v1/account/notification/user
+### Получение уведомлений по логину
+GET http://localhost:8002/account-service/api/v1/account/notification/user
+
+### Получение комментариев по логину
+GET http://localhost:8002/account-service/api/v1/account/comment/user

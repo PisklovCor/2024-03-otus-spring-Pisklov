@@ -6,7 +6,8 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.SpringBootApplicationTest;
-import ru.otus.hw.dto.*;
+import ru.otus.hw.dto.library.BookCreateDto;
+import ru.otus.hw.dto.library.BookUpdateDto;
 import ru.otus.hw.exceptions.NotFoundException;
 
 import java.util.List;

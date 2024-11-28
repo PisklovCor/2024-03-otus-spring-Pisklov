@@ -1,13 +1,15 @@
 package ru.otus.hw.integration;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
-import com.google.gson.Gson;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.hw.BaseIntegrationTest;
+import ru.otus.hw.configuration.RestClientConfigurationTest;
 import ru.otus.hw.dto.order.OrderDto;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
@@ -20,6 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static ru.otus.hw.dictionaries.Status.CREATED;
 
 @DisplayName("Контроллер книг: Интеграционный тест ")
+@Import(RestClientConfigurationTest.class)
 public class BookControllerIntegrationTest extends BaseIntegrationTest {
 
     private static final String BOOK_TITLE_TEST = "Book title test";
@@ -29,45 +32,44 @@ public class BookControllerIntegrationTest extends BaseIntegrationTest {
     @Autowired
     private MockMvc mvc;
 
-    private WireMockServer mockServer;
+    @Autowired
+    private ObjectMapper objectMapper;
 
-    private Gson gson;
+    private WireMockServer mockServer;
 
     @BeforeEach
     void setUp() {
         mockServer = new WireMockServer(8888);
         mockServer.start();
-        gson = new Gson();
     }
 
     @DisplayName("должен создать заказ на добавление книги")
     @Test
     void leaveBookOrder() throws Exception {
 
-        mockServer.stubFor(WireMock.post(WireMock.urlEqualTo("/api/v1/order"))
+        mockServer.stubFor(WireMock.post(WireMock.urlEqualTo("/order-service/api/v1/order"))
                 .willReturn(aResponse()
                         .withStatus(HttpStatus.CREATED.value())
                         .withHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-                        .withBody(
-                                gson.toJson(makeResponse()))));
+                        .withBody(objectMapper.writeValueAsString(makeResponse()))));
 
-        mvc.perform(post("/api/v1/book/order")
+        mvc.perform(post("/library-service/api/v1/book/order")
                         .content(BOOK_TITLE_TEST))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(content().json(gson.toJson(makeResponse())));
+                .andExpect(content().json(objectMapper.writeValueAsString(makeResponse())));
     }
 
     @DisplayName("должен создать книгу у пользователя")
     @Test
     void takeBook() throws Exception {
 
-        mockServer.stubFor(WireMock.post(WireMock.urlEqualTo("/api/v1/account/book"))
+        mockServer.stubFor(WireMock.post(WireMock.urlEqualTo("/account-service/api/v1/account/book"))
                 .willReturn(aResponse()
                         .withStatus(HttpStatus.CREATED.value())
                         .withHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)));
 
-        mvc.perform(post("/api/v1/book/" + BOOK_ID + "/take"))
+        mvc.perform(post("/library-service/api/v1/book/{bookId}/take", BOOK_ID))
                 .andExpect(status().isCreated());
     }
 

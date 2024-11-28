@@ -1,4 +1,4 @@
-package ru.otus.hw.dto;
+package ru.otus.hw.dto.library;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

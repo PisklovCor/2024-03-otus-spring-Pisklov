@@ -17,8 +17,8 @@ import java.util.List;
 
 import static ru.otus.hw.dictionaries.Status.CREATED;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
     private final OrderMapper mapper;

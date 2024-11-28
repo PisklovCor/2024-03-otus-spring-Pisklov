@@ -6,7 +6,6 @@ import ru.otus.hw.models.RawMessage;
 
 import static ru.otus.hw.dictionaries.MessageType.CREATION;
 
-//todo: переделать на интерфейсы
 @UtilityClass
 public class GenerateMessageContent {
 

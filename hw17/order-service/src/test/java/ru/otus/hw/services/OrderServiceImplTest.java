@@ -19,11 +19,17 @@ import static ru.otus.hw.dictionaries.Status.WAIT;
 class OrderServiceImplTest extends SpringBootApplicationTest {
 
     private static final int EXPECTED_NUMBER_OF_ORDER = 3;
+
     private static final String USER_LOGIN = "guest";
+
     private static final String TEST_USER_LOGIN = "user_test";
+
     private static final int EXPECTED_NUMBER_OF_ORDER_BY_USER = 2;
+
     private static final String INSERT_TITLE_VALUE = "BookTitle_4";
+
     private static final long FIRST_ORDER_ID = 1L;
+
     private static final String UPDATE_TITLE_VALUE = "BookTitle_5";
 
     @Autowired

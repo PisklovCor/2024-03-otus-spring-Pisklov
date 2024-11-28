@@ -1,8 +1,10 @@
 application:
   services:
-    libraryUrl: ${LIBRARY-SERVICE:http://localhost:8000}
+    libraryUrl: lb://LIBRARY-SERVICE
     orderUrl: lb://ORDER-SERVICE
     notificationUrl: lb://NOTIFICATION-SERVICE
+  security:
+    enabled: ${SECURITY_ENABLED:false}
 
 server:
   port: 8002
@@ -34,6 +36,11 @@ spring:
   cloud:
     config:
       enabled: false
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${SECURITY_PROVIDER_URL:http://localhost:9000}
 
 eureka:
   client:
@@ -87,7 +94,10 @@ resilience4j:
       circuitBreakerOrderRestClient:
         baseConfig: default
         waitDurationInOpenState: 20s
-      circuitBreakerLibraryRestClient:
+      circuitBreakerLibraryBookRestClient:
+        baseConfig: default
+        waitDurationInOpenState: 20s
+      circuitBreakerLibraryCommentRestClient:
         baseConfig: default
         waitDurationInOpenState: 20s
       circuitBreakerNotificationRestClient:

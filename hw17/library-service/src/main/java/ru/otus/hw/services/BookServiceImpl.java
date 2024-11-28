@@ -6,14 +6,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.clients.AccountClient;
 import ru.otus.hw.clients.OrderClient;
-import ru.otus.hw.dto.BookUpdateDto;
+import ru.otus.hw.dto.library.BookUpdateDto;
 import ru.otus.hw.dto.account.AccountBookCreateDto;
 import ru.otus.hw.dto.account.AccountBookDto;
 import ru.otus.hw.dto.order.OrderCreateDto;
 import ru.otus.hw.dto.order.OrderDto;
 import ru.otus.hw.mappers.BookMapper;
-import ru.otus.hw.dto.BookCreateDto;
-import ru.otus.hw.dto.BookDto;
+import ru.otus.hw.dto.library.BookCreateDto;
+import ru.otus.hw.dto.library.BookDto;
 import ru.otus.hw.exceptions.NotFoundException;
 import ru.otus.hw.models.Author;
 import ru.otus.hw.models.Book;
@@ -116,8 +116,6 @@ public class BookServiceImpl implements BookService {
         val login = "user";
 
         return orderClient.createOrder(new OrderCreateDto(login, bookTitle));
-
-        //todo: евент успеха или ошибки
     }
 
     //todo: переделать на фасад
@@ -134,7 +132,5 @@ public class BookServiceImpl implements BookService {
         val login = "user";
 
         return  accountClient.takeBook(new AccountBookCreateDto(login, bookDto.getId()));
-
-        //todo: евент успеха
     }
 }

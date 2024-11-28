@@ -2,12 +2,14 @@ package ru.otus.hw.dto.order;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.otus.hw.dictionaries.Status;
 
 @Schema(description = "Сущность заказа")
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderDto {

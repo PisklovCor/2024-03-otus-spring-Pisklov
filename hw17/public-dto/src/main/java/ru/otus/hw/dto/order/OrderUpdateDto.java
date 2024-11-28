@@ -5,12 +5,14 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.otus.hw.dictionaries.Status;
 
 @Schema(description = "Сущность заказа (обновление)")
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderUpdateDto {

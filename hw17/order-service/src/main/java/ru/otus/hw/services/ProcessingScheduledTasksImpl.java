@@ -6,7 +6,7 @@ import lombok.val;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import ru.otus.hw.clients.LibraryClient;
-import ru.otus.hw.dto.BookCreateDto;
+import ru.otus.hw.dto.library.BookCreateDto;
 import ru.otus.hw.dto.order.OrderDto;
 import ru.otus.hw.mappers.OrderMapper;
 import ru.otus.hw.utils.CacheService;
@@ -18,8 +18,8 @@ import static ru.otus.hw.dictionaries.Status.CONFIRMED;
 import static ru.otus.hw.dictionaries.Status.ERROR;
 
 @Slf4j
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class ProcessingScheduledTasksImpl implements ScheduledTasks {
 
     private final OrderService service;
@@ -58,7 +58,6 @@ public class ProcessingScheduledTasksImpl implements ScheduledTasks {
             } catch (Exception e) {
                 log.error(e.getMessage());
                 orderDto.setStatus(ERROR);
-                //TODO: переделать на фасад ошибки
                 service.update(mapper.toUpdateDto(orderDto));
             }
         }

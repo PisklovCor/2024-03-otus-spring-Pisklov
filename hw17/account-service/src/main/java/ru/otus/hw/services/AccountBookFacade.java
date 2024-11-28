@@ -5,12 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.stereotype.Service;
 import ru.otus.hw.clients.LibraryClient;
-import ru.otus.hw.clients.RabbitMqProducers;
-import ru.otus.hw.dto.BookDto;
+import ru.otus.hw.producers.RabbitMqProducers;
+import ru.otus.hw.dto.library.BookDto;
 import ru.otus.hw.dto.account.AccountBookCreateDto;
 import ru.otus.hw.dto.account.AccountBookDto;
 import ru.otus.hw.dto.account.AccountBookUpdateDto;
-import ru.otus.hw.jms.JmsNotificationMessage;
+import ru.otus.hw.jms.JmsAccountMessage;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ public class AccountBookFacade {
 
     private final LibraryClient client;
 
-    private RabbitMqProducers producers;
+    private final RabbitMqProducers producers;
 
     public List<AccountBookDto> findAll() {
 
@@ -37,7 +37,6 @@ public class AccountBookFacade {
 
             accountBookDto.setBook(bookDto);
         }
-
         return accountBookDtoList;
     }
 
@@ -60,7 +59,9 @@ public class AccountBookFacade {
             producers.sendingCreationMessage(makeJmsNotificationMessage(accountBookDto));
         } catch (Exception e) {
             log.error("Failed to send message [{}]", e.getMessage());
-            producers.sendingErrorMessage(makeJmsNotificationMessage(accountBookDto));
+            producers.sendingErrorMessage(JmsAccountMessage.builder()
+                    .login(accountBookDto.getAccount().getLogin())
+                    .build());
         }
 
         return accountBookDto;
@@ -76,8 +77,8 @@ public class AccountBookFacade {
 
         } catch (Exception e) {
             log.error("Failed to send message [{}]", e.getMessage());
-            producers.sendingErrorMessage(JmsNotificationMessage.builder()
-                    .login(String.valueOf(accountBookDto.getAccount().getId()))
+            producers.sendingErrorMessage(JmsAccountMessage.builder()
+                    .login(accountBookDto.getAccount().getLogin())
                     .build());
         }
 
@@ -91,12 +92,12 @@ public class AccountBookFacade {
         return bookDto;
     }
 
-    private JmsNotificationMessage makeJmsNotificationMessage(AccountBookDto dto) {
+    private JmsAccountMessage makeJmsNotificationMessage(AccountBookDto dto) {
 
         val bookDto = dto.getBook();
         val bookDescription = bookDto.getTitle() + " , " + bookDto.getAuthor().getFullName();
 
-        return JmsNotificationMessage.builder()
+        return JmsAccountMessage.builder()
                 .login(dto.getAccount().getLogin())
                 .bookDescription(bookDescription)
                 .build();

@@ -3,6 +3,8 @@ application:
     account-url: http://ACCOUNT-SERVICE
   scheduler:
     enabled: false
+  security:
+    enabled: false
 
 spring:
   datasource:

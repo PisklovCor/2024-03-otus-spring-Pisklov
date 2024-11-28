@@ -10,8 +10,8 @@ import ru.otus.hw.exceptions.CacheException;
 import ru.otus.hw.utils.CacheService;
 
 @Slf4j
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class CacheScheduledTasksImpl implements ScheduledTasks {
 
     private final LibraryClient client;

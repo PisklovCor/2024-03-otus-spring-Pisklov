@@ -2,9 +2,9 @@ package ru.otus.hw.mappers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.otus.hw.dto.AuthorDto;
-import ru.otus.hw.dto.BookDto;
-import ru.otus.hw.dto.GenreDto;
+import ru.otus.hw.dto.library.AuthorDto;
+import ru.otus.hw.dto.library.BookDto;
+import ru.otus.hw.dto.library.GenreDto;
 import ru.otus.hw.models.Book;
 
 import java.util.List;

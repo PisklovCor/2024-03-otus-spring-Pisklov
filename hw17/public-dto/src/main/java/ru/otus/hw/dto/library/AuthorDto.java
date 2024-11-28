@@ -1,12 +1,14 @@
-package ru.otus.hw.dto;
+package ru.otus.hw.dto.library;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Schema(description = "Сущность автора")
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthorDto {

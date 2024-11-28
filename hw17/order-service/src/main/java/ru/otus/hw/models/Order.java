@@ -20,9 +20,9 @@ import java.time.LocalDateTime;
 @Audited
 @Getter
 @Setter
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
 @Table(name = "book_order")
 public class Order {
 

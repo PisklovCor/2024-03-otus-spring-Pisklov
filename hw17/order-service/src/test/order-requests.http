@@ -1,24 +1,25 @@
-GET http://localhost:8001/api/v1/order
+### Получение заказов
+GET http://localhost:8001/order-service/api/v1/order
 
-###
-GET http://localhost:8001/api/v1/order/guest
+### Получение заказов по логину
+GET http://localhost:8001/order-service/api/v1/order/guest
 
-###
-POST http://localhost:8001/api/v1/order
+### Создание заказа
+POST http://localhost:8001/order-service/api/v1/order
 Content-Type: application/json
 
 {
-    "login": "guest",
+    "login": "user",
     "bookTitle": "The Three-Body Problem"
   }
 
-###
-PUT http://localhost:8001/api/v1/order
+### Обновление заказа
+PUT http://localhost:8001/order-service/api/v1/order
 Content-Type: application/json
 
 {
   "id": 1,
-  "login": "guest",
+  "login": "user_request",
   "bookTitle": "Dune",
   "status": "CREATED"
 }

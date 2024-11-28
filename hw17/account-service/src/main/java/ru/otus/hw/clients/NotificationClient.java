@@ -15,11 +15,11 @@ import java.util.List;
 import static ru.otus.hw.dictionaries.ExternalSystem.NOTIFICATION_SERVICE;
 
 @Slf4j
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class NotificationClient {
 
-    private static final String MESSAGE_USER_BY_LOGIN = "/api/v1/user-message/";
+    private static final String MESSAGE_USER_BY_LOGIN = "notification-service/api/v1/user-message/{login}";
 
     private final RestClient.Builder notificationRestClientBuilder;
 
@@ -27,7 +27,7 @@ public class NotificationClient {
     public List<MessageUserDto> getAllMessageUserByLogin(String login) {
 
         return notificationRestClientBuilder
-                .build().get().uri(MESSAGE_USER_BY_LOGIN + login)
+                .build().get().uri(MESSAGE_USER_BY_LOGIN, login)
                 .retrieve()
                 .onStatus(status -> status.value() == 500, (request, response) -> {
                     throw new ExternalSystemException("Error get message users", NOTIFICATION_SERVICE);

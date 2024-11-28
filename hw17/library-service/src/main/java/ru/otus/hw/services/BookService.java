@@ -1,8 +1,8 @@
 package ru.otus.hw.services;
 
-import ru.otus.hw.dto.BookCreateDto;
-import ru.otus.hw.dto.BookDto;
-import ru.otus.hw.dto.BookUpdateDto;
+import ru.otus.hw.dto.library.BookCreateDto;
+import ru.otus.hw.dto.library.BookDto;
+import ru.otus.hw.dto.library.BookUpdateDto;
 import ru.otus.hw.dto.account.AccountBookDto;
 import ru.otus.hw.dto.order.OrderDto;
 

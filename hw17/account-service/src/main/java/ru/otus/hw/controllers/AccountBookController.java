@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -26,6 +27,7 @@ import java.util.List;
 @Tag(name = "Контроллер связи аккаунтов с книгами",
         description = "Контроллер взаимодействия со связями аккаунтов с книгами")
 @RestController
+@RequestMapping("/account-service")
 @RequiredArgsConstructor
 public class AccountBookController {
 
@@ -39,7 +41,7 @@ public class AccountBookController {
     )
     @GetMapping("/api/v1/account/book")
     @ResponseStatus(HttpStatus.OK)
-    public List<AccountBookDto> getListAccount() {
+    public List<AccountBookDto> getListAccountBook() {
         return facade.findAll();
     }
 
@@ -49,7 +51,7 @@ public class AccountBookController {
     )
     @GetMapping("/api/v1/account/book/{login}")
     @ResponseStatus(HttpStatus.OK)
-    public List<AccountBookDto> gteAccountByLogin(@PathVariable("login")
+    public List<AccountBookDto> gteAccountBookByLogin(@PathVariable("login")
                                                   @Parameter(description = "Логин пользователя",
                                                           example = "guest") String login) {
         return facade.findAllByLogin(login);
@@ -61,7 +63,7 @@ public class AccountBookController {
     )
     @PostMapping("/api/v1/account/book")
     @ResponseStatus(HttpStatus.CREATED)
-    public AccountBookDto createAccount(@Valid @RequestBody AccountBookCreateDto accountBookCreateDto) {
+    public AccountBookDto createAccountBook(@Valid @RequestBody AccountBookCreateDto accountBookCreateDto) {
         return facade.create(accountBookCreateDto);
     }
 
@@ -70,8 +72,8 @@ public class AccountBookController {
             description = "Позволяет обновить существующую связь аккаунта с книгой"
     )
     @PutMapping("/api/v1/account/book")
-    @ResponseStatus(HttpStatus.OK)
-    public AccountBookDto updateAccount(@Valid @RequestBody AccountBookUpdateDto accountBookUpdateDto) {
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public AccountBookDto updateAccountBook(@Valid @RequestBody AccountBookUpdateDto accountBookUpdateDto) {
         return facade.update(accountBookUpdateDto);
     }
 
@@ -80,8 +82,8 @@ public class AccountBookController {
             description = "Позволяет удалить существующую связь аккаунта с книгой"
     )
     @DeleteMapping("/api/v1/account/book/{accountBookId}")
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public void deleteAccount(@PathVariable("accountBookId") long accountBookId) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteAccountBook(@PathVariable("accountBookId") long accountBookId) {
         service.deleteById(accountBookId);
     }
 

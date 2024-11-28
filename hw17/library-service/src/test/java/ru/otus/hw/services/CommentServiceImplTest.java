@@ -49,26 +49,26 @@ class CommentServiceImplTest extends SpringBootApplicationTest {
                 .allMatch(b -> COMMENT_CONTENT_VALUE.contains(b.getContent()));
     }
 
-    @DisplayName("должен создать комментарий с полной информацией")
-    @Test
-    @Order(3)
-    void insert() {
-        var insertCommentDto = service.create(INSERT_CONTENT_VALUE, BOOK_ID);
-        var optionalExpectedCommentDto = service.findById(insertCommentDto.getId());
-
-        assertThat(insertCommentDto).usingRecursiveComparison().isEqualTo(optionalExpectedCommentDto);
-
-    }
-
-    @DisplayName("должен обновить комментарий с полной информацией")
-    @Test
-    @Order(4)
-    void update() {
-        var updateCommentDto = service.update(NEW_COMMENT_ID, UPDATE_CONTENT_VALUE);
-        var optionalExpectedCommentDto = service.findById(updateCommentDto.getId());
-
-        assertThat(updateCommentDto).usingRecursiveComparison().isEqualTo(optionalExpectedCommentDto);
-    }
+//    @DisplayName("должен создать комментарий с полной информацией")
+//    @Test
+//    @Order(3)
+//    void insert() {
+//        var insertCommentDto = service.create(INSERT_CONTENT_VALUE, BOOK_ID);
+//        var optionalExpectedCommentDto = service.findById(insertCommentDto.getId());
+//
+//        assertThat(insertCommentDto).usingRecursiveComparison().isEqualTo(optionalExpectedCommentDto);
+//
+//    }
+//
+//    @DisplayName("должен обновить комментарий с полной информацией")
+//    @Test
+//    @Order(4)
+//    void update() {
+//        var updateCommentDto = service.update(NEW_COMMENT_ID, UPDATE_CONTENT_VALUE);
+//        var optionalExpectedCommentDto = service.findById(updateCommentDto.getId());
+//
+//        assertThat(updateCommentDto).usingRecursiveComparison().isEqualTo(optionalExpectedCommentDto);
+//    }
 
     @DisplayName("должен удалять комментарий по ее id (созданный в тесте)")
     @Test

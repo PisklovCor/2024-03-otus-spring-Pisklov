@@ -1,6 +1,9 @@
 application:
-  orderUrlBase: http://localhost:8888
-  accountUrlBase: http://localhost:8888
+  services:
+    orderUrl: http://localhost:8888
+    accountUrl: http://localhost:8888
+  security:
+    enabled: false
 
 spring:
   datasource:
@@ -16,3 +19,7 @@ spring:
     hibernate:
       ddl-auto: none
     show-sql: true
+
+eureka:
+  client:
+    enabled: false

@@ -15,7 +15,7 @@ import static ru.otus.hw.dictionaries.ExternalSystem.ACCOUNT_SERVICE;
 @RequiredArgsConstructor
 public class AccountClient {
 
-    private static final String ACCOUNT_BY_LOGIN = "/api/v1/account/";
+    private static final String ACCOUNT_BY_LOGIN = "account-service/api/v1/account/{login}";
 
     private final RestClient.Builder accountRestClientBuilder;
 
@@ -23,7 +23,7 @@ public class AccountClient {
     public AccountDto getAccountByLogin(String login) {
 
         return accountRestClientBuilder.build().get()
-                .uri(ACCOUNT_BY_LOGIN + login)
+                .uri(ACCOUNT_BY_LOGIN, login)
                 .retrieve()
                 .onStatus(status -> status.value() == 500, (request, response) -> {
                     throw new ExternalSystemException("Error take a book", ACCOUNT_SERVICE);

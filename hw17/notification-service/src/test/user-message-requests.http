@@ -1,0 +1,5 @@
+#### Получить все сообщения
+GET http://localhost:8003/notification-service/api/v1/user-message
+
+#### Получение сообщений пользователя
+GET http://localhost:8003/notification-service/api/v1/user-message/user

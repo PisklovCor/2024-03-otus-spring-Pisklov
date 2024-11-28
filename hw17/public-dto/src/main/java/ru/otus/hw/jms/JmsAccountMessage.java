@@ -13,7 +13,7 @@ import ru.otus.hw.dictionaries.MessageType;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class JmsNotificationMessage {
+public class JmsAccountMessage {
 
     /**
      * User login.

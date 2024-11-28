@@ -1,6 +1,9 @@
 application:
-  orderUrlBase: http://localhost:8001
-  accountUrlBase: http://localhost:8002
+  services:
+    orderUrl: lb://ORDER-SERVICE
+    accountUrl: lb://ACCOUNT-SERVICE
+  security:
+    enabled: ${SECURITY_ENABLED:false}
 
 server:
   port: 8000
@@ -9,10 +12,15 @@ spring:
   application:
     name: library-service
   datasource:
-    url: jdbc:postgresql://localhost:5433/library-service-db
+    url: ${DATASOURCE_URL:jdbc:postgresql://localhost:5433/library-service-db}
     username: admin
     password: admin
     driverClassName: org.postgresql.Driver
+  rabbitmq:
+    addresses: localhost
+    port: 5672
+    username: admin
+    password: admin
   sql:
     init:
       mode: always
@@ -24,6 +32,24 @@ spring:
     hibernate:
       ddl-auto: none
     show-sql: true
+  cloud:
+    config:
+      enabled: false
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${SECURITY_PROVIDER_URL:http://localhost:9000}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${DISCOVERY_URL:http://localhost:8761/eureka}
+  instance:
+    instance-id: account-service:${spring.application.instance_id:0}
+    lease-renewal-interval-in-seconds: 30
+    metadataMap:
+      zone: zone1
 
 management:
   tracing:
@@ -38,12 +64,12 @@ management:
       enabled: true
       probes:
         enabled: true
-  #    refresh:
-  #      enabled: true
+      refresh:
+        enabled: true
   endpoints:
     web:
       exposure:
-        include: [ 'health', 'info', 'metrics', 'prometheus', 'git', 'env' ]
+        include: [ 'health', 'info', 'metrics', 'prometheus', 'git', 'env', 'refresh' ]
     enabled-by-default: false
 #    distribution:
 #      percentiles-histogram:
