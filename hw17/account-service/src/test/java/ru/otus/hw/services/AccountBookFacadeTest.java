@@ -6,18 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 import ru.otus.hw.SpringBootApplicationTest;
 import ru.otus.hw.dto.library.BookDto;
-import ru.otus.hw.dto.library.CommentDto;
-
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_CLASS;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_CLASS;
-import static ru.otus.hw.dictionaries.Status.WAIT;
 
 @DisplayName("Фасад для работы со связями аккаунтов с книгами ")
 @Sql(scripts = {"/sql/account_insert.sql"}, executionPhase = BEFORE_TEST_CLASS)
@@ -31,7 +25,6 @@ class AccountBookFacadeTest extends SpringBootApplicationTest {
     private static final String MOCK_STRING = "mock_string";
 
     private static final int EXPECTED_NUMBER_COUNT = 2;
-
 
     @Autowired
     private AccountBookFacade facade;
