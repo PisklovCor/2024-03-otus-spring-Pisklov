@@ -88,18 +88,18 @@ public class DatabaseChangelog {
     @ChangeSet(order = "004", id = "initComment", author = "pisklov")
     public void initComment(CommentRepository repository) {
         repository.save(new Comment("There is something about yourself that you don't know. - Jason Statham"
-                , imWestenNichtsNeues));
+                , imWestenNichtsNeues)).block();
         repository.save(new Comment("People take chances every now and then," +
-                " and you don't want to disappoint them. - Jason Statham", imWestenNichtsNeues));
+                " and you don't want to disappoint them. - Jason Statham", imWestenNichtsNeues)).block();
         repository.save(new Comment("I love people who have a good sense of humor, tell a good story," +
-                " tell a good joke. - Jason Statham", theIdiot));
+                " tell a good joke. - Jason Statham", theIdiot)).block();
         repository.save(new Comment("When I'm getting ready for a movie," +
-                " let's just say my diet is 'The Antisocial Diet.- Jason Statham", theIdiot));
+                " let's just say my diet is 'The Antisocial Diet.- Jason Statham", theIdiot)).block();
         repository.save(new Comment("I've come from nowhere," +
-                " and I'm not shy to go back. - Jason Statham", forWhomTheBellTolls));
+                " and I'm not shy to go back. - Jason Statham", forWhomTheBellTolls)).block();
         repository.save(new Comment("You can''t be pretentious about what we do," +
                 " because at the end of the day, movies are about entertainment," +
                 "        ' and if people get 10 dollars'' worth," +
-                " then that''s okay. - Jason Statham", forWhomTheBellTolls));
+                " then that''s okay. - Jason Statham", forWhomTheBellTolls)).block();
     }
 }

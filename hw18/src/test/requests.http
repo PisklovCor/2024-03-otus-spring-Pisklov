@@ -8,7 +8,7 @@ GET http://localhost:8080/api/v1/author
 GET http://localhost:8080/api/v1/genre
 
 ### Получить книгу по ID
-GET http://localhost:8080/api/v1/book/1
+GET http://localhost:8080/api/v1/book/674a15a857f29e09f9a156f4
 
 ### Создать книгу
 POST http://localhost:8080/api/v1/book
@@ -17,11 +17,11 @@ Content-Type: application/json
 {
     "title": "test",
     "author": {
-      "id": 1
+      "id": "674a0fb76238900cefffab06"
     },
     "genres": [
       {
-        "id": 1
+        "id": "674a0fb76238900cefffab0c"
       }
     ]
   }
@@ -31,17 +31,17 @@ PUT http://localhost:8080/api/v1/book
 Content-Type: application/json
 
 {
-  "id": 1,
+  "id": "674a0fb76238900cefffab10",
   "title": "test",
   "author": {
-    "id": 1
+    "id": "674a0fb76238900cefffab06"
   },
   "genres": [
     {
-      "id": 1
+      "id": "674a0fb76238900cefffab0c"
     }
   ]
 }
 
 ### Удалить книгу
-DELETE http://localhost:8080/api/v1/book/1
+DELETE http://localhost:8080/api/v1/book/674a15a857f29e09f9a156f4
