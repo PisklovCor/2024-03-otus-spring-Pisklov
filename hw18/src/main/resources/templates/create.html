@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Edit person</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        .genres {
+            border: 1px solid steelblue;
+            width: 280px;
+            border-collapse: collapse;
+        }
+
+        .genres tr td, th {
+            padding: 5px;
+            border: 1px solid steelblue;
+        }
+
+        .genres td:last-child, td:first-child {
+            width: 50px;
+        }
+
+        input:read-only {
+            background: lightgray;
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<script>
+    window.onload = () => {
+        getAuthor();
+        getGenres();
+    };
+
+    function getAuthor() {
+        fetch('/api/v1/author', {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        }).then(response => response.json())
+            .then((json) => {
+
+                let authorList = "";
+
+                json.forEach((author) => {
+                    authorList += `<option value="${author.id}">${author.fullName}</option>`;
+                });
+
+                document.getElementById("book-author-select").innerHTML = authorList;
+            });
+    }
+
+    function getGenres() {
+        fetch('/api/v1/genre', {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        }).then(response => response.json())
+            .then((json) => {
+
+                let genreList = "";
+
+                json.forEach((genre) => {
+                    genreList += `<option value="${genre.id}">${genre.name}</option>`;
+                });
+
+                let genreSelects = `<tr>
+                                        <td>
+                                            <label for="book-genre-select-0"></label>
+                                            <select id="book-genre-select-0" name="book-genre-select-0">
+                                                ${genreList}
+                                            </select>
+                                        </td>
+                                    </tr>`;
+
+
+                document.getElementById("genres-body").innerHTML = genreSelects
+            });
+    }
+
+    function createBook() {
+        const bookTitle = document.getElementById("book-title-input")
+        const author = document.getElementById("book-author-select")
+        const genres = [];
+        const genre1 = document.getElementById("book-genre-select-0")
+
+        genres.push(genre1.value);
+
+        const bookObject = {
+            title: bookTitle.value,
+            authorId: author.value,
+            genresId: genres
+        }
+
+        fetch("/api/v1/book", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(bookObject)
+        })
+            .then(rawResponse => rawResponse.json())
+            .then(location.href = "/")
+    }
+</script>
+
+<body>
+
+<!-- Book add -->
+<form id="create-form">
+    <h3>New Book:</h3>
+
+    <div class="row">
+        <label for="book-title-input">Title:</label>
+        <input id="book-title-input" name="title" type="text" value="Clean Code Collection"/>
+    </div>
+
+    <!-- Author add select -->
+    <div class="row">
+        <label for="book-author-select">Author:</label>
+        <select id="book-author-select">
+            <option value=""></option>
+        </select>
+    </div>
+
+    <!-- Genre add table select -->
+    <div class="row">
+        <label>Genres:</label>
+        <table class="genres">
+            <thead>
+            <tr>
+                <th>Name</th>
+            </tr>
+            </thead>
+            <tbody id="genres-body">
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row">
+        <button type="button" onclick="createBook()">Save</button>
+        <a href="list.html" th:href="@{/}">
+            <button type="button">Cancel</button>
+        </a>
+    </div>
+</form>
+
+</body>
+</html>

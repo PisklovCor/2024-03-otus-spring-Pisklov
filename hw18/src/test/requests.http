@@ -1,0 +1,47 @@
+### Получить список книг
+GET http://localhost:8080/api/v1/book
+
+### Получить список авторов
+GET http://localhost:8080/api/v1/author
+
+### Получить список жанров
+GET http://localhost:8080/api/v1/genre
+
+### Получить книгу по ID
+GET http://localhost:8080/api/v1/book/1
+
+### Создать книгу
+POST http://localhost:8080/api/v1/book
+Content-Type: application/json
+
+{
+    "title": "test",
+    "author": {
+      "id": 1
+    },
+    "genres": [
+      {
+        "id": 1
+      }
+    ]
+  }
+
+### Обновить книгу
+PUT http://localhost:8080/api/v1/book
+Content-Type: application/json
+
+{
+  "id": 1,
+  "title": "test",
+  "author": {
+    "id": 1
+  },
+  "genres": [
+    {
+      "id": 1
+    }
+  ]
+}
+
+### Удалить книгу
+DELETE http://localhost:8080/api/v1/book/1
