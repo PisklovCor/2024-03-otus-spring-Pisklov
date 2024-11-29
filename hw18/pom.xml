@@ -23,6 +23,7 @@
         <reflections.version>0.10.2</reflections.version>
         <mongock.version>4.3.8</mongock.version>
         <flapdoodle.version>4.7.0</flapdoodle.version>
+        <jetbrains.version>24.0.1</jetbrains.version>
     </properties>
 
     <dependencies>
@@ -69,6 +70,12 @@
             <groupId>org.reflections</groupId>
             <artifactId>reflections</artifactId>
             <version>${reflections.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>${jetbrains.version}</version>
         </dependency>
 
         <!-- database -->
