@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import ru.otus.hw.handlers.BookHandler;
 import ru.otus.hw.repositories.BookRepository;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -23,18 +24,20 @@ import static org.springframework.web.reactive.function.server.ServerResponse.ok
 public class FunctionalBookEndpointsConfiguration {
 
     @Bean
-    public RouterFunction<ServerResponse> composedBookRoutes(BookRepository repository) {
+    public RouterFunction<ServerResponse> composedBookRoutes(BookRepository repository, BookHandler handler) {
         return route()
-                .GET("/api/v1/book/{bookId}", accept(APPLICATION_JSON),
+                .GET("/route/v1/book/{bookId}", accept(APPLICATION_JSON),
                         request -> repository.findById(request.pathVariable("bookId"))
-                                .flatMap(book -> ok().contentType(APPLICATION_JSON).body(fromValue(book)))
+                                .flatMap(b -> ok().contentType(APPLICATION_JSON).body(fromValue(b)))
                                 .switchIfEmpty(notFound().build())
                 )
-                .DELETE("/api/v1/book/{bookId}", accept(APPLICATION_JSON),
-                        request -> repository.findById(request.pathVariable("bookId"))
-                                .flatMap(b -> ServerResponse.noContent().build(repository.delete(b)))
-                                .switchIfEmpty(notFound().build())
-                )
+//                .POST("/api/v1/book/route", accept(APPLICATION_JSON), handler::createBook)
+//                .PUT("/api/v1/book/route", accept(APPLICATION_JSON), handler::updateBook)
+//                .DELETE("/api/v1/book/route/{bookId}", accept(APPLICATION_JSON),
+//                        request -> repository.findById(request.pathVariable("bookId"))
+//                                .flatMap(b -> ServerResponse.noContent().build(repository.delete(b)))
+//                                .switchIfEmpty(notFound().build())
+//                )
                 .build();
     }
 }

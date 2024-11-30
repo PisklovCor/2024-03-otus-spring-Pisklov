@@ -1,47 +1,39 @@
-### Получить список книг
+### Получить список книг (api)
 GET http://localhost:8080/api/v1/book
 
-### Получить список авторов
+### Получить список авторов (api)
 GET http://localhost:8080/api/v1/author
 
-### Получить список жанров
+### Получить список жанров (api)
 GET http://localhost:8080/api/v1/genre
 
-### Получить книгу по ID
-GET http://localhost:8080/api/v1/book/674a15a857f29e09f9a156f4
+### Получить книгу по ID (route)
+GET http://localhost:8080/route/v1/book/674ae65473aec45d9f703b0b
 
-### Создать книгу
+### Создать книгу (api)
 POST http://localhost:8080/api/v1/book
 Content-Type: application/json
 
 {
-    "title": "test",
-    "author": {
-      "id": "674a0fb76238900cefffab06"
-    },
-    "genres": [
-      {
-        "id": "674a0fb76238900cefffab0c"
-      }
-    ]
-  }
+  "title": "Manual creation of a book",
+  "authorId": "674ae65473aec45d9f703b14",
+  "genresId": [
+    "674ae65473aec45d9f703b16"
+  ]
+}
 
-### Обновить книгу
+### Обновить книгу (api)
 PUT http://localhost:8080/api/v1/book
 Content-Type: application/json
 
 {
-  "id": "674a0fb76238900cefffab10",
-  "title": "test",
-  "author": {
-    "id": "674a0fb76238900cefffab06"
-  },
-  "genres": [
-    {
-      "id": "674a0fb76238900cefffab0c"
-    }
+  "id": "674ae768a3d2392308fc528d",
+  "title": "Manual book update",
+  "authorId": "674ae65473aec45d9f703b00",
+  "genresId": [
+    "674ae65473aec45d9f703b15"
   ]
 }
 
-### Удалить книгу
-DELETE http://localhost:8080/api/v1/book/674a15a857f29e09f9a156f4
+### Удалить книгу (api)
+DELETE http://localhost:8080/api/v1/book/674aeb9cefc46e41ffb9f023

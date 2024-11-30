@@ -19,3 +19,7 @@ mongock:
     write-concern:
       journal: false
     read-concern: local
+
+logging:
+  level:
+    root: debug

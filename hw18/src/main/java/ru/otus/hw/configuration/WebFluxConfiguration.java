@@ -8,12 +8,14 @@ import org.springframework.boot.web.embedded.netty.NettyReactiveWebServerFactory
 import org.springframework.boot.web.reactive.server.ReactiveWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories;
 import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
 import reactor.util.annotation.NonNull;
 
 @EnableMongock
 @Configuration
+@EnableReactiveMongoRepositories(basePackages = "ru.otus.hw.repositories")
 public class WebFluxConfiguration {
 
     private static final int THREAD_POOL_SIZE = 2;
