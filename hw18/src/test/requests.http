@@ -22,6 +22,18 @@ Content-Type: application/json
   ]
 }
 
+### Создать книгу (route)
+POST http://localhost:8080/route/v1/book
+Content-Type: application/json
+
+{
+  "title": "Manual creation of a book (route)",
+  "authorId": "674b76fa7e25366556468db1",
+  "genresId": [
+    "674b76fa7e25366556468db3"
+  ]
+}
+
 ### Обновить книгу (api)
 PUT http://localhost:8080/api/v1/book
 Content-Type: application/json
@@ -37,3 +49,6 @@ Content-Type: application/json
 
 ### Удалить книгу (api)
 DELETE http://localhost:8080/api/v1/book/674afb826163c11ec0cc13e1
+
+### Удалить книгу (route)
+DELETE http://localhost:8080/route/v1/book/674b762db46ece678748a8cb

@@ -31,6 +31,24 @@
             padding-left: 30px;
         }
 
+        .c-button {
+            appearance: none;
+            border: 0;
+            border-radius: 5px;
+            background: #4676D7;
+            color: #fff;
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+        .c-button:hover {
+            background: #1d49aa;
+        }
+
+        .c-button:focus {
+            outline: none;
+            box-shadow: 0 0 0 4px #cbd6ee;
+        }
+
     </style>
 
     <style type="text/css" th:inline="text">
@@ -75,9 +93,9 @@
                                 <form id="list-form">
                                     <div class="row">
                                         <a href="/book/edit?id=${book.id}">
-                                            <button type="button">Edit</button>
+                                            <button class="c-button" type="button">Edit</button>
                                         </a>
-                                        <button type="submit" onclick="deleteBook('${book.id}')">Delete</button>
+                                        <button class="c-button" type="submit" onclick="deleteBook('${book.id}')">Delete</button>
                                     </div>
                                 </form>
                             </td>
@@ -121,7 +139,7 @@
 </table>
 <div class="row">
     <a href="create.html" th:href="@{/book/create}">
-        <button type="button">Create new book</button>
+        <button class="c-button" type="button">Create</button>
     </a>
 </div>
 </body>
