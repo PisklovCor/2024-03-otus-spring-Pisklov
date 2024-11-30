@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import reactor.core.scheduler.Scheduler;
 import ru.otus.hw.models.Author;
@@ -15,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
+@Profile("!test")
 @Component
 @RequiredArgsConstructor
 public class InitDataRunner implements ApplicationRunner {
