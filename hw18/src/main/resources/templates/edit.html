@@ -131,8 +131,12 @@
         const genre1 = document.getElementById("book-genre-select-0")
         const genre2 = document.getElementById("book-genre-select-1")
 
-        genres.push(genre1.value);
-        genres.push(genre2.value);
+        if (genre1 != null) {
+            genres.push(genre1.value);
+        }
+        if (genre2 != null) {
+            genres.push(genre2.value);
+        }
 
         const bookObject = {
             id: bookId.value,

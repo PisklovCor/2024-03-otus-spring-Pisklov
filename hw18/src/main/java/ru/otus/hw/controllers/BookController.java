@@ -24,6 +24,7 @@ import ru.otus.hw.repositories.AuthorRepository;
 import ru.otus.hw.repositories.BookRepository;
 import ru.otus.hw.repositories.GenreRepository;
 
+import java.util.HashSet;
 import java.util.List;
 
 @RestController
@@ -82,13 +83,16 @@ public class BookController {
     }
 
     private Mono<List<Genre>> findAllMonoGenreByIds(List<String> genresIds) {
-        return genreRepository.findAllById(genresIds)
+
+        var genresIdsSet = new HashSet<>(genresIds);
+
+        return genreRepository.findAllById(genresIdsSet)
                 .collectList()
                 .flatMap(list -> {
-                    if (list.size() != genresIds.size()) {
+                    if (list.size() != genresIdsSet.size()) {
                         return Mono.create(emitter -> emitter.error(
                                 new NotFoundException("Not all genres found from list %s"
-                                        .formatted(genresIds))));
+                                        .formatted(genresIdsSet))));
                     } else {
                         return Mono.just(list);
                     }
