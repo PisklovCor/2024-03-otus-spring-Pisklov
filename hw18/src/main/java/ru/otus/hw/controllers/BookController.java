@@ -72,10 +72,7 @@ public class BookController {
     @DeleteMapping("/api/v1/book/{bookId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Mono<Void> deleteBook(@PathVariable(name = "bookId") String bookId) {
-        //return repository.deleteById(bookId);
-
-        return repository.findById(bookId)
-                .flatMap(repository::delete);
+        return repository.deleteById(bookId);
     }
 
     private Mono<Author> findMonoAuthorById(String authorId) {

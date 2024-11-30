@@ -13,8 +13,8 @@ import ru.otus.hw.models.Genre;
 
 import java.util.List;
 
-@RequiredArgsConstructor
 @Component
+@RequiredArgsConstructor
 public class BookMapper {
 
     private final AuthorMapper authorMapper;

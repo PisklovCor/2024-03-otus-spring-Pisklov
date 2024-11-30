@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import ru.otus.hw.mappers.BookMapper;
 import ru.otus.hw.repositories.BookRepository;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -24,11 +25,11 @@ public class FunctionalBookEndpointsConfiguration {
 
     @Bean
     //public RouterFunction<ServerResponse> composedBookRoutes(BookRepository repository, BookHandler handler) {
-    public RouterFunction<ServerResponse> composedBookRoutes(BookRepository repository) {
+    public RouterFunction<ServerResponse> composedBookRoutes(BookRepository repository, BookMapper mapper) {
         return route()
                 .GET("/route/v1/book/{bookId}", accept(APPLICATION_JSON),
                         request -> repository.findById(request.pathVariable("bookId"))
-                                .flatMap(b -> ok().contentType(APPLICATION_JSON).body(fromValue(b)))
+                                .flatMap(b -> ok().contentType(APPLICATION_JSON).body(fromValue(mapper.toDto(b))))
                                 .switchIfEmpty(notFound().build())
                 )
 //                .POST("/api/v1/book/route", accept(APPLICATION_JSON), handler::createBook)
