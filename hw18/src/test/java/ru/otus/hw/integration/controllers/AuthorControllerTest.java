@@ -1,6 +1,4 @@
-package ru.otus.hw.controllers;
-
-import java.time.Duration;
+package ru.otus.hw.integration.controllers;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,12 +22,7 @@ class AuthorControllerTest extends SpringBootApplicationTest {
     @Test
     void getListAuthor() {
 
-        var webTestClientForTest = client.mutate()
-                .responseTimeout(Duration.ofSeconds(20))
-                .build();
-
-        var result = webTestClientForTest
-                .get().uri("/api/v1/author")
+        var result = client.get().uri("/api/v1/author")
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .expectStatus().isOk()

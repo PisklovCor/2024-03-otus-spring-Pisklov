@@ -1,4 +1,4 @@
-package ru.otus.hw.functional.endpoints;
+package ru.otus.hw.integration.endpoints.functional;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,7 +10,7 @@ import ru.otus.hw.dto.BookDto;
 import ru.otus.hw.mappers.BookMapper;
 import ru.otus.hw.repositories.BookRepository;
 
-import java.time.Duration;
+import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -30,20 +30,16 @@ public class BookFunctionalEndpointTest extends SpringBootApplicationTest {
     @Test
     void gteBookById() {
 
-        var webTestClientForTest = client.mutate()
-                .responseTimeout(Duration.ofSeconds(30))
-                .build();
-
         var book = repository.findAll();
-        var expectedDto = book.map(mapper::toDto).collectList().block().get(0);
+        var expectedDto = Objects.requireNonNull(book.map(mapper::toDto).collectList().block()).get(0);
 
-        var result = webTestClientForTest
-                .get().uri("/route/v1/book/{bookId}", expectedDto.getId())
+        var result = client.get().uri("/route/v1/book/{bookId}", expectedDto.getId())
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .expectStatus().isOk()
                 .returnResult(BookDto.class)
-                .getResponseBody().blockFirst();
+                .getResponseBody()
+                .blockFirst();
 
        assertThat(result).isEqualTo(expectedDto);
     }

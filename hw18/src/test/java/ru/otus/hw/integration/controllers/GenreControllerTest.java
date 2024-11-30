@@ -1,4 +1,4 @@
-package ru.otus.hw.controllers;
+package ru.otus.hw.integration.controllers;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -7,8 +7,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import ru.otus.hw.SpringBootApplicationTest;
 import ru.otus.hw.models.Genre;
-
-import java.time.Duration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -24,12 +22,7 @@ class GenreControllerTest extends SpringBootApplicationTest {
     @Test
     void getListGenre() {
 
-        var webTestClientForTest = client.mutate()
-                .responseTimeout(Duration.ofSeconds(20))
-                .build();
-
-        var result = webTestClientForTest
-                .get().uri("/api/v1/genre")
+        var result = client.get().uri("/api/v1/genre")
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .expectStatus().isOk()
