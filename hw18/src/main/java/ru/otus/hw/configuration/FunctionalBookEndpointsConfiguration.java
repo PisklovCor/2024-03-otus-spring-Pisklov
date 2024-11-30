@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
-import ru.otus.hw.handlers.BookHandler;
 import ru.otus.hw.repositories.BookRepository;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
