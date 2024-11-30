@@ -13,19 +13,66 @@
             width: 100px;
         }
 
-        .genres {
-            border: 1px solid steelblue;
-            width: 280px;
-            border-collapse: collapse;
+        table {
+            font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+            font-size: 14px;
+            border-radius: 10px;
+            border-spacing: 0;
+            text-align: center;
+        }
+        th {
+            background: #cbb2d2;
+            color: white;
+            text-shadow: 0 1px 1px #2D2020;
+            padding: 10px 20px;
+        }
+        th, td {
+            border-style: solid;
+            border-width: 0 1px 1px 0;
+            border-color: white;
+            text-align: center;
+            text-align-last: center;
+        }
+        th:first-child, td:first-child {
+            text-align: center;
+            text-align-last: center;
+        }
+        th:first-child {
+            border-top-left-radius: 10px;
+        }
+        th:last-child {
+            border-top-right-radius: 10px;
+            border-right: none;
+        }
+        td {
+            padding: 10px 20px;
+            background: #c8d5fa;
+            text-align: center;
+            text-align-last: center;
+        }
+        tr:last-child td:first-child {
+            border-radius: 0 0 0 10px;
+        }
+        tr:last-child td:last-child {
+            border-radius: 0 0 10px 0;
+        }
+        tr td:last-child {
+            border-right: none;
+            text-align: center;
+            text-align-last: center;
         }
 
-        .genres tr td, th {
-            padding: 5px;
-            border: 1px solid steelblue;
-        }
-
-        .genres td:last-child, td:first-child {
-            width: 50px;
+        select {
+            width: 140px;
+            height: 35px;
+            padding: 5px 35px 5px 5px;
+            font-size: 18px;
+            border: 2px solid #ccc;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            text-align: center;
+            text-align-last: center;
         }
 
         input:read-only {
@@ -159,7 +206,7 @@
     <!-- Genre add table select -->
     <div class="row">
         <label>Genres:</label>
-        <table class="genres">
+        <table>
             <thead>
             <tr>
                 <th>Name</th>
