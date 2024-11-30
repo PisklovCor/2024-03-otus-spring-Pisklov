@@ -24,7 +24,8 @@ import static org.springframework.web.reactive.function.server.ServerResponse.ok
 public class FunctionalBookEndpointsConfiguration {
 
     @Bean
-    public RouterFunction<ServerResponse> composedBookRoutes(BookRepository repository, BookHandler handler) {
+    //public RouterFunction<ServerResponse> composedBookRoutes(BookRepository repository, BookHandler handler) {
+    public RouterFunction<ServerResponse> composedBookRoutes(BookRepository repository) {
         return route()
                 .GET("/route/v1/book/{bookId}", accept(APPLICATION_JSON),
                         request -> repository.findById(request.pathVariable("bookId"))
