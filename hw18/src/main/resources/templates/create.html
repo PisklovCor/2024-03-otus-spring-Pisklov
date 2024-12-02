@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Edit person</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        table {
+            font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+            font-size: 14px;
+            border-radius: 10px;
+            border-spacing: 0;
+            text-align: center;
+        }
+        th {
+            background: #cbb2d2;
+            color: white;
+            text-shadow: 0 1px 1px #2D2020;
+            padding: 10px 20px;
+        }
+        th, td {
+            border-style: solid;
+            border-width: 0 1px 1px 0;
+            border-color: white;
+            text-align: center;
+            text-align-last: center;
+        }
+        th:first-child, td:first-child {
+            text-align: center;
+            text-align-last: center;
+        }
+        th:first-child {
+            border-top-left-radius: 10px;
+        }
+        th:last-child {
+            border-top-right-radius: 10px;
+            border-right: none;
+        }
+        td {
+            padding: 10px 20px;
+            background: #c8d5fa;
+            text-align: center;
+            text-align-last: center;
+        }
+        tr:last-child td:first-child {
+            border-radius: 0 0 0 10px;
+        }
+        tr:last-child td:last-child {
+            border-radius: 0 0 10px 0;
+        }
+        tr td:last-child {
+            border-right: none;
+            text-align: center;
+            text-align-last: center;
+        }
+
+        select {
+            width: 140px;
+            height: 35px;
+            padding: 5px 35px 5px 5px;
+            font-size: 18px;
+            border: 2px solid #ccc;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            text-align: center;
+            text-align-last: center;
+        }
+
+        input:read-only {
+            background: lightgray;
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+
+        .c-button {
+            appearance: none;
+            border: 0;
+            border-radius: 5px;
+            background: #4676D7;
+            color: #fff;
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+        .c-button:hover {
+            background: #1d49aa;
+        }
+
+        .c-button:focus {
+            outline: none;
+            box-shadow: 0 0 0 4px #cbd6ee;
+        }
+
+    </style>
+</head>
+
+<script>
+    window.onload = () => {
+        getAuthor();
+        getGenres();
+    };
+
+    function getAuthor() {
+        fetch('/api/v1/author', {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        }).then(response => response.json())
+            .then((json) => {
+
+                let authorList = "";
+
+                json.forEach((author) => {
+                    authorList += `<option value="${author.id}">${author.fullName}</option>`;
+                });
+
+                document.getElementById("book-author-select").innerHTML = authorList;
+            });
+    }
+
+    function getGenres() {
+        fetch('/api/v1/genre', {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        }).then(response => response.json())
+            .then((json) => {
+
+                let genreList = "";
+
+                json.forEach((genre) => {
+                    genreList += `<option value="${genre.id}">${genre.name}</option>`;
+                });
+
+                let genreSelects = `<tr>
+                                        <td>
+                                            <label for="book-genre-select-0"></label>
+                                            <select id="book-genre-select-0" name="book-genre-select-0">
+                                                ${genreList}
+                                            </select>
+                                        </td>
+                                    </tr>`;
+
+
+                document.getElementById("genres-body").innerHTML = genreSelects
+            });
+    }
+
+    function createBook() {
+        const bookTitle = document.getElementById("book-title-input")
+        const author = document.getElementById("book-author-select")
+        const genres = [];
+        const genre1 = document.getElementById("book-genre-select-0")
+
+        genres.push(genre1.value);
+
+        const bookObject = {
+            title: bookTitle.value,
+            authorId: author.value,
+            genresId: genres
+        }
+
+        fetch("/api/v1/book", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(bookObject)
+        })
+            .then(rawResponse => rawResponse.json())
+            .then(location.href = "/")
+    }
+</script>
+
+<body>
+
+<!-- Book add -->
+<form id="create-form">
+    <h3>New Book:</h3>
+
+    <div class="row">
+        <label for="book-title-input">Title:</label>
+        <input id="book-title-input" name="title" type="text" value="Clean Code Collection"/>
+    </div>
+
+    <!-- Author add select -->
+    <div class="row">
+        <label for="book-author-select">Author:</label>
+        <select id="book-author-select">
+            <option value=""></option>
+        </select>
+    </div>
+
+    <!-- Genre add table select -->
+    <div class="row">
+        <label>Genres:</label>
+        <table>
+            <thead>
+            <tr>
+                <th>Name</th>
+            </tr>
+            </thead>
+            <tbody id="genres-body">
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row">
+        <button class="c-button" type="button" onclick="createBook()">Save</button>
+        <a href="list.html" th:href="@{/}">
+            <button class="c-button" type="button">Cancel</button>
+        </a>
+    </div>
+</form>
+
+</body>
+</html>

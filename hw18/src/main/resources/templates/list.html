@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="keywords" th:content="${keywords}"/>
+    <title>List of all books</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        h3 {
+            background-image: url("../static/listmark.png");
+            background-repeat: no-repeat;
+            padding: 2px;
+            padding-left: 30px;
+        }
+
+        .c-button {
+            appearance: none;
+            border: 0;
+            border-radius: 5px;
+            background: #4676D7;
+            color: #fff;
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+        .c-button:hover {
+            background: #1d49aa;
+        }
+
+        .c-button:focus {
+            outline: none;
+            box-shadow: 0 0 0 4px #cbd6ee;
+        }
+
+        table {
+            font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+            font-size: 14px;
+            border-radius: 10px;
+            border-spacing: 0;
+            text-align: center;
+        }
+        th {
+            background: #cbb2d2;
+            color: white;
+            text-shadow: 0 1px 1px #2D2020;
+            padding: 10px 20px;
+        }
+        th, td {
+            border-style: solid;
+            border-width: 0 1px 1px 0;
+            border-color: white;
+        }
+        th:first-child, td:first-child {
+            text-align: left;
+        }
+        th:first-child {
+            border-top-left-radius: 10px;
+        }
+        th:last-child {
+            border-top-right-radius: 10px;
+            border-right: none;
+        }
+        td {
+            padding: 10px 20px;
+            background: #c8d5fa;
+        }
+        tr:last-child td:first-child {
+            border-radius: 0 0 0 10px;
+        }
+        tr:last-child td:last-child {
+            border-radius: 0 0 10px 0;
+        }
+        tr td:last-child {
+            border-right: none;
+        }
+
+    </style>
+
+    <style type="text/css" th:inline="text">
+        [[h3]] {
+            background-image: url([[@{/listmark.png}]]);
+            background-repeat: no-repeat;
+            padding: 2px;
+            padding-left: 30px;
+        }
+
+    </style>
+</head>
+
+<script>
+    function getListBook() {
+        fetch('/api/v1/book', {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        }).then(response => response.json())
+            .then((json) => {
+
+                let bookList = "";
+
+                json.forEach((book) => {
+
+                    let genreList = "";
+
+                    const genres = book.genres;
+
+                    genres.forEach((genre) => {
+                        genreList += `${genre.name} `
+                    });
+
+                    bookList += `<tr>
+                            <td>${book.id}</td>
+                            <td>${book.title} </td>
+                            <td>${book.author.fullName}</td>
+                            <td>${genreList}</td>
+                            <td>
+                                <form id="list-form">
+                                    <div class="row">
+                                        <a href="/book/edit?id=${book.id}">
+                                            <button class="c-button" type="button">Edit</button>
+                                        </a>
+                                        <button class="c-button" type="submit" onclick="deleteBook('${book.id}')">Delete</button>
+                                    </div>
+                                </form>
+                            </td>
+                           </tr>`;
+                });
+
+                document.getElementById("book-body").innerHTML = bookList;
+            });
+    }
+
+    window.onload = () => {
+        getListBook();
+    };
+
+    function deleteBook(bookId) {
+        fetch("/api/v1/book/" + bookId, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+    }
+
+</script>
+
+<body>
+<h3>Books:</h3>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Genres</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody id="book-body">
+    </tbody>
+</table>
+<div class="row">
+    <a href="create.html" th:href="@{/book/create}">
+        <button class="c-button" type="button">Create</button>
+    </a>
+</div>
+</body>
+</html>
