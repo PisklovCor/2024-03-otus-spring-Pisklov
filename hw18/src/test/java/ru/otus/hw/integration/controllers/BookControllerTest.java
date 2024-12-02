@@ -4,7 +4,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 import ru.otus.hw.SpringBootApplicationTest;
 import ru.otus.hw.dto.BookCreateDto;
@@ -27,9 +26,6 @@ class BookControllerTest extends SpringBootApplicationTest {
     private static final String TEST_TITLE_UPDATE = "It was almost successful";
 
     private static final int NUMBER_OF_BOOKS_IN_TESTS = 1;
-
-    @Autowired
-    private WebTestClient client;
 
     @Autowired
     private BookRepository repository;

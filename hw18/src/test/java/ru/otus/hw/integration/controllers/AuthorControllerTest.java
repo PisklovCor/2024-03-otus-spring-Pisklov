@@ -2,9 +2,7 @@ package ru.otus.hw.integration.controllers;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.reactive.server.WebTestClient;
 import ru.otus.hw.SpringBootApplicationTest;
 import ru.otus.hw.dto.AuthorDto;
 
@@ -14,9 +12,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 class AuthorControllerTest extends SpringBootApplicationTest {
 
     private static final int EXPECTED_NUMBER_OF_AUTHOR = 3;
-
-    @Autowired
-    private WebTestClient client;
 
     @DisplayName("должен вернуть список всех авторов")
     @Test
