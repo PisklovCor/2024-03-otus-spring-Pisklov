@@ -1,0 +1,59 @@
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    config:
+      enabled: false
+
+server:
+  port: 8080
+
+application:
+  api-routes:
+    - id: order-service
+      from: order-service
+      to: lb://ORDER-SERVICE
+    - id: account-service
+      from: account-service
+      to: lb://ACCOUNT-SERVICE
+    - id: notification-service
+      from: notification-service
+      to: lb://NOTIFICATION-SERVICE
+    - id: library-service
+      from: library-service
+      to: lb://LIBRARY-SERVICE
+
+eureka:
+  instance:
+    hostname: localhost
+    lease-expiration-duration-in-seconds: 90
+  client:
+    registerWithEureka: false
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: ${DISCOVERY_URL:http://localhost:8761/eureka}
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+  endpoint:
+    prometheus:
+      enabled: true
+    metrics:
+      enabled: true
+    health:
+      enabled: true
+      probes:
+        enabled: true
+    refresh:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: [ 'health', 'info', 'metrics', 'prometheus', 'git', 'env', 'refresh' ]
+    enabled-by-default: false
+
+logging:
+  level:
+    root: debug

@@ -1,0 +1,31 @@
+application:
+  services:
+    account-url: http://ACCOUNT-SERVICE
+  scheduler:
+    enabled: false
+  security:
+    enabled: false
+
+spring:
+  datasource:
+    username: ${CONTAINER.USERNAME}
+    password: ${CONTAINER.PASSWORD}
+    url: ${CONTAINER.URL}
+    driverClassName: org.postgresql.Driver
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/changelog/db.changelog-master-test.yaml
+  rabbitmq:
+    addresses: localhost
+    port: 5672
+    username: admin
+    password: admin
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+
+eureka:
+  client:
+    enabled: false

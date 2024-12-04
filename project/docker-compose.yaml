@@ -1,0 +1,119 @@
+version: "3.9"
+services:
+
+  postgres_library:
+    image: postgres:13.3
+    container_name: library-service-db
+    environment:
+      POSTGRES_DB: "library-service-db"
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "admin"
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./temporary/pgdata_library:/var/lib/postgresql/data
+    networks:
+      monitoring:
+        aliases:
+          - postgres_library
+
+  postgres_order:
+    image: postgres:13.3
+    container_name: order-service-db
+    environment:
+      POSTGRES_DB: "order-service-db"
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "admin"
+    ports:
+      - "5434:5432"
+    volumes:
+      - ./temporary/pgdata_order:/var/lib/postgresql/data
+    networks:
+      monitoring:
+        aliases:
+          - postgres_order
+
+  postgres_account:
+    image: postgres:13.3
+    container_name: account-service-db
+    environment:
+      POSTGRES_DB: "account-service-db"
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "admin"
+    ports:
+      - "5435:5432"
+    volumes:
+      - ./temporary/pgdata_account:/var/lib/postgresql/data
+    networks:
+      monitoring:
+        aliases:
+          - postgres_account
+
+  postgres_notification:
+    image: postgres:13.3
+    container_name: notification-service-db
+    environment:
+      POSTGRES_DB: "notification-service-db"
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "admin"
+    ports:
+      - "5436:5432"
+    volumes:
+      - ./temporary/pgdata_notification:/var/lib/postgresql/data
+    networks:
+      monitoring:
+        aliases:
+          - postgres_notification
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_PASS: "admin"
+      RABBITMQ_DEFAULT_USER: "admin"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./configuration/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./temporary/prometheus:/prometheus
+    networks:
+      monitoring:
+        aliases:
+          - prometheus
+
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    ports:
+      - "9411:9411"
+    networks:
+      monitoring:
+        aliases:
+          - zipkin
+
+  grafana:
+    image: grafana/grafana:8.0.0
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./temporary/grafana:/var/lib/grafana
+      - ./configuration/grafana/provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    networks:
+      monitoring:
+        aliases:
+          - grafana
+
+networks:
+  monitoring:
+    name: hw-networks
