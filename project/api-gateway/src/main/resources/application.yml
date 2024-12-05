@@ -4,6 +4,25 @@ spring:
   cloud:
     config:
       enabled: false
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8888/realms/project
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8888/realms/project
+        registration:
+          keycloak:
+            provider: keycloak
+            client-id: project-client
+            client-secret: PKueWhxyYTsvjaXSPYaTVew9RKOVHzBE
+            authorization-grant-type: authorization_code
+            scope:
+              - project_scope
+              - openid
+              - microprofile-jwt
 
 server:
   port: 8080
