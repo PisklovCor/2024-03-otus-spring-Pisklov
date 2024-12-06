@@ -1,15 +1,94 @@
 version: "3.9"
 services:
 
+  notification-service:
+    restart: always
+    build:
+      context: ./notification-service/
+      dockerfile: ./docker/Dockerfile
+    container_name: notification-service
+    environment:
+      SECURITY_ENABLED: false
+      DATASOURCE_URL: postgres_notification:5432
+      RABBITMQ_HOST: rabbitmq
+      CLOUD_CONFIG_ENABLE: false
+      KEYCLOAK_URL: "keycloak:8080"
+      DISCOVERY_URL: "discovery-service:8761"
+      EUREKA_INSTANCE_HOSTNAME: notification-service
+      ZIPKIN_URL: "zipkin:9411"
+    depends_on:
+      discovery-service:
+        condition: service_started
+      keycloak:
+        condition: service_started
+    ports:
+      - "8003:8003"
+    networks:
+      project:
+        aliases:
+          - notification-service
+
+  order-service:
+    restart: always
+    build:
+      context: ./order-service/
+      dockerfile: ./docker/Dockerfile
+    container_name: order-service
+    environment:
+      SECURITY_ENABLED: false
+      DATASOURCE_URL: postgres_order:5432
+      CLOUD_CONFIG_ENABLE: false
+      KEYCLOAK_URL: "keycloak:8080"
+      DISCOVERY_URL: "discovery-service:8761"
+      EUREKA_INSTANCE_HOSTNAME: order-service
+      ZIPKIN_URL: "zipkin:9411"
+    depends_on:
+      discovery-service:
+        condition: service_started
+      keycloak:
+        condition: service_started
+    ports:
+      - "8001:8001"
+    networks:
+      project:
+        aliases:
+          - order-service
+
+  api-gateway:
+    restart: always
+    build:
+      context: ./api-gateway/
+      dockerfile: ./docker/Dockerfile
+    container_name: api-gateway
+    environment:
+      KEYCLOAK_URL: "keycloak:8080"
+      ZIPKIN_URL: "zipkin:9411"
+      DISCOVERY_URL: "discovery-service:8761"
+    depends_on:
+      discovery-service:
+        condition: service_started
+      keycloak:
+        condition: service_started
+      order-service:
+        condition: service_started
+    ports:
+      - "8080:8080"
+    networks:
+      project:
+        aliases:
+          - api-gateway
+
   discovery-service:
     build:
       context: ./discovery-service/
       dockerfile: ./docker/Dockerfile
     container_name: discovery-service
+    environment:
+      ZIPKIN_URL: "zipkin:9411"
     ports:
       - "8761:8761"
     networks:
-      monitoring:
+      project:
         aliases:
           - discovery
 
@@ -25,7 +104,7 @@ services:
     volumes:
       - ./temporary/pgdata_library:/var/lib/postgresql/data
     networks:
-      monitoring:
+      project:
         aliases:
           - postgres_library
 
@@ -41,7 +120,7 @@ services:
     volumes:
       - ./temporary/pgdata_order:/var/lib/postgresql/data
     networks:
-      monitoring:
+      project:
         aliases:
           - postgres_order
 
@@ -57,7 +136,7 @@ services:
     volumes:
       - ./temporary/pgdata_account:/var/lib/postgresql/data
     networks:
-      monitoring:
+      project:
         aliases:
           - postgres_account
 
@@ -73,7 +152,7 @@ services:
     volumes:
       - ./temporary/pgdata_notification:/var/lib/postgresql/data
     networks:
-      monitoring:
+      project:
         aliases:
           - postgres_notification
 
@@ -89,6 +168,10 @@ services:
     ports:
       - '8888:8080'
     command: start-dev --import-realm
+    networks:
+      project:
+        aliases:
+          - keycloak
 
   rabbitmq:
     image: rabbitmq:management
@@ -99,6 +182,10 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+    networks:
+      project:
+        aliases:
+          - rabbitmq
 
   prometheus:
     image: prom/prometheus
@@ -109,7 +196,7 @@ services:
       - ./configuration/prometheus.yml:/etc/prometheus/prometheus.yml
       - ./temporary/prometheus:/prometheus
     networks:
-      monitoring:
+      project:
         aliases:
           - prometheus
 
@@ -119,7 +206,7 @@ services:
     ports:
       - "9411:9411"
     networks:
-      monitoring:
+      project:
         aliases:
           - zipkin
 
@@ -135,10 +222,10 @@ services:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin
     networks:
-      monitoring:
+      project:
         aliases:
           - grafana
 
 networks:
-  monitoring:
-    name: hw-networks
+  project:
+    name: project-networks

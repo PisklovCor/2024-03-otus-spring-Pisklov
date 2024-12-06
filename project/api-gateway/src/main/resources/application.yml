@@ -12,11 +12,11 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: http://localhost:8888/realms/project/protocol/openid-connect/certs
+          jwk-set-uri: http://${KEYCLOAK_URL:localhost:8888}/realms/project/protocol/openid-connect/certs
       client:
         provider:
           keycloak:
-            issuer-uri: http://localhost:8888/realms/project
+            issuer-uri: http://${KEYCLOAK_URL:localhost:8888}/realms/project
         registration:
           project-client:
             provider: keycloak
@@ -47,19 +47,19 @@ application:
       to: lb://LIBRARY-SERVICE
 
 eureka:
-  instance:
-    hostname: localhost
-    lease-expiration-duration-in-seconds: 90
   client:
     registerWithEureka: false
     fetchRegistry: true
     serviceUrl:
-      defaultZone: ${DISCOVERY_URL:http://localhost:8761/eureka}
+      defaultZone: http://${DISCOVERY_URL:localhost:8761}/eureka
 
 management:
   tracing:
     sampling:
       probability: 1.0
+  metrics:
+    tags:
+      application: ${spring.application.name}
   endpoint:
     prometheus:
       enabled: true
@@ -76,6 +76,9 @@ management:
       exposure:
         include: [ 'health', 'info', 'metrics', 'prometheus', 'git', 'env', 'refresh' ]
     enabled-by-default: false
+  zipkin:
+    tracing:
+      endpoint: http://${ZIPKIN_URL:localhost:9411}/api/v2/spans
 
 logging:
   level:

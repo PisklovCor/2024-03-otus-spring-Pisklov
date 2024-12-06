@@ -15,12 +15,12 @@ spring:
       # transaction-isolation: TRANSACTION_READ_COMMITTED # TRANSACTION_READ_COMMITTED / TRANSACTION_REPEATABLE_READ / TRANSACTION_SERIALIZABLE
       maximum-pool-size: 10
       minimum-idle: 1
-    url: ${DATASOURCE_URL:jdbc:postgresql://localhost:5436/notification-service-db}
+    url: jdbc:postgresql://${DATASOURCE_URL:localhost:5436}/notification-service-db
     username: admin
     password: admin
     driverClassName: org.postgresql.Driver
   rabbitmq:
-    addresses: localhost
+    addresses: ${RABBITMQ_HOST:localhost}
     port: 5672
     username: admin
     password: admin
@@ -37,18 +37,19 @@ spring:
     show-sql: true
   cloud:
     config:
-      enabled: false
+      enabled: ${CLOUD_CONFIG_ENABLE:false}
   security:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: ${SECURITY_PROVIDER_URL:http://localhost:9000}
+          issuer-uri: http://${KEYCLOAK_URL:localhost:8888}/realms/project
 
 eureka:
   client:
     service-url:
-      defaultZone: ${DISCOVERY_URL:http://localhost:8761/eureka}
+      defaultZone: http://${DISCOVERY_URL:localhost:8761}/eureka
   instance:
+    hostname: ${EUREKA_INSTANCE_HOSTNAME:localhost}
     instance-id: notification-service:${spring.application.instance_id:0}
     lease-renewal-interval-in-seconds: 30
     metadataMap:
@@ -58,6 +59,9 @@ management:
   tracing:
     sampling:
       probability: 1.0
+  metrics:
+    tags:
+      application: ${spring.application.name}
   endpoint:
     prometheus:
       enabled: true
@@ -74,6 +78,9 @@ management:
       exposure:
         include: [ 'health', 'info', 'metrics', 'prometheus', 'git', 'env', 'refresh' ]
     enabled-by-default: false
+  zipkin:
+    tracing:
+      endpoint: http://${ZIPKIN_URL:localhost:9411}/api/v2/spans
 
 logging:
   level:

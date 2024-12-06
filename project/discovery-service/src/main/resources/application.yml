@@ -6,12 +6,11 @@ server:
   port: 8761
 
 eureka:
+#  instance:
+#    hostname: localhost
   server:
     enable-self-preservation: false
     renewal-percent-threshold: 0.5
-  instance:
-    hostname: localhost
-    lease-expiration-duration-in-seconds: 90
   client:
     registerWithEureka: false
     fetchRegistry: false
@@ -38,3 +37,6 @@ management:
       exposure:
         include: [ 'health', 'info', 'metrics', 'prometheus', 'git', 'env', 'refresh' ]
     enabled-by-default: false
+  zipkin:
+    tracing:
+      endpoint: http://${ZIPKIN_URL:localhost:9411}/api/v2/spans
