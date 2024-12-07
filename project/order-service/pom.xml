@@ -28,6 +28,7 @@
         <resilience4j-spring-boot3.version>2.2.0</resilience4j-spring-boot3.version>
         <envers.version>6.2.23.Final</envers.version>
         <hibernate.version>6.2.23.Final</hibernate.version>
+        <spring.cloud.version>2023.0.3</spring.cloud.version>
     </properties>
 
     <dependencies>
@@ -145,10 +146,10 @@
         </dependency>
 
         <!-- cloud -->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.cloud</groupId>-->
-<!--            <artifactId>spring-cloud-starter-config</artifactId>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -205,7 +206,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>2023.0.3</version>
+                <version>${spring.cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

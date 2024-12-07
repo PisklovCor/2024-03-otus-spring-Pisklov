@@ -5,13 +5,13 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/PisklovCor/2024-03-otus-spring-Pisklov.git
+          uri: https://github.com/PisklovCor/2024-03-otus-spring-Pisklov
           clone-on-start: true
           search-paths: "project/git-config"
           ignoreLocalSshSettings: false
           strictHostKeyChecking: false
           skipSslValidation: true
-      label: project
+          default-label: project
 
 server:
   port: 7777

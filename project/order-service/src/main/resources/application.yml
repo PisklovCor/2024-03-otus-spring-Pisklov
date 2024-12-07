@@ -33,7 +33,10 @@ spring:
     show-sql: true
   cloud:
     config:
-      enabled: ${CLOUD_CONFIG_ENABLE:false}
+      enabled: ${CLOUD_CONFIG_ENABLE:true}
+  config:
+    import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:7777}
+
   security:
     oauth2:
       resourceserver:
