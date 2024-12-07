@@ -1,0 +1,31 @@
+target/
+dependency-reduced-pom.xml
+/prometheus
+/logs
+/pgdata_order
+/pgdata_library
+/grafana
+/temporary
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/build/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
