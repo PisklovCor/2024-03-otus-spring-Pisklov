@@ -17,7 +17,10 @@ public class AccountBooKMapper {
         return AccountBookDto.builder()
                 .id(entity.getId())
                 .account(accountMapper.toDto(entity.getAccount()))
-                .book(BookDto.builder().id(-1).build())
+                .book(BookDto.builder()
+                        .id(entity
+                        .getBookId())
+                        .build())
                 .build();
     }
 }
