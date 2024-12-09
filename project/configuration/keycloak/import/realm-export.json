@@ -561,6 +561,26 @@
       ]
     },
     {
+      "username": "postman",
+      "email": "postman@protonmail.com",
+      "firstName": "postman_name",
+      "lastName": "postman_surname",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "postman"
+        }
+      ],
+      "realmRoles": [
+        "default-roles-project",
+        "ROLE_READ",
+        "ROLE_UPDATE",
+        "ROLE_CREATE"
+      ]
+    },
+    {
       "username": "admin",
       "email": "admin@protonmail.com",
       "firstName": "admin_name",
