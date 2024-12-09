@@ -7,6 +7,9 @@ application:
     enabled: false
 
 spring:
+  cloud:
+    config:
+      enabled: false
   datasource:
     username: ${CONTAINER.USERNAME}
     password: ${CONTAINER.PASSWORD}
