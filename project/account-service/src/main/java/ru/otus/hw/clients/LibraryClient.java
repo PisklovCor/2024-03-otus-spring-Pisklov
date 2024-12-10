@@ -22,7 +22,7 @@ public class LibraryClient {
 
     private static final String BOOK_BY_ID = "library-service/api/v1/book/{bookId}";
 
-    private static final String COMMENT_BY_LOGIN = "library-service/api/v1/comment/{login}";
+    private static final String COMMENT_BY_LOGIN = "library-service/api/v1/comment?login={login}";
 
     private final RestClient.Builder libraryRestClientBuilder;
 

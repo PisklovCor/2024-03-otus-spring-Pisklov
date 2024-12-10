@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -48,9 +49,9 @@ public class CommentController {
             summary = "Получение комментариев по логину пользователя",
             description = "Позволяет получить список всех комментариев по логину пользоваетля"
     )
-    @GetMapping("/api/v1/comment/{login}")
+    @GetMapping("/api/v1/comment")
     @ResponseStatus(HttpStatus.OK)
-    public List<CommentDto> getCommentByUserLogin(@PathVariable("login")
+    public List<CommentDto> getCommentByUserLogin(@RequestParam("login")
                                                   @Parameter(description = "Логин пользователя",
                                                           example = "guest") String login) {
         return service.findAllByLogin(login);

@@ -35,7 +35,7 @@ spring:
     config:
       enabled: ${CLOUD_CONFIG_ENABLE:true}
   config:
-    import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:7777}
+    import: optional:configserver:http://${CONFIG_SERVER_URL:localhost:7777}
 
   security:
     oauth2:

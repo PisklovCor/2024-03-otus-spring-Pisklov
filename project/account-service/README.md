@@ -9,10 +9,10 @@ mvn clean package
 ### Внешнии параметры:
 | Название                 | описание                            | local          | docker                 |
 |--------------------------|-------------------------------------|----------------|------------------------|
-| SECURITY_ENABLED         | Флаг включения безопасности         | true           | false                  |
+| SECURITY_ENABLED         | Флаг включения безопасности         | false          | false                  |
 | DATASOURCE_URL           | Адрес базы данных  PostgreSQL       | localhost:5435 | postgres_account:5432  |
 | RABBITMQ_HOST            | Адрес    rabbitmq                   | localhost      | rabbitmq               |
-| CLOUD_CONFIG_ENABLE      | Флаг включения внешней конфигурации | true           | false                  |
+| CLOUD_CONFIG_ENABLE      | Флаг включения внешней конфигурации | false          | false                  |
 | KEYCLOAK_URL             | Адрес keycloak                      | localhost:8888 | keycloak:8080          |
 | DISCOVERY_URL            | Адрес eureka                        | localhost:8761 | discovery-service:8761 |
 | EUREKA_INSTANCE_HOSTNAME | Наименование сервиса для eureka     | localhost      | account-service        |

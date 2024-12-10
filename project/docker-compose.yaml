@@ -1,133 +1,150 @@
 version: "3.9"
 services:
 
-#  library-service:
-#    restart: always
-#    build:
-#      context: ./library-service/
-#      dockerfile: ./docker/Dockerfile
-#    container_name: library-service
-#    environment:
-#      SECURITY_ENABLED: false
-#      DATASOURCE_URL: postgres_library:5432
-#      RABBITMQ_HOST: rabbitmq
-#      CLOUD_CONFIG_ENABLE: false
-#      KEYCLOAK_URL: "keycloak:8080"
-#      DISCOVERY_URL: "discovery-service:8761"
-#      EUREKA_INSTANCE_HOSTNAME: library-service
-#      ZIPKIN_URL: "zipkin:9411"
-#    depends_on:
-#      discovery-service:
-#        condition: service_started
-#      keycloak:
-#        condition: service_started
-#      postgres_library:
-#        condition: service_started
-#      rabbitmq:
-#        condition: service_started
-#    ports:
-#      - "8000:8000"
-#    networks:
-#      project:
-#        aliases:
-#          - library-service
-#
-#  account-service:
-#    restart: always
-#    build:
-#      context: ./account-service/
-#      dockerfile: ./docker/Dockerfile
-#    container_name: account-service
-#    environment:
-#      SECURITY_ENABLED: false
-#      DATASOURCE_URL: postgres_account:5432
-#      RABBITMQ_HOST: rabbitmq
-#      CLOUD_CONFIG_ENABLE: false
-#      KEYCLOAK_URL: "keycloak:8080"
-#      DISCOVERY_URL: "discovery-service:8761"
-#      EUREKA_INSTANCE_HOSTNAME: account-service
-#      ZIPKIN_URL: "zipkin:9411"
-#    depends_on:
-#      discovery-service:
-#        condition: service_started
-#      keycloak:
-#        condition: service_started
-#      postgres_account:
-#        condition: service_started
-#      rabbitmq:
-#        condition: service_started
-#    ports:
-#      - "8002:8002"
-#    networks:
-#      project:
-#        aliases:
-#          - account-service
-#
-#  notification-service:
-#    restart: always
-#    build:
-#      context: ./notification-service/
-#      dockerfile: ./docker/Dockerfile
-#    container_name: notification-service
-#    environment:
-#      SECURITY_ENABLED: false
-#      DATASOURCE_URL: postgres_notification:5432
-#      RABBITMQ_HOST: rabbitmq
-#      CLOUD_CONFIG_ENABLE: false
-#      KEYCLOAK_URL: "keycloak:8080"
-#      DISCOVERY_URL: "discovery-service:8761"
-#      EUREKA_INSTANCE_HOSTNAME: notification-service
-#      ZIPKIN_URL: "zipkin:9411"
-#    depends_on:
-#      discovery-service:
-#        condition: service_started
-#      keycloak:
-#        condition: service_started
-#      account-service:
-#        condition: service_started
-#      rabbitmq:
-#        condition: service_started
-#    ports:
-#      - "8003:8003"
-#    networks:
-#      project:
-#        aliases:
-#          - notification-service
-#
-#  order-service:
-#    restart: always
-#    build:
-#      context: ./order-service/
-#      dockerfile: ./docker/Dockerfile
-#    container_name: order-service
-#    environment:
-#      SECURITY_ENABLED: false
-#      DATASOURCE_URL: postgres_order:5432
-#      RABBITMQ_HOST: rabbitmq
-#      CLOUD_CONFIG_ENABLE: false
-#      KEYCLOAK_URL: "keycloak:8080"
-#      DISCOVERY_URL: "discovery-service:8761"
-#      EUREKA_INSTANCE_HOSTNAME: order-service
-#      ZIPKIN_URL: "zipkin:9411"
-#    depends_on:
-#      discovery-service:
-#        condition: service_started
-#      keycloak:
-#        condition: service_started
-#      postgres_order:
-#        condition: service_started
-#      library-service:
-#        condition: service_started
-#      notification-service:
-#        condition: service_started
-#      rabbitmq:
-#        condition: service_started
-#    ports:
-#      - "8001:8001"
-#    networks:
-#      project:
-#        aliases:
-#          - order-service
+  library-service:
+    restart: always
+    build:
+      context: ./library-service/
+      dockerfile: ./docker/Dockerfile
+    container_name: library-service
+    environment:
+      SECURITY_ENABLED: false
+      DATASOURCE_URL: postgres_library:5432
+      RABBITMQ_HOST: rabbitmq
+      CLOUD_CONFIG_ENABLE: false
+      KEYCLOAK_URL: "keycloak:8080"
+      DISCOVERY_URL: "discovery-service:8761"
+      EUREKA_INSTANCE_HOSTNAME: library-service
+      ZIPKIN_URL: "zipkin:9411"
+    depends_on:
+      discovery-service:
+        condition: service_started
+      keycloak:
+        condition: service_started
+      postgres_library:
+        condition: service_started
+      rabbitmq:
+        condition: service_started
+    ports:
+      - "8000:8000"
+    networks:
+      project:
+        aliases:
+          - library-service
+
+  account-service:
+    restart: always
+    build:
+      context: ./account-service/
+      dockerfile: ./docker/Dockerfile
+    container_name: account-service
+    environment:
+      SECURITY_ENABLED: false
+      DATASOURCE_URL: postgres_account:5432
+      RABBITMQ_HOST: rabbitmq
+      CLOUD_CONFIG_ENABLE: false
+      KEYCLOAK_URL: "keycloak:8080"
+      DISCOVERY_URL: "discovery-service:8761"
+      EUREKA_INSTANCE_HOSTNAME: account-service
+      ZIPKIN_URL: "zipkin:9411"
+    depends_on:
+      discovery-service:
+        condition: service_started
+      keycloak:
+        condition: service_started
+      postgres_account:
+        condition: service_started
+      rabbitmq:
+        condition: service_started
+    ports:
+      - "8002:8002"
+    networks:
+      project:
+        aliases:
+          - account-service
+
+  notification-service:
+    restart: always
+    build:
+      context: ./notification-service/
+      dockerfile: ./docker/Dockerfile
+    container_name: notification-service
+    environment:
+      SECURITY_ENABLED: false
+      DATASOURCE_URL: postgres_notification:5432
+      RABBITMQ_HOST: rabbitmq
+      CLOUD_CONFIG_ENABLE: false
+      KEYCLOAK_URL: "keycloak:8080"
+      DISCOVERY_URL: "discovery-service:8761"
+      EUREKA_INSTANCE_HOSTNAME: notification-service
+      ZIPKIN_URL: "zipkin:9411"
+    depends_on:
+      discovery-service:
+        condition: service_started
+      keycloak:
+        condition: service_started
+      account-service:
+        condition: service_started
+      rabbitmq:
+        condition: service_started
+    ports:
+      - "8003:8003"
+    networks:
+      project:
+        aliases:
+          - notification-service
+
+  order-service:
+    restart: always
+    build:
+      context: ./order-service/
+      dockerfile: ./docker/Dockerfile
+    container_name: order-service
+    environment:
+      SECURITY_ENABLED: false
+      DATASOURCE_URL: postgres_order:5432
+      RABBITMQ_HOST: rabbitmq
+      CLOUD_CONFIG_ENABLE: true
+      CONFIG_SERVER_URL: "config-server:7777"
+      KEYCLOAK_URL: "keycloak:8080"
+      DISCOVERY_URL: "discovery-service:8761"
+      EUREKA_INSTANCE_HOSTNAME: order-service
+      ZIPKIN_URL: "zipkin:9411"
+    depends_on:
+      discovery-service:
+        condition: service_started
+      keycloak:
+        condition: service_started
+      postgres_order:
+        condition: service_started
+      library-service:
+        condition: service_started
+      notification-service:
+        condition: service_started
+      rabbitmq:
+        condition: service_started
+      config-server:
+        condition: service_started
+    ports:
+      - "8001:8001"
+    networks:
+      project:
+        aliases:
+          - order-service
+
+  config-server:
+    build:
+      context: ./config-server/
+      dockerfile: ./docker/Dockerfile
+    container_name: config-server
+    environment:
+      ZIPKIN_URL: "zipkin:9411"
+    ports:
+      - "7777:7777"
+    networks:
+      project:
+        aliases:
+          - config-server
 
   api-gateway:
     restart: always
