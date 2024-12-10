@@ -20,8 +20,8 @@ public interface BookService {
 
     void deleteById(long id);
 
-    OrderDto leaveBookOrder(String bookTitle);
+    OrderDto leaveBookOrder(String bookTitle, String login);
 
-    AccountBookDto takeBook(long id);
+    AccountBookDto takeBook(long id, String login);
 
 }

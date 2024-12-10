@@ -53,7 +53,7 @@ public class BookControllerIntegrationTest extends BaseIntegrationTest {
                         .withHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)
                         .withBody(objectMapper.writeValueAsString(makeResponse()))));
 
-        mvc.perform(post("/library-service/api/v1/book/order")
+        mvc.perform(post("/library-service/api/v1/book/order?login=user")
                         .content(BOOK_TITLE_TEST))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(APPLICATION_JSON))
@@ -69,7 +69,7 @@ public class BookControllerIntegrationTest extends BaseIntegrationTest {
                         .withStatus(HttpStatus.CREATED.value())
                         .withHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)));
 
-        mvc.perform(post("/library-service/api/v1/book/{bookId}/take", BOOK_ID))
+        mvc.perform(post("/library-service/api/v1/book/{bookId}/take?login=user", BOOK_ID))
                 .andExpect(status().isCreated());
     }
 

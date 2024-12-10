@@ -20,17 +20,17 @@ spring:
     port: 5672
     username: admin
     password: admin
-  sql:
-    init:
-      mode: always
+#  sql:
+#    init:
+#      mode: always
   liquibase:
     enabled: true
-  jpa:
-    open-in-view: false
-    generate-ddl: false
-    hibernate:
-      ddl-auto: none
-    show-sql: true
+#  jpa:
+#    open-in-view: false
+#    generate-ddl: false
+#    hibernate:
+#      ddl-auto: none
+#    show-sql: true
   cloud:
     config:
       enabled: ${CLOUD_CONFIG_ENABLE:true}
@@ -55,39 +55,39 @@ eureka:
       zone: zone1
 
 management:
-  tracing:
-    sampling:
-      probability: 1.0
+#  tracing:
+#    sampling:
+#      probability: 1.0
   metrics:
     tags:
       application: ${spring.application.name}
-  endpoint:
-    prometheus:
-      enabled: true
-    metrics:
-      enabled: true
-    health:
-      enabled: true
-      probes:
-        enabled: true
-    refresh:
-      enabled: true
-    info:
-      enabled: true
+#  endpoint:
+#    prometheus:
+#      enabled: true
+#    metrics:
+#      enabled: true
+#    health:
+#      enabled: true
+#      probes:
+#        enabled: true
+#    refresh:
+#      enabled: true
+#    info:
+#      enabled: true
   endpoints:
-    web:
-      exposure:
-        include: [ 'health', 'info', 'metrics', 'prometheus', 'git', 'env', 'refresh', 'info']
+#    web:
+#      exposure:
+#        include: [ 'health', 'info', 'metrics', 'prometheus', 'git', 'env', 'refresh', 'info']
     enabled-by-default: false
   zipkin:
     tracing:
       endpoint: http://${ZIPKIN_URL:localhost:9411}/api/v2/spans
 
-logging:
-  level:
-    '[root]': info
-    '[http]': info
-    '[com.zaxxer.hikari]': trace
+#logging:
+#  level:
+#    '[root]': info
+#    '[http]': info
+#    '[com.zaxxer.hikari]': trace
 
 resilience4j:
   retry:

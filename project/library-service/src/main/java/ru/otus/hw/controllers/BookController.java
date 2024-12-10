@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -90,8 +91,8 @@ public class BookController {
     )
     @PostMapping("/api/v1/book/order")
     @ResponseStatus(HttpStatus.CREATED)
-    public OrderDto leaveBookOrder(@RequestBody String bookTitle) {
-        return service.leaveBookOrder(bookTitle);
+    public OrderDto leaveBookOrder(@RequestParam String login, @RequestBody String bookTitle) {
+        return service.leaveBookOrder(bookTitle, login);
     }
 
     @Operation(
@@ -101,7 +102,7 @@ public class BookController {
     @PostMapping("/api/v1/book/{bookId}/take")
     @ResponseStatus(HttpStatus.CREATED)
     public AccountBookDto takeBook(@PathVariable("bookId")
-                         @Parameter(description = "ID книги", example = "1") long bookId) {
-        return service.takeBook(bookId);
+                         @Parameter(description = "ID книги", example = "1") long bookId, @RequestParam String login) {
+        return service.takeBook(bookId, login);
     }
 }
