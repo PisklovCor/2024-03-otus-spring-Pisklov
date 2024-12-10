@@ -1,0 +1,120 @@
+application:
+  services:
+    orderUrl: lb://ORDER-SERVICE
+    accountUrl: lb://ACCOUNT-SERVICE
+  security:
+    enabled: ${SECURITY_ENABLED:false}
+
+server:
+  port: 8000
+
+spring:
+  application:
+    name: library-service
+  datasource:
+    url: jdbc:postgresql://${DATASOURCE_URL:localhost:5433}/library-service-db
+    username: admin
+    password: admin
+    driverClassName: org.postgresql.Driver
+  rabbitmq:
+    addresses: ${RABBITMQ_HOST:localhost}
+    port: 5672
+    username: admin
+    password: admin
+  sql:
+    init:
+      mode: always
+  liquibase:
+    enabled: true
+  jpa:
+    open-in-view: false
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+  cloud:
+    config:
+      enabled: ${CLOUD_CONFIG_ENABLE:false}
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://${KEYCLOAK_URL:localhost:8888}/realms/project
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${DISCOVERY_URL:localhost:8761}/eureka
+  instance:
+    hostname: ${EUREKA_INSTANCE_HOSTNAME:localhost}
+    instance-id: account-service:${spring.application.instance_id:0}
+    lease-renewal-interval-in-seconds: 30
+    metadataMap:
+      zone: zone1
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+  metrics:
+    tags:
+      application: ${spring.application.name}
+  endpoint:
+    prometheus:
+      enabled: true
+    metrics:
+      enabled: true
+    health:
+      enabled: true
+      probes:
+        enabled: true
+      refresh:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: [ 'health', 'info', 'metrics', 'prometheus', 'git', 'env', 'refresh' ]
+    enabled-by-default: false
+  zipkin:
+    tracing:
+      endpoint: http://${ZIPKIN_URL:localhost:9411}/api/v2/spans
+
+logging:
+  level:
+    '[root]': info
+    '[http]': info
+    '[com.zaxxer.hikari]': trace
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        slidingWindowSize: 100
+        permittedNumberOfCallsInHalfOpenState: 10
+        slowCallDurationThreshold: 4s
+        slowCallRateThreshold: 90
+        failureRateThreshold: 50
+        waitDurationInOpenState: 5s
+        minimumNumberOfCalls: 10
+    instances:
+      circuitBreakerAccountRestClient:
+        baseConfig: default
+        waitDurationInOpenState: 20s
+  ratelimiter:
+    metrics:
+      enabled: true
+    instances:
+      rateLimiterAuthor:
+        limit-for-period: 5
+        limit-refresh-period: 30s
+        timeout-duration: 0s
+        allow-health-indicator-to-fail: true
+        subscribe-for-events: true
+        event-consumer-buffer-size: 50
+      rateLimiterGenre:
+        limit-for-period: 5
+        limit-refresh-period: 30s
+        timeout-duration: 0s
+        allow-health-indicator-to-fail: true
+        subscribe-for-events: true
+        event-consumer-buffer-size: 50

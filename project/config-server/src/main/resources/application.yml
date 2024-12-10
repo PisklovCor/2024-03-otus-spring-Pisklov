@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/PisklovCor/2024-03-otus-spring-Pisklov
+          clone-on-start: true
+          search-paths: "project/git-config"
+          ignoreLocalSshSettings: false
+          strictHostKeyChecking: false
+          skipSslValidation: true
+          default-label: project
+
+server:
+  port: 7777
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+  metrics:
+    tags:
+      application: ${spring.application.name}
+  endpoint:
+    prometheus:
+      enabled: true
+    metrics:
+      enabled: true
+    health:
+      enabled: true
+      probes:
+        enabled: true
+    refresh:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: [ 'health', 'info', 'metrics', 'prometheus', 'git', 'env', 'refresh' ]
+    enabled-by-default: false
+  zipkin:
+    tracing:
+      endpoint: http://${ZIPKIN_URL:localhost:9411}/api/v2/spans
+
+logging:
+  level:
+    root: debug

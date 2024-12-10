@@ -1,0 +1,321 @@
+version: "3.9"
+services:
+
+  library-service:
+    restart: always
+    build:
+      context: ./library-service/
+      dockerfile: ./docker/Dockerfile
+    container_name: library-service
+    environment:
+      SECURITY_ENABLED: false
+      DATASOURCE_URL: postgres_library:5432
+      RABBITMQ_HOST: rabbitmq
+      CLOUD_CONFIG_ENABLE: false
+      KEYCLOAK_URL: "keycloak:8080"
+      DISCOVERY_URL: "discovery-service:8761"
+      EUREKA_INSTANCE_HOSTNAME: library-service
+      ZIPKIN_URL: "zipkin:9411"
+    depends_on:
+      discovery-service:
+        condition: service_started
+      keycloak:
+        condition: service_started
+      postgres_library:
+        condition: service_started
+      rabbitmq:
+        condition: service_started
+    ports:
+      - "8000:8000"
+    networks:
+      project:
+        aliases:
+          - library-service
+
+  account-service:
+    restart: always
+    build:
+      context: ./account-service/
+      dockerfile: ./docker/Dockerfile
+    container_name: account-service
+    environment:
+      SECURITY_ENABLED: false
+      DATASOURCE_URL: postgres_account:5432
+      RABBITMQ_HOST: rabbitmq
+      CLOUD_CONFIG_ENABLE: false
+      KEYCLOAK_URL: "keycloak:8080"
+      DISCOVERY_URL: "discovery-service:8761"
+      EUREKA_INSTANCE_HOSTNAME: account-service
+      ZIPKIN_URL: "zipkin:9411"
+    depends_on:
+      discovery-service:
+        condition: service_started
+      keycloak:
+        condition: service_started
+      postgres_account:
+        condition: service_started
+      rabbitmq:
+        condition: service_started
+    ports:
+      - "8002:8002"
+    networks:
+      project:
+        aliases:
+          - account-service
+
+  notification-service:
+    restart: always
+    build:
+      context: ./notification-service/
+      dockerfile: ./docker/Dockerfile
+    container_name: notification-service
+    environment:
+      SECURITY_ENABLED: false
+      DATASOURCE_URL: postgres_notification:5432
+      RABBITMQ_HOST: rabbitmq
+      CLOUD_CONFIG_ENABLE: false
+      KEYCLOAK_URL: "keycloak:8080"
+      DISCOVERY_URL: "discovery-service:8761"
+      EUREKA_INSTANCE_HOSTNAME: notification-service
+      ZIPKIN_URL: "zipkin:9411"
+    depends_on:
+      discovery-service:
+        condition: service_started
+      keycloak:
+        condition: service_started
+      account-service:
+        condition: service_started
+      rabbitmq:
+        condition: service_started
+    ports:
+      - "8003:8003"
+    networks:
+      project:
+        aliases:
+          - notification-service
+
+  order-service:
+    restart: always
+    build:
+      context: ./order-service/
+      dockerfile: ./docker/Dockerfile
+    container_name: order-service
+    environment:
+      SECURITY_ENABLED: false
+      DATASOURCE_URL: postgres_order:5432
+      RABBITMQ_HOST: rabbitmq
+      CLOUD_CONFIG_ENABLE: true
+      CONFIG_SERVER_URL: "config-server:7777"
+      KEYCLOAK_URL: "keycloak:8080"
+      DISCOVERY_URL: "discovery-service:8761"
+      EUREKA_INSTANCE_HOSTNAME: order-service
+      ZIPKIN_URL: "zipkin:9411"
+    depends_on:
+      discovery-service:
+        condition: service_started
+      keycloak:
+        condition: service_started
+      postgres_order:
+        condition: service_started
+      library-service:
+        condition: service_started
+      notification-service:
+        condition: service_started
+      rabbitmq:
+        condition: service_started
+      config-server:
+        condition: service_started
+    ports:
+      - "8001:8001"
+    networks:
+      project:
+        aliases:
+          - order-service
+
+  config-server:
+    build:
+      context: ./config-server/
+      dockerfile: ./docker/Dockerfile
+    container_name: config-server
+    environment:
+      ZIPKIN_URL: "zipkin:9411"
+    ports:
+      - "7777:7777"
+    networks:
+      project:
+        aliases:
+          - config-server
+
+  api-gateway:
+    restart: always
+    build:
+      context: ./api-gateway/
+      dockerfile: ./docker/Dockerfile
+    container_name: api-gateway
+    environment:
+      KEYCLOAK_URL: "keycloak:8080"
+      ZIPKIN_URL: "zipkin:9411"
+      DISCOVERY_URL: "discovery-service:8761"
+    depends_on:
+      discovery-service:
+        condition: service_started
+      keycloak:
+        condition: service_started
+    ports:
+      - "8080:8080"
+    networks:
+      project:
+        aliases:
+          - api-gateway
+
+  discovery-service:
+    build:
+      context: ./discovery-service/
+      dockerfile: ./docker/Dockerfile
+    container_name: discovery-service
+    environment:
+      ZIPKIN_URL: "zipkin:9411"
+    ports:
+      - "8761:8761"
+    networks:
+      project:
+        aliases:
+          - discovery
+
+  postgres_library:
+    image: postgres:13.3
+    container_name: library-service-db
+    environment:
+      POSTGRES_DB: "library-service-db"
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "admin"
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./temporary/pgdata_library:/var/lib/postgresql/data
+    networks:
+      project:
+        aliases:
+          - postgres_library
+
+  postgres_order:
+    image: postgres:13.3
+    container_name: order-service-db
+    environment:
+      POSTGRES_DB: "order-service-db"
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "admin"
+    ports:
+      - "5434:5432"
+    volumes:
+      - ./temporary/pgdata_order:/var/lib/postgresql/data
+    networks:
+      project:
+        aliases:
+          - postgres_order
+
+  postgres_account:
+    image: postgres:13.3
+    container_name: account-service-db
+    environment:
+      POSTGRES_DB: "account-service-db"
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "admin"
+    ports:
+      - "5435:5432"
+    volumes:
+      - ./temporary/pgdata_account:/var/lib/postgresql/data
+    networks:
+      project:
+        aliases:
+          - postgres_account
+
+  postgres_notification:
+    image: postgres:13.3
+    container_name: notification-service-db
+    environment:
+      POSTGRES_DB: "notification-service-db"
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "admin"
+    ports:
+      - "5436:5432"
+    volumes:
+      - ./temporary/pgdata_notification:/var/lib/postgresql/data
+    networks:
+      project:
+        aliases:
+          - postgres_notification
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:23.0.7
+    container_name: keycloak
+    environment:
+      KEYCLOAK_ADMIN: "admin"
+      KEYCLOAK_ADMIN_PASSWORD: "admin"
+      KEYCLOAK_IMPORT: /configuration/keycloak/import/realm-export.json
+    volumes:
+      - './configuration/keycloak/import:/opt/keycloak/data/import'
+    ports:
+      - '8888:8080'
+    command: start-dev --import-realm
+    networks:
+      project:
+        aliases:
+          - keycloak
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_PASS: "admin"
+      RABBITMQ_DEFAULT_USER: "admin"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      project:
+        aliases:
+          - rabbitmq
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./configuration/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./temporary/prometheus:/prometheus
+    networks:
+      project:
+        aliases:
+          - prometheus
+
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    ports:
+      - "9411:9411"
+    networks:
+      project:
+        aliases:
+          - zipkin
+
+  grafana:
+    image: grafana/grafana:8.0.0
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./temporary/grafana:/var/lib/grafana
+      - ./configuration/grafana/provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    networks:
+      project:
+        aliases:
+          - grafana
+
+networks:
+  project:
+    name: project-networks

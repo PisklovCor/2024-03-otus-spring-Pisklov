@@ -1,0 +1,27 @@
+### Получение связи аккаунтов с книгами
+GET http://localhost:8002/account-service/api/v1/account/book
+
+### Получение связи аккаунта с книгой по логину
+GET http://localhost:8002/account-service/api/v1/account/book/user
+
+### Создание связи аккаунта с книгой"
+POST http://localhost:8002/account-service/api/v1/account/book
+Content-Type: application/json
+
+{
+  "login": "user_request",
+  "bookId": 3
+}
+
+### Обновление связи аккаунтов с книгами
+PUT http://localhost:8002/account-service/api/v1/account/book
+Content-Type: application/json
+
+{
+  "id": 2,
+  "login": "user_request",
+  "bookId": 1
+}
+
+### Удаление связи аккаунта с книгой
+DELETE http://localhost:8002/account-service/api/v1/account/book/2

@@ -1,0 +1,85 @@
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    config:
+      enabled: ${CLOUD_CONFIG_ENABLE:false}
+    gateway:
+      default-filters:
+        - TokenRelay=
+        - RemoveRequestHeader=Cookie
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://${KEYCLOAK_URL:localhost:8888}/realms/project/protocol/openid-connect/certs
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://${KEYCLOAK_URL:localhost:8888}/realms/project
+        registration:
+          project-client:
+            provider: keycloak
+            client-id: project-client
+            client-secret: PKueWhxyYTsvjaXSPYaTVew9RKOVHzBE
+            authorization-grant-type: authorization_code
+            scope:
+              - project_scope
+              - openid
+              - microprofile-jwt
+
+server:
+  port: 8080
+
+application:
+  api-routes:
+    - id: order-service
+      from: order-service
+      to: lb://ORDER-SERVICE
+    - id: account-service
+      from: account-service
+      to: lb://ACCOUNT-SERVICE
+    - id: notification-service
+      from: notification-service
+      to: lb://NOTIFICATION-SERVICE
+    - id: library-service
+      from: library-service
+      to: lb://LIBRARY-SERVICE
+
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://${DISCOVERY_URL:localhost:8761}/eureka
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+  metrics:
+    tags:
+      application: ${spring.application.name}
+  endpoint:
+    prometheus:
+      enabled: true
+    metrics:
+      enabled: true
+    health:
+      enabled: true
+      probes:
+        enabled: true
+    refresh:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: [ 'health', 'info', 'metrics', 'prometheus', 'git', 'env', 'refresh' ]
+    enabled-by-default: false
+  zipkin:
+    tracing:
+      endpoint: http://${ZIPKIN_URL:localhost:9411}/api/v2/spans
+
+logging:
+  level:
+    root: debug
