@@ -27,6 +27,7 @@
         <module>hw15</module>
         <module>hw16</module>
         <module>hw17</module>
+        <module>project</module>
     </modules>
 
     <properties>

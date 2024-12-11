@@ -1,0 +1,26 @@
+application:
+  services:
+    libraryUrl: http://localhost:8888
+    orderUrl: http://localhost:8888
+    notificationUrl: http://localhost:8888
+  security:
+    enabled: false
+
+spring:
+  datasource:
+    username: ${CONTAINER.USERNAME}
+    password: ${CONTAINER.PASSWORD}
+    url: ${CONTAINER.URL}
+    driverClassName: org.postgresql.Driver
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/changelog/db.changelog-master-test.yaml
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+
+eureka:
+  client:
+    enabled: false
