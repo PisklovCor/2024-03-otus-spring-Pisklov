@@ -10,10 +10,13 @@ import ru.otus.hw.dto.BookCreateDto;
 import ru.otus.hw.dto.BookDto;
 import ru.otus.hw.dto.BookUpdateDto;
 import ru.otus.hw.mappers.BookMapper;
+import ru.otus.hw.models.Author;
+import ru.otus.hw.models.Genre;
 import ru.otus.hw.repositories.BookRepository;
 import ru.otus.hw.services.DataAcquisitionService;
 
 import java.net.URI;
+import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.web.reactive.function.server.ServerResponse.accepted;
@@ -32,11 +35,11 @@ public class BookHandler {
 
     public Mono<ServerResponse> createBook(ServerRequest request) {
 
-        var dtoMono = request.bodyToMono(BookCreateDto.class);
-        var authorMono = dtoMono.flatMap(dto -> data.findMonoAuthorById(dto.getAuthorId()));
-        var genres = dtoMono.flatMap(dto -> data.findAllMonoGenreByIds(dto.getGenresId()));
+        Mono<BookCreateDto> dtoMono = request.bodyToMono(BookCreateDto.class);
+        Mono<Author> authorMono = dtoMono.flatMap(dto -> data.findMonoAuthorById(dto.getAuthorId()));
+        Mono<List<Genre>> genres = dtoMono.flatMap(dto -> data.findAllMonoGenreByIds(dto.getGenresId()));
 
-        var result = Mono.zip(dtoMono, authorMono, genres)
+        Mono<BookDto> result = Mono.zip(dtoMono, authorMono, genres)
                 .map(t -> mapper.toEntity(t.getT1(), t.getT2(), t.getT3()))
                 .flatMap(repository::save)
                 .map(mapper::toDto);
@@ -50,11 +53,11 @@ public class BookHandler {
 
     public Mono<ServerResponse> updateBook(ServerRequest request) {
 
-        var dtoMono = request.bodyToMono(BookUpdateDto.class);
-        var authorMono = dtoMono.flatMap(dto -> data.findMonoAuthorById(dto.getAuthorId()));
-        var genres = dtoMono.flatMap(dto -> data.findAllMonoGenreByIds(dto.getGenresId()));
+        Mono<BookUpdateDto> dtoMono = request.bodyToMono(BookUpdateDto.class);
+        Mono<Author> authorMono = dtoMono.flatMap(dto -> data.findMonoAuthorById(dto.getAuthorId()));
+        Mono<List<Genre>> genres = dtoMono.flatMap(dto -> data.findAllMonoGenreByIds(dto.getGenresId()));
 
-        var result = Mono.zip(dtoMono, authorMono, genres)
+        Mono<BookDto> result = Mono.zip(dtoMono, authorMono, genres)
                 .map(t -> mapper.toEntity(t.getT1(), t.getT2(), t.getT3()))
                 .flatMap(repository::save)
                 .map(mapper::toDto);
