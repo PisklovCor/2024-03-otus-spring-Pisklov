@@ -33,7 +33,7 @@ class BookControllerTest extends SpringBootApplicationTest {
     @Autowired
     private BookMapper mapper;
 
-    @DisplayName("должен вернуть список всех авторов")
+    @DisplayName("должен вернуть список всех книг")
     @Test
     void getListBook() {
 
