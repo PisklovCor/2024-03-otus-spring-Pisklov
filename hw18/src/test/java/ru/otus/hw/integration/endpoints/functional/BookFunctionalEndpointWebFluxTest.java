@@ -1,4 +1,4 @@
-package ru.otus.hw.integration.controllers;
+package ru.otus.hw.integration.endpoints.functional;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -11,10 +11,14 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import ru.otus.hw.SpringBootApplicationTest;
+import ru.otus.hw.configuration.FunctionalBookEndpointsConfiguration;
 import ru.otus.hw.controllers.BookController;
 import ru.otus.hw.dto.BookCreateDto;
 import ru.otus.hw.dto.BookDto;
 import ru.otus.hw.dto.BookUpdateDto;
+import ru.otus.hw.dto.GenreDto;
+import ru.otus.hw.handlers.BookHandler;
 import ru.otus.hw.mappers.AuthorMapper;
 import ru.otus.hw.mappers.BookMapper;
 import ru.otus.hw.mappers.GenreMapper;
@@ -26,16 +30,23 @@ import ru.otus.hw.services.DataAcquisitionService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@Import({BookMapper.class, AuthorMapper.class, GenreMapper.class})
-@WebFluxTest(BookController.class)
-@DisplayName("Реактивный контроллер книг ")
-class BookControllerWebFluxTest {
+@Import({BookMapper.class, AuthorMapper.class, GenreMapper.class, BookHandler.class})
+@WebFluxTest(FunctionalBookEndpointsConfiguration.class)
+@DisplayName("Реактивный функциональный эндпоин книг ")
+public class BookFunctionalEndpointWebFluxTest {
+
+    private static final String TEST_TITLE = "Software testing";
+
+    private static final String TEST_TITLE_UPDATE = "It was almost successful";
+
+    private static final int NUMBER_OF_BOOKS_IN_TESTS = 1;
 
     @Autowired
     public WebTestClient client;
@@ -49,12 +60,6 @@ class BookControllerWebFluxTest {
     @MockBean
     private DataAcquisitionService data;
 
-    private static final String TEST_TITLE = "Software testing";
-
-    private static final String TEST_TITLE_UPDATE = "It was almost successful";
-
-    private static final int EXPECTED_BOOK_COUNT = 1;
-
     private static Book mockBook;
 
     @BeforeAll
@@ -62,23 +67,22 @@ class BookControllerWebFluxTest {
         mockBook = createMockBook();
     }
 
-    @DisplayName("должен вернуть список всех книг")
+    @DisplayName("должен вернуть книгу по ID")
     @Test
-    void getListBook() {
+    void gteBookById() {
 
-        when(repository.findAll()).thenReturn(Flux.fromIterable(List.of(mockBook)));
+        when(repository.findById(mockBook.getId())).thenReturn(Mono.just(mockBook));
+        var expectedDto = mapper.toDto(mockBook);
 
-        var result = client.get().uri("/api/v1/book")
+        var result = client.get().uri("/route/v1/book/{bookId}", expectedDto.getId())
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .expectStatus().isOk()
                 .returnResult(BookDto.class)
                 .getResponseBody()
-                .collectList()
-                .block();
+                .blockFirst();
 
-        assertThat(result).isNotNull();
-        assertThat(result).hasSize(EXPECTED_BOOK_COUNT);
+       assertThat(result).isEqualTo(expectedDto);
     }
 
     @DisplayName("должен создать новую книгу")
@@ -86,7 +90,7 @@ class BookControllerWebFluxTest {
     void createBook() {
 
         var dto = new BookCreateDto();
-        dto.setTitle(mockBook.getTitle());
+        dto.setTitle(TEST_TITLE);
         dto.setAuthorId(mockBook.getAuthor().getId());
         dto.setGenresId(mockBook.getGenres().stream().map(Genre::getId).toList());
 
@@ -94,7 +98,7 @@ class BookControllerWebFluxTest {
         when(data.findMonoAuthorById(any())).thenReturn(Mono.just(mockBook.getAuthor()));
         when(data.findAllMonoGenreByIds(any())).thenReturn(Mono.just(mockBook.getGenres()));
 
-        var result = client.post().uri("/api/v1/book")
+        var result = client.post().uri("/route/v1/book")
                 .accept(MediaType.APPLICATION_JSON)
                 .body(Mono.just(dto), BookCreateDto.class)
                 .exchange()
@@ -120,12 +124,11 @@ class BookControllerWebFluxTest {
         var mockBookUpdate = createMockBook();
         mockBookUpdate.setTitle(TEST_TITLE_UPDATE);
 
-        when(repository.findById(mockBook.getId())).thenReturn(Mono.just(mockBook));
         when(repository.save(any())).thenReturn(Mono.just(mockBookUpdate));
         when(data.findMonoAuthorById(any())).thenReturn(Mono.just(mockBook.getAuthor()));
         when(data.findAllMonoGenreByIds(any())).thenReturn(Mono.just(mockBook.getGenres()));
 
-        var result = client.put().uri("/api/v1/book")
+        var result = client.put().uri("/route/v1/book")
                 .accept(MediaType.APPLICATION_JSON)
                 .body(Mono.just(dto), BookCreateDto.class)
                 .exchange()
@@ -137,18 +140,22 @@ class BookControllerWebFluxTest {
         assertThat(result).isNotNull();
         assertThat(result.getTitle()).isNotEqualTo(mockBook.getTitle());
         assertThat(result.getTitle()).isEqualTo(TEST_TITLE_UPDATE);
+
     }
 
     @DisplayName("должен удалить книгу")
     @Test
     void deleteBook() {
 
-        client.delete().uri("/api/v1/book/{bookId}", mockBook.getId())
+        when(repository.findById(mockBook.getId())).thenReturn(Mono.just(mockBook));
+        when(repository.delete(mockBook)).thenReturn(Mono.empty());
+
+        client.delete().uri("/route/v1/book/{bookId}", mockBook.getId())
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .expectStatus().isNoContent();
 
-        verify(repository).deleteById(mockBook.getId());
+        verify(repository).delete(mockBook);
     }
 
     private static Book createMockBook() {
