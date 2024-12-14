@@ -8,7 +8,7 @@ GET http://localhost:8080/api/v1/author
 GET http://localhost:8080/api/v1/genre
 
 ### Получить книгу по ID (route)
-GET http://localhost:8080/route/v1/book/674affa5a30b964ee333b274
+GET http://localhost:8080/route/v1/book/675cda0a9b75f0244c6b4a4f
 
 ### Создать книгу (api)
 POST http://localhost:8080/api/v1/book
@@ -28,9 +28,9 @@ Content-Type: application/json
 
 {
   "title": "Manual creation of a book (route)",
-  "authorId": "674b76fa7e25366556468db1",
+  "authorId": "675cd77f82389e16e28566d2",
   "genresId": [
-    "674b76fa7e25366556468db3"
+    "675cd77f82389e16e28566d9"
   ]
 }
 
@@ -39,11 +39,24 @@ PUT http://localhost:8080/api/v1/book
 Content-Type: application/json
 
 {
-  "id": "674ae768a3d2392308fc528d",
+  "id": "675cd77f82389e16e28566de",
   "title": "Manual book update",
-  "authorId": "674ae65473aec45d9f703b00",
+  "authorId": "675cd77f82389e16e28566d3",
   "genresId": [
-    "674ae65473aec45d9f703b15"
+    "675cd77f82389e16e28566da"
+  ]
+}
+
+### Обновить книгу (route)
+PUT http://localhost:8080/route/v1/book
+Content-Type: application/json
+
+{
+  "id": "675cdc6d9edb5b3cf925b832",
+  "title": "Manual book update",
+  "authorId": "675cdc6d9edb5b3cf925b825",
+  "genresId": [
+    "675cdc6d9edb5b3cf925b82c"
   ]
 }
 
@@ -51,4 +64,4 @@ Content-Type: application/json
 DELETE http://localhost:8080/api/v1/book/674afb826163c11ec0cc13e1
 
 ### Удалить книгу (route)
-DELETE http://localhost:8080/route/v1/book/674b762db46ece678748a8cb
+DELETE http://localhost:8080/route/v1/book/675cd196adcf9e3c80fe5d54

@@ -44,10 +44,7 @@ public class BookHandler {
                 .flatMap(repository::save)
                 .map(mapper::toDto);
 
-        var bookId = result.map(BookDto::getId);
-        log.info("New book has been created, id; {}", bookId);
-
-        return created(URI.create("/route/v1/book/%s".formatted(bookId)))
+        return created(URI.create("/"))
                 .contentType(APPLICATION_JSON).body(result, BookDto.class);
     }
 
