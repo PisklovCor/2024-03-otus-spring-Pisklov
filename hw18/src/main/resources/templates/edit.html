@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Edit person</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        table {
+            font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+            font-size: 14px;
+            border-radius: 10px;
+            border-spacing: 0;
+            text-align: center;
+        }
+        th {
+            background: #cbb2d2;
+            color: white;
+            text-shadow: 0 1px 1px #2D2020;
+            padding: 10px 20px;
+        }
+        th, td {
+            border-style: solid;
+            border-width: 0 1px 1px 0;
+            border-color: white;
+        }
+        th:first-child, td:first-child {
+            text-align: left;
+        }
+        th:first-child {
+            border-top-left-radius: 10px;
+        }
+        th:last-child {
+            border-top-right-radius: 10px;
+            border-right: none;
+        }
+        td {
+            padding: 10px 20px;
+            background: #c8d5fa;
+        }
+        tr:last-child td:first-child {
+            border-radius: 0 0 0 10px;
+        }
+        tr:last-child td:last-child {
+            border-radius: 0 0 10px 0;
+        }
+        tr td:last-child {
+            border-right: none;
+        }
+
+        input:read-only {
+            background: lightgray;
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+
+        .c-button {
+            appearance: none;
+            border: 0;
+            border-radius: 5px;
+            background: #4676D7;
+            color: #fff;
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+        .c-button:hover {
+            background: #1d49aa;
+        }
+
+        .c-button:focus {
+            outline: none;
+            box-shadow: 0 0 0 4px #cbd6ee;
+        }
+
+    </style>
+</head>
+
+<script>
+    window.onload = () => {
+        getAuthor();
+        getBook(window.location.href.split('=')[1]);
+    };
+
+    function getAuthor() {
+        fetch('/api/v1/author', {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        }).then(response => response.json())
+            .then((json) => {
+
+                let authorList = "";
+
+                json.forEach((author) => {
+                    authorList += `<option value="${author.id}">${author.fullName}</option>`;
+                });
+
+                document.getElementById("book-author-select").innerHTML = authorList;
+            });
+    }
+
+    function getBook(bookId) {
+        fetch('/route/v1/book/' + bookId, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        }).then(response => response.json())
+            .then((book) => {
+                document.getElementById("book-id-input").setAttribute("value", book.id);
+                document.getElementById("book-title-input").setAttribute("value", book.title);
+
+                const authorObject = book.author;
+                document.getElementById("book-author-select").selectedIndex = authorObject.id - 1;
+
+                let genreList = "";
+
+                const genres = book.genres;
+
+                let index = 0;
+
+                genres.forEach(() => {
+
+                    genreList += `<tr>
+                                        <td>
+                                            <label for="book-genre-select-${index}"></label>
+                                            <select id="book-genre-select-${index}" name="book-genre-select-${index}">
+                                                <option value=""></option>
+                                            </select>
+                                        </td>
+                                    </tr>`;
+                    index++;
+                });
+
+                document.getElementById("genres-body").innerHTML = genreList;
+
+                getGenres();
+            });
+    }
+
+    function getGenres() {
+        fetch('/api/v1/genre', {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        }).then(response => response.json())
+            .then((json) => {
+
+                let genreList = "";
+
+                json.forEach((genre) => {
+                    genreList += `<option value="${genre.id}">${genre.name}</option>`;
+                });
+
+                document.getElementById("book-genre-select-0").innerHTML = genreList
+                document.getElementById("book-genre-select-1").innerHTML = genreList
+            });
+    }
+
+    function saveBook() {
+        const bookId = document.getElementById("book-id-input")
+        const bookTitle = document.getElementById("book-title-input")
+        const author = document.getElementById("book-author-select")
+
+        const genres = [];
+        const genre1 = document.getElementById("book-genre-select-0")
+        const genre2 = document.getElementById("book-genre-select-1")
+
+        if (genre1 != null) {
+            genres.push(genre1.value);
+        }
+        if (genre2 != null) {
+            genres.push(genre2.value);
+        }
+
+        const bookObject = {
+            id: bookId.value,
+            title: bookTitle.value,
+            authorId: author.value,
+            genresId: genres
+        }
+
+        fetch("/api/v1/book", {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(bookObject)
+        })
+            .then(rawResponse => rawResponse.json())
+            .then(location.href = "/")
+    }
+</script>
+
+<body>
+<!-- Book edition -->
+<form id="edit-form">
+    <h3>Book Info:</h3>
+
+    <div class="row">
+        <label for="book-id-input">ID:</label>
+        <input id="book-id-input" type="text" readonly="readonly" value="1"/>
+    </div>
+
+    <div class="row">
+        <label for="book-title-input">Title:</label>
+        <input id="book-title-input" name="title" type="text" value="Clean Code Collection"/>
+    </div>
+
+    <!-- Author edition select -->
+    <div class="row">
+        <label for="book-author-select">Author:</label>
+        <select id="book-author-select">
+            <option value=""></option>
+        </select>
+    </div>
+
+    <!-- Genre edition table select -->
+    <div class="row">
+        <label>Genres:</label>
+        <table>
+            <thead>
+            <tr>
+                <th>Name</th>
+            </tr>
+            </thead>
+            <tbody id="genres-body">
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row">
+        <button class="c-button" type="button" onclick="saveBook()">Save</button>
+        <a href="list.html" th:href="@{/}">
+            <button class="c-button" type="button">Cancel</button>
+        </a>
+    </div>
+</form>
+
+</body>
+</html>
